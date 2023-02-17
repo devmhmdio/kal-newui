@@ -114,14 +114,14 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
           axios(config)
             .then((response) => {
               console.log('line 33', response.data.data.sendEmail);
-            //   setEmailDatas(response.data.data.getEmails);
+            alert('Emails sent successfully');
             })
             .catch((error) => {
               console.log(error);
             });
             
     }
-    alert('Emails sent successfully');
+    
     setTimeout(() => {
       window.location.reload();
     }, 1000);
