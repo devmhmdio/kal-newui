@@ -15,6 +15,8 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState();
   const [record, setRecord] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [disableStatus, setDisableStatus] = useState(false);
   const [formData, setFormData] = useState({
     businessKeyword: '',
     clientKeyword: [],
@@ -40,6 +42,8 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setDisableStatus(true);
     console.log('this is business keywords', businessKeywords[0].toString());
     console.log('this is client keywords', clientKeywords);
     const data = JSON.stringify({
@@ -71,6 +75,8 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
         setResponseData(response.data.data.createConnection);
+        setLoading(false);
+        setDisableStatus(false);
       })
       .catch((error) => {
         console.log(error);
@@ -123,7 +129,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>Add Client Keyword</button>
                   </div>
                   <div className="form-group">
-                    <Button color="primary" type="submit" size="lg">
+                    <Button color="primary" type="submit" size="lg" disabled={disableStatus}>
                       Generate
                     </Button>
                   </div>
@@ -134,7 +140,13 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
           </Row>
         </Block>
       </Content>
-      {responseData !== undefined && 
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (responseData !== undefined && 
         <Content>
         <Block>
           <Row>
@@ -167,7 +179,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
           </Row>
         </Block>
       </Content>
-      }
+      )}
     </React.Fragment>
   );
 };
