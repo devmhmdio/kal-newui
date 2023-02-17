@@ -5,6 +5,11 @@ const menu = [
     link: "/",
   },
   {
+    icon: "emails",
+    text: "Send Email",
+    link: "/send-email",
+  },
+  {
     icon: "bitcoin-cash",
     text: "Crypto Dashboard",
     link: "/crypto",
