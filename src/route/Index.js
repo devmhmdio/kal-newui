@@ -103,6 +103,7 @@ import TinymcePreview from "../pages/components/forms/rich-editor/TinymcePreview
 import KnobPreview from "../pages/components/charts/KnobPreview";
 import { FileManagerContextProvider } from "../pages/app/file-manager/FileManagerContext";
 import SendEmail from "../pages/SendEmail";
+import UploadCSV from "../pages/UploadCSV";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -115,6 +116,7 @@ const Pages = () => {
         {/*Dashboards*/}
         <Route exact path={`${process.env.PUBLIC_URL}/crypto`} component={Crypto}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/send-email`} component={SendEmail}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/upload-csv`} component={UploadCSV}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/analytics`} component={Analytics}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/invest`} component={Invest}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/_blank`} component={Blank}></Route>
