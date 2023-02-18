@@ -15,6 +15,7 @@ import {
 } from "../components/Component";
 
 const UpdatePrompt = ({ alter, id }) => {
+  const [prompt, setPrompt] = useState(null);
   const [content, setContent] = useState('');
   const { errors, register } = useForm();
   const formClass = classNames({
@@ -22,6 +23,32 @@ const UpdatePrompt = ({ alter, id }) => {
     "is-alter": alter,
   });
   const [disableStatus, setDisableStatus] = useState(true);
+
+  useEffect(() => {
+    const data = JSON.stringify({
+      query: `query {
+          getPrompt
+          }`
+    });
+
+    const config = {
+      method: 'post',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then((res) => {
+        console.log(res.data.data.getPrompt);
+        setPrompt(res.data.data.getPrompt);
+      })
+      .catch((error) => {
+          alert(`Error updating prompt: ${error.message}`);
+      });
+  }, [])
 
   const handleContentChange = (event) => {
     if (event.target.value !== '') {
@@ -74,6 +101,17 @@ const UpdatePrompt = ({ alter, id }) => {
             </BlockTitle>
           </BlockHeadContent>
         </BlockHead>
+
+        <Block size="lg">
+          <PreviewCard>
+            <Row>
+              <Col size="lg">
+                <h6>Your current prompt:</h6>
+                <p>{prompt}</p>
+              </Col>
+            </Row>
+          </PreviewCard>
+        </Block>
 
         <Block size="lg">
           <PreviewCard>
