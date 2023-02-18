@@ -105,6 +105,7 @@ import { FileManagerContextProvider } from "../pages/app/file-manager/FileManage
 import SendEmail from "../pages/SendEmail";
 import UploadCSV from "../pages/UploadCSV";
 import UpdatePrompt from "../pages/UpdatePrompt";
+import Integrations from "../pages/Integrations";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -119,6 +120,7 @@ const Pages = () => {
         <Route exact path={`${process.env.PUBLIC_URL}/send-email`} component={SendEmail}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/upload-csv`} component={UploadCSV}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-prompt`} component={UpdatePrompt}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/integrations`} component={Integrations}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/analytics`} component={Analytics}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/invest`} component={Invest}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/_blank`} component={Blank}></Route>

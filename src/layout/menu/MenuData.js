@@ -18,6 +18,11 @@ const menu = [
     icon: "update",
     text: "Update Prompt",
     link: "/update-prompt",
+  },
+  {
+    icon: "setting",
+    text: "Integrations",
+    link: "/integrations",
   }
 ];
 export default menu;
