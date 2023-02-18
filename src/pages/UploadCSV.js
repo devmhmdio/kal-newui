@@ -102,7 +102,7 @@ const UploadCSV = () => {
   
   return (
     <React.Fragment>
-      <Head title="Form Upload"></Head>
+      <Head title="Upload CSV"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>

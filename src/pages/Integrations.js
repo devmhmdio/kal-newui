@@ -17,7 +17,7 @@ const Integrations = () => {
   
   return (
     <React.Fragment>
-      <Head title="Form Upload"></Head>
+      <Head title="Integrations"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>

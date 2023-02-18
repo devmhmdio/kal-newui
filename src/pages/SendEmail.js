@@ -129,7 +129,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
   return (
     <React.Fragment>
-      <Head title="Crypto Dashboard" />
+      <Head title="Send Emails" />
       <Content>
         <BlockHead size="sm">
           <BlockBetween>

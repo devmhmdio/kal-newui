@@ -93,7 +93,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   });
   return (
     <React.Fragment>
-      <Head title="Form Layouts" />
+      <Head title="Dashboard" />
       <Content page="component">
         <Block size="lg">
           <Row className="g-gs">

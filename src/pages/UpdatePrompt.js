@@ -92,7 +92,7 @@ const UpdatePrompt = ({ alter, id }) => {
 
   return (
     <React.Fragment>
-      <Head title="Form Validation"></Head>
+      <Head title="Update Prompt"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>
