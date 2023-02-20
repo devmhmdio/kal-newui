@@ -72,8 +72,7 @@ const Login = () => {
   
     const config = {
       method: 'post',
-      url: 'http://localhost:4000/graphql',
-      // url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
       headers: {
         'Content-Type': 'application/json',
       },
