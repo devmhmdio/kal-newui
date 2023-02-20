@@ -17,32 +17,97 @@ import {
 import { Form, Spinner, Alert } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [passState, setPassState] = useState(false);
   const [errorVal, setError] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  let loginName;
+  let pass;
+  let formData = {
+    email: '',
+    password: ''
+  };
 
-  const onFormSubmit = (formData) => {
+  const handleChange = (event) => {
+    const et = event.target;
+    if (et.name === 'email') {
+      loginName = et.value;
+    };
+    if (et.name === 'password') {
+      pass = et.value;
+    };
+  };
+
+  const onFormSubmit = () => {
     setLoading(true);
-    const loginName = "mohammed@buildyourinnovation.com";
-    const pass = "123456";
-    if (formData.name === loginName && formData.passcode === pass) {
-      localStorage.setItem("accessToken", "token");
-      setTimeout(() => {
-        window.history.pushState(
-          `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
-          "auth-login",
-          `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
-        );
-        window.location.reload();
-      }, 2000);
-    } else {
-      setTimeout(() => {
-        setError("Cannot login with credentials");
-        setLoading(false);
-      }, 2000);
-    }
+    console.log('this is email', loginName)
+    console.log('this is password', pass)
+    const data = JSON.stringify({
+      query: `query($email: String, $password: String) {
+        getUsers(input: {
+            email: $email
+            password: $password,
+        }) {
+            status {
+              code
+              header
+              description
+              moreInfo
+            }
+            data {
+              email
+              password
+            }
+        }
+      }`,
+      variables: {
+        email: loginName,
+        password: pass
+      },
+    });
+  
+    const config = {
+      method: 'post',
+      url: 'http://localhost:4000/graphql',
+      // url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+  
+    axios(config)
+    .then((response) => {
+      formData.email = response.data.data.getUsers.data.email;
+      formData.password = response.data.data.getUsers.data.password;
+      console.log('this is formData', formData)
+      if (formData.email === loginName && formData.password === pass) {
+        console.log('this is formData on lien 90', formData)
+        localStorage.setItem("accessToken", "token");
+        setTimeout(() => {
+          window.history.pushState(
+            `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
+            "auth-login",
+            `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
+          );
+          window.location.reload();
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setError("Cannot login with credentials");
+          setLoading(false);
+        }, 2000);
+      }
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   };
 
   const { errors, register, handleSubmit } = useForm();
@@ -64,7 +129,7 @@ const Login = () => {
               <BlockContent>
                 <BlockTitle tag="h4">Sign-In</BlockTitle>
                 <BlockDes>
-                  <p>Access BYI using your email and passcode.</p>
+                  <p>Access BYI using your email and password.</p>
                 </BlockDes>
               </BlockContent>
             </BlockHead>
@@ -80,18 +145,18 @@ const Login = () => {
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="default-01">
-                    Email or Username
+                    Email
                   </label>
                 </div>
                 <div className="form-control-wrap">
                   <input
                     type="text"
                     id="default-01"
-                    name="name"
+                    name="email"
                     ref={register({ required: "This field is required" })}
-                    defaultValue="mohammed@buildyourinnovation.com"
-                    placeholder="Enter your email address or username"
+                    placeholder="Enter your email address"
                     className="form-control-lg form-control"
+                    onChange={handleChange}
                   />
                   {errors.name && <span className="invalid">{errors.name.message}</span>}
                 </div>
@@ -99,10 +164,10 @@ const Login = () => {
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
-                    Passcode
+                    Password
                   </label>
                   <Link className="link link-primary link-sm" to={`${process.env.PUBLIC_URL}/auth-reset`}>
-                    Forgot Code?
+                    Forgot Password?
                   </Link>
                 </div>
                 <div className="form-control-wrap">
@@ -121,11 +186,11 @@ const Login = () => {
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
-                    name="passcode"
-                    defaultValue="123456"
+                    name="password"
                     ref={register({ required: "This field is required" })}
-                    placeholder="Enter your passcode"
+                    placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
+                    onChange={handleChange}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
                 </div>
