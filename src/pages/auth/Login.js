@@ -23,8 +23,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [passState, setPassState] = useState(false);
   const [errorVal, setError] = useState("");
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
   let loginName;
   let pass;
   let formData = {
@@ -44,25 +42,12 @@ const Login = () => {
 
   const onFormSubmit = () => {
     setLoading(true);
-    console.log('this is email', loginName)
-    console.log('this is password', pass)
     const data = JSON.stringify({
       query: `query($email: String, $password: String) {
         getUsers(input: {
             email: $email
             password: $password,
-        }) {
-            status {
-              code
-              header
-              description
-              moreInfo
-            }
-            data {
-              email
-              password
-            }
-        }
+        })
       }`,
       variables: {
         email: loginName,
@@ -72,7 +57,8 @@ const Login = () => {
   
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      // url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: 'http://localhost:4000/graphql',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -81,12 +67,11 @@ const Login = () => {
   
     axios(config)
     .then((response) => {
-      formData.email = response.data.data.getUsers.data.email;
-      formData.password = response.data.data.getUsers.data.password;
-      console.log('this is formData', formData)
+      console.log('line 82', response.data.data)
+      formData.email = response.data.data.getUsers.result.email;
+      formData.password = response.data.data.getUsers.result.password;
       if (formData.email === loginName && formData.password === pass) {
-        console.log('this is formData on lien 90', formData)
-        localStorage.setItem("accessToken", "token");
+        localStorage.setItem("accessToken", response.data.data.getUsers.token);
         setTimeout(() => {
           window.history.pushState(
             `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,

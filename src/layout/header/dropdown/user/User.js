@@ -1,16 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserAvatar from "../../../../components/user/UserAvatar";
 import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
 import { LinkList, LinkItem } from "../../../../components/links/Links";
+import axios from "axios";
 
 const User = () => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prevState) => !prevState);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
 
   const handleSignout = () => {
     localStorage.removeItem("accessToken");
   };
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log('this is token', token);
+    const data = JSON.stringify({
+      query: `mutation($token: String) {
+                returnToken(token: $token)
+          }`,
+      variables: {
+        token
+      },
+    });
+
+    const config = {
+      method: 'post',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then((response) => {
+        setName(response.data.data.returnToken.name);
+        setEmail(response.data.data.returnToken.email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [])
 
   return (
     <Dropdown isOpen={open} className="user-dropdown" toggle={toggle}>
@@ -26,7 +59,7 @@ const User = () => {
           <UserAvatar icon="user-alt" className="sm" />
           <div className="user-info d-none d-md-block">
             <div className="user-status">Administrator</div>
-            <div className="user-name dropdown-indicator">Mohammed Rafique</div>
+            <div className="user-name dropdown-indicator">{name}</div>
           </div>
         </div>
       </DropdownToggle>
@@ -37,8 +70,8 @@ const User = () => {
               <span>AB</span>
             </div>
             <div className="user-info">
-              <span className="lead-text">Mohammed Rafique</span>
-              <span className="sub-text">info@softnio.com</span>
+              <span className="lead-text">{name}</span>
+              <span className="sub-text">{email}</span>
             </div>
           </div>
         </div>
