@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../../images/logo.png";
 import LogoDark from "../../images/logo-dark.png";
 import PageContainer from "../../layout/page-container/PageContainer";
@@ -7,7 +7,12 @@ import AuthFooter from "./AuthFooter";
 import { Block, BlockContent, BlockDes, BlockHead, BlockTitle } from "../../components/Component";
 import { Link } from "react-router-dom";
 
-const Success = () => {
+const Success = ({ history }) => {
+
+  useEffect(() => {
+    setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-login`), 5000);
+  }, []);
+
   return (
     <React.Fragment>
       <Head title="Success" />
@@ -21,9 +26,9 @@ const Success = () => {
           </div>
           <BlockHead>
             <BlockContent>
-              <BlockTitle tag="h4">Thank you for submitting form</BlockTitle>
+              <BlockTitle tag="h4">Thank you for signing up</BlockTitle>
               <BlockDes className="text-success">
-                <p>You can now sign in with your new password</p>
+                <p>You can now sign in with your new password, you will be redirected to login page</p>
               </BlockDes>
             </BlockContent>
           </BlockHead>

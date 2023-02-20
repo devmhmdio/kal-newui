@@ -4,6 +4,7 @@ import LogoDark from "../../images/logo-dark.png";
 import PageContainer from "../../layout/page-container/PageContainer";
 import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
+import axios from "axios";
 import {
   Block,
   BlockContent,
@@ -22,9 +23,67 @@ const Register = ({ history }) => {
   const [passState, setPassState] = useState(false);
   const [loading, setLoading] = useState(false);
   const { errors, register, handleSubmit } = useForm();
+  const [email, setEmail] = useState(null);
+  const [name, setName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [phone, setPhone] = useState(null);
 
-  const handleFormSubmit = () => {
+  const handleChange = (event) => {
+    const et = event.target;
+    if (et.name === 'name') setName(et.value);
+    if (et.name === 'email') setEmail(et.value);
+    if (et.name === 'phone') setPhone(et.value);
+    if (et.name === 'password') setPassword(et.value);
+  };
+
+  const handleFormSubmit = (e) => {
     setLoading(true);
+    const data = JSON.stringify({
+      query: `mutation($email: String, $password: String, $name: String, $phone: String) {
+        addUser(input: {
+            email: $email
+            name: $name
+            password: $password,
+            phone: $phone
+        }) {
+            status {
+              code
+              header
+              description
+              moreInfo
+            }
+            data {
+              email
+              name
+              phone
+            }
+        }
+      }`,
+      variables: {
+        email,
+        password,
+        name,
+        phone
+      },
+    });
+
+    const config = {
+      method: 'post',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+    .then(() => {
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
     setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-success`), 2000);
   };
   return (
@@ -43,7 +102,7 @@ const Register = ({ history }) => {
               <BlockContent>
                 <BlockTitle tag="h4">Register</BlockTitle>
                 <BlockDes>
-                  <p>Create New Dashlite Account</p>
+                  <p>Create New Account</p>
                 </BlockDes>
               </BlockContent>
             </BlockHead>
@@ -60,6 +119,7 @@ const Register = ({ history }) => {
                     placeholder="Enter your name"
                     ref={register({ required: true })}
                     className="form-control-lg form-control"
+                    onChange={handleChange}
                   />
                   {errors.name && <p className="invalid">This field is required</p>}
                 </div>
@@ -67,7 +127,7 @@ const Register = ({ history }) => {
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="default-01">
-                    Email or Username
+                    Email
                   </label>
                 </div>
                 <div className="form-control-wrap">
@@ -78,7 +138,28 @@ const Register = ({ history }) => {
                     name="email"
                     ref={register({ required: true })}
                     className="form-control-lg form-control"
-                    placeholder="Enter your email address or username"
+                    placeholder="Enter your email address"
+                    onChange={handleChange}
+                  />
+                  {errors.email && <p className="invalid">This field is required</p>}
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="form-label-group">
+                  <label className="form-label" htmlFor="default-01">
+                    Phone
+                  </label>
+                </div>
+                <div className="form-control-wrap">
+                  <input
+                    type="tel"
+                    bssize="lg"
+                    id="default-01"
+                    name="phone"
+                    ref={register({ required: true })}
+                    className="form-control-lg form-control"
+                    placeholder="Enter your phone number"
+                    onChange={handleChange}
                   />
                   {errors.email && <p className="invalid">This field is required</p>}
                 </div>
@@ -86,7 +167,7 @@ const Register = ({ history }) => {
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
-                    Passcode
+                    Password
                   </label>
                 </div>
                 <div className="form-control-wrap">
@@ -105,10 +186,11 @@ const Register = ({ history }) => {
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
-                    name="passcode"
+                    name="password"
                     ref={register({ required: "This field is required" })}
-                    placeholder="Enter your passcode"
+                    placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
+                    onChange={handleChange}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
                 </div>
@@ -126,35 +208,6 @@ const Register = ({ history }) => {
                 <strong>Sign in instead</strong>
               </Link>
             </div>
-            <div className="text-center pt-4 pb-3">
-              <h6 className="overline-title overline-title-sap">
-                <span>OR</span>
-              </h6>
-            </div>
-            <ul className="nav justify-center gx-8">
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="#socials"
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                  }}
-                >
-                  Facebook
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="#socials"
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                  }}
-                >
-                  Google
-                </a>
-              </li>
-            </ul>
           </PreviewCard>
         </Block>
         <AuthFooter />
