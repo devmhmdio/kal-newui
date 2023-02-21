@@ -22,6 +22,9 @@ import {
 const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [emailDatas, setEmailDatas] = useState([]);
   const d = [{ name: '', email: '' }];
+  const [loggedInName, setLoggedInName] = useState(null);
+  const [loggedInEmail, setLoggedInEmail] = useState(null);
+  const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -37,7 +40,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -46,12 +49,40 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
     axios(config)
       .then((response) => {
-        console.log('line 33', response.data.data.getEmails);
         setEmailDatas(response.data.data.getEmails);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    const token = localStorage.getItem("accessToken");
+      const dataToken = JSON.stringify({
+        query: `mutation($token: String) {
+                  returnToken(token: $token)
+            }`,
+        variables: {
+          token
+        },
+      });
+  
+      const configToken = {
+        method: 'post',
+        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: dataToken,
+      };
+  
+      axios(configToken)
+        .then((response) => {
+          setLoggedInName(response.data.data.returnToken.name);
+          setLoggedInEmail(response.data.data.returnToken.email);
+          setLoggedInAppPassword(response.data.data.returnToken.app_password);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }, []);
 
   const formFieldsArray = Array.from({ length: emailDatas.length }, () => [
@@ -65,6 +96,9 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
     let emailSubject = [];
     let emailBody = [];
     let o = [];
+    console.log('line 101', loggedInName)
+    console.log('line 102', loggedInEmail)
+    console.log('line 103', loggedInAppPassword)
     console.log(JSON.stringify(formFieldsArray))
     for (let i = 0; i <= event.target.length - 1; i++) {
         if (event.target[i].name === 'name') {
@@ -86,25 +120,29 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
     for(let i=0;i<=o.length-1;i++) {
         const data = JSON.stringify({
-            query: `mutation($subject: String!, $body: String!, $name: String!, $email: String!) {
+            query: `mutation($subject: String!, $body: String!, $name: String!, $email: String!, $fromEmail: String!, $appPassword: String!) {
                       sendEmail(input: [{
                         subject: $subject
                         body: $body
                         name: $name
                         toEmail: $email
+                        fromEmail: $fromEmail
+                        app_password: $appPassword
                     }])
                     }`,
                     variables: {
                         subject: o[i].subject,
                         body: o[i].body,
                         name: o[i].name,
-                        email: o[i].email
+                        email: o[i].email,
+                        fromEmail: loggedInEmail,
+                        appPassword: loggedInAppPassword
                       },
           });
       
           const config = {
             method: 'post',
-            url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+            url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
             headers: {
               'Content-Type': 'application/json',
             },
@@ -173,13 +211,13 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                     type="text"
                     id={`name-${index+1}`}
                     name="name"
-                    value={item.name}
+                    defaultValue={item.name}
                   ></input></td>
                     <td><input
                     type="text"
                     id={`email-${index+1}`}
                     name="email"
-                    value={item.emailId}
+                    defaultValue={item.emailId}
                   ></input></td>
                   </tr>
                 );

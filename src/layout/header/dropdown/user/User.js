@@ -28,7 +28,7 @@ const User = () => {
 
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
       headers: {
         'Content-Type': 'application/json',
       },
