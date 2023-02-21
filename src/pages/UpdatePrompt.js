@@ -33,7 +33,7 @@ const UpdatePrompt = ({ alter, id }) => {
 
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: process.env.AXIOS_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -74,7 +74,7 @@ const UpdatePrompt = ({ alter, id }) => {
   
       const config = {
         method: 'post',
-        url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+        url: process.env.AXIOS_URL,
         headers: {
           'Content-Type': 'application/json',
         },

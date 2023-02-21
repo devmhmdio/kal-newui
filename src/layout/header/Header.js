@@ -32,7 +32,7 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
 
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: process.env.AXIOS_URL,
       headers: {
         'Content-Type': 'application/json',
       },

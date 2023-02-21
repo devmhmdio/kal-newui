@@ -21,11 +21,13 @@ import { Link } from "react-router-dom";
 
 const Register = ({ history }) => {
   const [passState, setPassState] = useState(false);
+  const [appPassState, setAppPassState] = useState(false);
   const [loading, setLoading] = useState(false);
   const { errors, register, handleSubmit } = useForm();
   const [email, setEmail] = useState(null);
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
+  const [appPassword, setAppPassword] = useState(null);
   const [phone, setPhone] = useState(null);
 
   const handleChange = (event) => {
@@ -34,17 +36,19 @@ const Register = ({ history }) => {
     if (et.name === 'email') setEmail(et.value);
     if (et.name === 'phone') setPhone(et.value);
     if (et.name === 'password') setPassword(et.value);
+    if (et.name === 'app_password') setAppPassword(et.value);
   };
 
   const handleFormSubmit = (e) => {
     setLoading(true);
     const data = JSON.stringify({
-      query: `mutation($email: String, $password: String, $name: String, $phone: String) {
+      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String) {
         addUser(input: {
             email: $email
             name: $name
             password: $password,
             phone: $phone
+            app_password: $app_password
         }) {
             status {
               code
@@ -63,13 +67,14 @@ const Register = ({ history }) => {
         email,
         password,
         name,
-        phone
+        phone,
+        app_password: appPassword
       },
     });
 
     const config = {
       method: 'post',
-      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      url: process.env.AXIOS_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -190,6 +195,37 @@ const Register = ({ history }) => {
                     ref={register({ required: "This field is required" })}
                     placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
+                    onChange={handleChange}
+                  />
+                  {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="form-label-group">
+                  <label className="form-label" htmlFor="password">
+                    App Password
+                  </label>
+                </div>
+                <div className="form-control-wrap">
+                  <a
+                    href="#app_password"
+                    onClick={(ev) => {
+                      ev.preventDefault();
+                      setAppPassState(!appPassState);
+                    }}
+                    className={`form-icon lg form-icon-right passcode-switch ${appPassState ? "is-hidden" : "is-shown"}`}
+                  >
+                    <Icon name="eye" className="passcode-icon icon-show"></Icon>
+
+                    <Icon name="eye-off" className="passcode-icon icon-hide"></Icon>
+                  </a>
+                  <input
+                    type={appPassState ? "text" : "password"}
+                    id="app_password"
+                    name="app_password"
+                    ref={register({ required: "This field is required" })}
+                    placeholder="Enter your app password"
+                    className={`form-control-lg form-control ${appPassState ? "is-hidden" : "is-shown"}`}
                     onChange={handleChange}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
