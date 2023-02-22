@@ -26,6 +26,8 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [loggedInEmail, setLoggedInEmail] = useState(null);
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
+  const placeholderRegex = /<([^>]+)>/g;
+  const placeholderRegex1 = /\[([^\]]+)\]/g;
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -191,80 +193,67 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
-                if (item.body.includes("<Sender Company Name>")) {
-                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
+                item.body = item.body.replace(placeholderRegex, (p1) => p1.toLowerCase());
+                item.body = item.body.replace(placeholderRegex1, (p1) => p1.toLowerCase());
+                if (item.body.includes("sender company name")) {
+                  item.body = item.body.replaceAll("sender company name", loggedInCompany)
                 }
-                if (item.body.includes("<Sender Company>")) {
-                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
+                if (item.body.includes("sender company")) {
+                  item.body = item.body.replaceAll("sender company", loggedInCompany)
                 }
-                if (item.body.includes("[Your Company Name]")) {
-                  item.body = item.body.replaceAll("[Your Company Name]", loggedInCompany)
+                if (item.body.includes("your company name")) {
+                  item.body = item.body.replaceAll("your company name", loggedInCompany)
                 }
-                if (item.body.includes("<Sender Name>")) {
-                  item.body = item.body.replaceAll("<Sender Name>", loggedInName)
+                if (item.body.includes("sender name")) {
+                  item.body = item.body.replaceAll("sender name>", loggedInName)
                 }
-                if (item.body.includes("[Sender Name]")) {
-                  item.body = item.body.replaceAll("[Sender Name]", loggedInName)
+                if (item.body.includes("sender firm")) {
+                  item.body = item.body.replaceAll("sender firm", loggedInCompany)
                 }
-                if (item.body.includes("[Sender Firm]")) {
-                  item.body = item.body.replaceAll("[Sender Firm]", loggedInCompany)
+                if (item.body.includes("business")) {
+                  item.body = item.body.replaceAll("business", loggedInCompany)
                 }
-                if (item.body.includes("<Business>")) {
-                  item.body = item.body.replaceAll("<Business>", loggedInCompany)
+                if (item.body.includes("name")) {
+                  item.body = item.body.replaceAll("name", loggedInName)
                 }
-                if (item.body.includes("<Name>")) {
-                  item.body = item.body.replaceAll("<Name>", loggedInName)
+                if (item.body.includes("your name")) {
+                  item.body = item.body.replaceAll("your name", loggedInName)
                 }
-                if (item.body.includes("[Your Name]")) {
-                  item.body = item.body.replaceAll("[Your Name]", loggedInName)
+                if (item.body.includes("sender's name")) {
+                  item.body = item.body.replaceAll("sender's name", loggedInName)
                 }
-                if (item.body.includes("<Your Name>")) {
-                  item.body = item.body.replaceAll("<Your Name>", loggedInName)
+                if (item.body.includes("your name here")) {
+                  item.body = item.body.replaceAll("your name here", loggedInName)
                 }
-                if (item.body.includes("<Sender's name>")) {
-                  item.body = item.body.replaceAll("<Sender's name>", loggedInName)
+                if (item.body.includes("sender")) {
+                  item.body = item.body.replaceAll("sender", loggedInName)
                 }
-                if (item.body.includes("[Your name here]")) {
-                  item.body = item.body.replaceAll("[Your name here]", loggedInName)
+                if (item.body.includes("sender's firm")) {
+                  item.body = item.body.replaceAll("sender's firm", loggedInCompany)
                 }
-                if (item.body.includes("[Sender]")) {
-                  item.body = item.body.replaceAll("[Sender]", loggedInName)
+                if (item.body.includes("sender's business")) {
+                  item.body = item.body.replaceAll("sender's business", loggedInCompany)
                 }
-                if (item.body.includes("[Sender's Firm]")) {
-                  item.body = item.body.replaceAll("[Sender's Firm]", loggedInCompany)
+                if (item.body.includes("sender company name")) {
+                  item.body = item.body.replaceAll("sender company name>", loggedInCompany)
                 }
-                if (item.body.includes("<Sender's Firm>")) {
-                  item.body = item.body.replaceAll("<Sender's Firm>", loggedInCompany)
+                if (item.body.includes("sender company")) {
+                  item.body = item.body.replaceAll("sender company", loggedInCompany)
                 }
-                if (item.body.includes("[Sender's business]")) {
-                  item.body = item.body.replaceAll("[Sender's business]", loggedInCompany)
+                if (item.body.includes("company name")) {
+                  item.body = item.body.replaceAll("company name", loggedInCompany)
                 }
-                if (item.body.includes("<Sender Company Name>")) {
-                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
+                if (item.body.includes("your company")) {
+                  item.body = item.body.replaceAll("your company", loggedInCompany)
                 }
-                if (item.body.includes("<Sender Company>")) {
-                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
+                if (item.body.includes("name of firm")) {
+                  item.body = item.body.replaceAll("name of firm", loggedInCompany)
                 }
-                if (item.body.includes("<Company Name>")) {
-                  item.body = item.body.replaceAll("<Company Name>", loggedInCompany)
+                if (item.body.includes("company")) {
+                  item.body = item.body.replaceAll("company", loggedInCompany)
                 }
-                if (item.body.includes("<Your Company>")) {
-                  item.body = item.body.replaceAll("<Your Company>", loggedInCompany)
-                }
-                if (item.body.includes("<Name of firm>")) {
-                  item.body = item.body.replaceAll("<Name of firm>", loggedInCompany)
-                }
-                if (item.body.includes("<name of firm>")) {
-                  item.body = item.body.replaceAll("<name of firm>", loggedInCompany)
-                }
-                if (item.body.includes("[Sender's Business]")) {
-                  item.body = item.body.replaceAll("[Sender's Business]", loggedInCompany)
-                }
-                if (item.body.includes("[Company]")) {
-                  item.body = item.body.replaceAll("[Company]", loggedInCompany)
-                }
-                if (item.body.includes("<Firm Name>")) {
-                  item.body = item.body.replaceAll("<Firm Name>", loggedInCompany)
+                if (item.body.includes("firm name")) {
+                  item.body = item.body.replaceAll("firm name", loggedInCompany)
                 }
                  return (
                   <tr key={index+1}>
