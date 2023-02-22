@@ -191,6 +191,78 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
+                if (item.body.includes("<Sender Company Name>")) {
+                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
+                }
+                if (item.body.includes("<Sender Company>")) {
+                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
+                }
+                if (item.body.includes("[Your Company Name]")) {
+                  item.body = item.body.replaceAll("[Your Company Name]", loggedInCompany)
+                }
+                if (item.body.includes("<Sender Name>")) {
+                  item.body = item.body.replaceAll("<Sender Name>", loggedInName)
+                }
+                if (item.body.includes("[Sender Name]")) {
+                  item.body = item.body.replaceAll("[Sender Name]", loggedInName)
+                }
+                if (item.body.includes("[Sender Firm]")) {
+                  item.body = item.body.replaceAll("[Sender Firm]", loggedInCompany)
+                }
+                if (item.body.includes("<Business>")) {
+                  item.body = item.body.replaceAll("<Business>", loggedInCompany)
+                }
+                if (item.body.includes("<Name>")) {
+                  item.body = item.body.replaceAll("<Name>", loggedInName)
+                }
+                if (item.body.includes("[Your Name]")) {
+                  item.body = item.body.replaceAll("[Your Name]", loggedInName)
+                }
+                if (item.body.includes("<Your Name>")) {
+                  item.body = item.body.replaceAll("<Your Name>", loggedInName)
+                }
+                if (item.body.includes("<Sender's name>")) {
+                  item.body = item.body.replaceAll("<Sender's name>", loggedInName)
+                }
+                if (item.body.includes("[Your name here]")) {
+                  item.body = item.body.replaceAll("[Your name here]", loggedInName)
+                }
+                if (item.body.includes("[Sender]")) {
+                  item.body = item.body.replaceAll("[Sender]", loggedInName)
+                }
+                if (item.body.includes("[Sender's Firm]")) {
+                  item.body = item.body.replaceAll("[Sender's Firm]", loggedInCompany)
+                }
+                if (item.body.includes("<Sender's Firm>")) {
+                  item.body = item.body.replaceAll("<Sender's Firm>", loggedInCompany)
+                }
+                if (item.body.includes("[Sender's business]")) {
+                  item.body = item.body.replaceAll("[Sender's business]", loggedInCompany)
+                }
+                if (item.body.includes("<Sender Company Name>")) {
+                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
+                }
+                if (item.body.includes("<Sender Company>")) {
+                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
+                }
+                if (item.body.includes("<Company Name>")) {
+                  item.body = item.body.replaceAll("<Company Name>", loggedInCompany)
+                }
+                if (item.body.includes("<Your Company>")) {
+                  item.body = item.body.replaceAll("<Your Company>", loggedInCompany)
+                }
+                if (item.body.includes("<Name of firm>")) {
+                  item.body = item.body.replaceAll("<Name of firm>", loggedInCompany)
+                }
+                if (item.body.includes("<name of firm>")) {
+                  item.body = item.body.replaceAll("<name of firm>", loggedInCompany)
+                }
+                if (item.body.includes("[Sender's Business]")) {
+                  item.body = item.body.replaceAll("[Sender's Business]", loggedInCompany)
+                }
+                if (item.body.includes("[Company]")) {
+                  item.body = item.body.replaceAll("[Company]", loggedInCompany)
+                }
                  return (
                   <tr key={index+1}>
                     <th>{index+1}</th>
