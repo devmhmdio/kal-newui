@@ -263,6 +263,9 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                 if (item.body.includes("[Company]")) {
                   item.body = item.body.replaceAll("[Company]", loggedInCompany)
                 }
+                if (item.body.includes("<Firm Name>")) {
+                  item.body = item.body.replaceAll("<Firm Name>", loggedInCompany)
+                }
                  return (
                   <tr key={index+1}>
                     <th>{index+1}</th>
