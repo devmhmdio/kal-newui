@@ -26,8 +26,8 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [loggedInEmail, setLoggedInEmail] = useState(null);
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
-  const placeholderRegex = /<([^>]+)>/g;
-  const placeholderRegex1 = /\[([^\]]+)\]/g;
+  const regex = /(?:<|\[)(\w*?(?:company|business|firm)\w*?)(?:>|])/gi;
+  const placeholderRegex1 = /\[(.*?)\]/g;
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -193,68 +193,6 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
-                item.body = item.body.replace(placeholderRegex, (p1) => p1.toLowerCase());
-                item.body = item.body.replace(placeholderRegex1, (p1) => p1.toLowerCase());
-                if (item.body.includes("sender company name")) {
-                  item.body = item.body.replaceAll("sender company name", loggedInCompany)
-                }
-                if (item.body.includes("sender company")) {
-                  item.body = item.body.replaceAll("sender company", loggedInCompany)
-                }
-                if (item.body.includes("your company name")) {
-                  item.body = item.body.replaceAll("your company name", loggedInCompany)
-                }
-                if (item.body.includes("sender name")) {
-                  item.body = item.body.replaceAll("sender name>", loggedInName)
-                }
-                if (item.body.includes("sender firm")) {
-                  item.body = item.body.replaceAll("sender firm", loggedInCompany)
-                }
-                if (item.body.includes("business")) {
-                  item.body = item.body.replaceAll("business", loggedInCompany)
-                }
-                if (item.body.includes("name")) {
-                  item.body = item.body.replaceAll("name", loggedInName)
-                }
-                if (item.body.includes("your name")) {
-                  item.body = item.body.replaceAll("your name", loggedInName)
-                }
-                if (item.body.includes("sender's name")) {
-                  item.body = item.body.replaceAll("sender's name", loggedInName)
-                }
-                if (item.body.includes("your name here")) {
-                  item.body = item.body.replaceAll("your name here", loggedInName)
-                }
-                if (item.body.includes("sender")) {
-                  item.body = item.body.replaceAll("sender", loggedInName)
-                }
-                if (item.body.includes("sender's firm")) {
-                  item.body = item.body.replaceAll("sender's firm", loggedInCompany)
-                }
-                if (item.body.includes("sender's business")) {
-                  item.body = item.body.replaceAll("sender's business", loggedInCompany)
-                }
-                if (item.body.includes("sender company name")) {
-                  item.body = item.body.replaceAll("sender company name>", loggedInCompany)
-                }
-                if (item.body.includes("sender company")) {
-                  item.body = item.body.replaceAll("sender company", loggedInCompany)
-                }
-                if (item.body.includes("company name")) {
-                  item.body = item.body.replaceAll("company name", loggedInCompany)
-                }
-                if (item.body.includes("your company")) {
-                  item.body = item.body.replaceAll("your company", loggedInCompany)
-                }
-                if (item.body.includes("name of firm")) {
-                  item.body = item.body.replaceAll("name of firm", loggedInCompany)
-                }
-                if (item.body.includes("company")) {
-                  item.body = item.body.replaceAll("company", loggedInCompany)
-                }
-                if (item.body.includes("firm name")) {
-                  item.body = item.body.replaceAll("firm name", loggedInCompany)
-                }
                  return (
                   <tr key={index+1}>
                     <th>{index+1}</th>
