@@ -98,10 +98,6 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
     let emailSubject = [];
     let emailBody = [];
     let o = [];
-    console.log('line 101', loggedInName)
-    console.log('line 102', loggedInEmail)
-    console.log('line 103', loggedInAppPassword)
-    console.log('line 103', loggedInCompany)
     console.log(JSON.stringify(formFieldsArray))
     for (let i = 0; i <= event.target.length - 1; i++) {
         if (event.target[i].name === 'name') {
@@ -195,20 +191,26 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
+                console.log('194', loggedInCompany)
+                console.log('195', loggedInEmail)
+                console.log('196', loggedInName)
                 if (item.body.includes("<Sender Company Name>")) {
-                  item.body = item.body.replace("<Sender Company Name>", loggedInCompany)
+                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
                 }
                 if (item.body.includes("<Sender Company>")) {
-                  item.body = item.body.replace("<Sender Company>", loggedInCompany)
+                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
                 }
                 if (item.body.includes("<Sender Name>")) {
-                  item.body = item.body.replace("<Sender Name>", loggedInName)
+                  item.body = item.body.replaceAll("<Sender Name>", loggedInName)
+                }
+                if (item.body.includes("[Your name here]")) {
+                  item.body = item.body.replaceAll("[Your name here]", loggedInName)
                 }
                 if (item.subject.includes("<Sender Company Name>")) {
-                  item.subject = item.subject.replace("<Sender Company Name>", loggedInCompany)
+                  item.subject = item.subject.replaceAll("<Sender Company Name>", loggedInCompany)
                 }
                 if (item.subject.includes("<Sender Company>")) {
-                  item.subject = item.subject.replace("<Sender Company>", loggedInCompany)
+                  item.subject = item.subject.replaceAll("<Sender Company>", loggedInCompany)
                 }
                  return (
                   <tr key={index+1}>
