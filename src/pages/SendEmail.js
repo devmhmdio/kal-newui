@@ -41,7 +41,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
     const config = {
       method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+      url: process.env.AXIOS_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -68,7 +68,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   
       const configToken = {
         method: 'post',
-        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+        url: process.env.AXIOS_URL,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -141,7 +141,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
       
           const config = {
             method: 'post',
-            url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+            url: process.env.AXIOS_URL,
             headers: {
               'Content-Type': 'application/json',
             },
@@ -191,27 +191,6 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
-                console.log('194', loggedInCompany)
-                console.log('195', loggedInEmail)
-                console.log('196', loggedInName)
-                if (item.body.includes("<Sender Company Name>")) {
-                  item.body = item.body.replaceAll("<Sender Company Name>", loggedInCompany)
-                }
-                if (item.body.includes("<Sender Company>")) {
-                  item.body = item.body.replaceAll("<Sender Company>", loggedInCompany)
-                }
-                if (item.body.includes("<Sender Name>")) {
-                  item.body = item.body.replaceAll("<Sender Name>", loggedInName)
-                }
-                if (item.body.includes("[Your name here]")) {
-                  item.body = item.body.replaceAll("[Your name here]", loggedInName)
-                }
-                if (item.subject.includes("<Sender Company Name>")) {
-                  item.subject = item.subject.replaceAll("<Sender Company Name>", loggedInCompany)
-                }
-                if (item.subject.includes("<Sender Company>")) {
-                  item.subject = item.subject.replaceAll("<Sender Company>", loggedInCompany)
-                }
                  return (
                   <tr key={index+1}>
                     <th>{index+1}</th>

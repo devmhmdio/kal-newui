@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "../layout/head/Head";
 import Content from "../layout/content/Content";
 import { Row, Col } from "reactstrap";
@@ -21,6 +21,37 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     businessKeyword: '',
     clientKeyword: [],
   });
+  const [loggedInName, setLoggedInName] = useState(null);
+  const [loggedInCompany, setLoggedInCompany] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+      const dataToken = JSON.stringify({
+        query: `mutation($token: String) {
+                  returnToken(token: $token)
+            }`,
+        variables: {
+          token
+        },
+      });
+  
+      const configToken = {
+        method: 'post',
+        url: process.env.AXIOS_URL,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: dataToken,
+      };
+  
+      axios(configToken)
+        .then((response) => {
+          setLoggedInCompany(response.data.data.returnToken.company);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }, []);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -47,10 +78,12 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     console.log('this is business keywords', businessKeywords[0].toString());
     console.log('this is client keywords', clientKeywords);
     const data = JSON.stringify({
-      query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!) {
+      query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $company: String, $name: String) {
               createConnection(input: {
                   businessKeyword: $businessKeyword
                   clientKeyword: $clientKeyword
+                  company: $company
+                  name: $name
               }) {
                   subject
                   body
@@ -59,12 +92,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       variables: {
         businessKeyword: businessKeywords[0],
         clientKeyword: clientKeywords,
+        company: loggedInCompany,
+        name: loggedInName
       },
     });
 
     const config = {
       method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+      url: process.env.AXIOS_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -74,7 +109,11 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     axios(config)
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
-        setResponseData(response.data.data.createConnection);
+        const allData = response.data.data.createConnection
+        for (let i=0;i<=allData.length-1;i++) {
+          
+        }
+        setResponseData(allData);
         setLoading(false);
         setDisableStatus(false);
       })
