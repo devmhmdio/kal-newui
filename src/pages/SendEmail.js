@@ -101,6 +101,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
     console.log('line 101', loggedInName)
     console.log('line 102', loggedInEmail)
     console.log('line 103', loggedInAppPassword)
+    console.log('line 103', loggedInCompany)
     console.log(JSON.stringify(formFieldsArray))
     for (let i = 0; i <= event.target.length - 1; i++) {
         if (event.target[i].name === 'name') {
@@ -194,11 +195,20 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
-                if (item.body.includes("<Company Name>") || item.subject.includes("<Company Name>")) {
-                  item.body.replace("<Company Name>", loggedInCompany)
+                if (item.body.includes("<Sender Company Name>")) {
+                  item.body = item.body.replace("<Sender Company Name>", loggedInCompany)
                 }
-                if (item.body.includes("<Comapny>") || item.subject.includes("<Comapny>")) {
-                  item.body.replace("<Company>", loggedInCompany)
+                if (item.body.includes("<Sender Company>")) {
+                  item.body = item.body.replace("<Sender Company>", loggedInCompany)
+                }
+                if (item.body.includes("<Sender Name>")) {
+                  item.body = item.body.replace("<Sender Name>", loggedInName)
+                }
+                if (item.subject.includes("<Sender Company Name>")) {
+                  item.subject = item.subject.replace("<Sender Company Name>", loggedInCompany)
+                }
+                if (item.subject.includes("<Sender Company>")) {
+                  item.subject = item.subject.replace("<Sender Company>", loggedInCompany)
                 }
                  return (
                   <tr key={index+1}>
