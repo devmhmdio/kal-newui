@@ -29,6 +29,7 @@ const Register = ({ history }) => {
   const [password, setPassword] = useState(null);
   const [appPassword, setAppPassword] = useState(null);
   const [phone, setPhone] = useState(null);
+  const [company, setCompany] = useState(null);
 
   const handleChange = (event) => {
     const et = event.target;
@@ -37,18 +38,20 @@ const Register = ({ history }) => {
     if (et.name === 'phone') setPhone(et.value);
     if (et.name === 'password') setPassword(et.value);
     if (et.name === 'app_password') setAppPassword(et.value);
+    if (et.name === 'company') setCompany(et.value);
   };
 
   const handleFormSubmit = (e) => {
     setLoading(true);
     const data = JSON.stringify({
-      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String) {
+      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String) {
         addUser(input: {
             email: $email
             name: $name
             password: $password,
             phone: $phone
             app_password: $app_password
+            company: $company
         }) {
             status {
               code
@@ -60,6 +63,7 @@ const Register = ({ history }) => {
               email
               name
               phone
+              company
             }
         }
       }`,
@@ -68,7 +72,8 @@ const Register = ({ history }) => {
         password,
         name,
         phone,
-        app_password: appPassword
+        app_password: appPassword,
+        company
       },
     });
 
@@ -229,6 +234,23 @@ const Register = ({ history }) => {
                     onChange={handleChange}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="name">
+                  Company Name
+                </label>
+                <div className="form-control-wrap">
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    placeholder="Enter your company name"
+                    ref={register({ required: true })}
+                    className="form-control-lg form-control"
+                    onChange={handleChange}
+                  />
+                  {errors.name && <p className="invalid">This field is required</p>}
                 </div>
               </div>
               <div className="form-group">
