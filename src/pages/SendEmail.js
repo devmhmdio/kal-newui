@@ -25,6 +25,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInEmail, setLoggedInEmail] = useState(null);
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
+  const [loggedInCompany, setLoggedInCompany] = useState(null);
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -79,6 +80,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
           setLoggedInName(response.data.data.returnToken.name);
           setLoggedInEmail(response.data.data.returnToken.email);
           setLoggedInAppPassword(response.data.data.returnToken.app_password);
+          setLoggedInCompany(response.data.data.returnToken.company);
         })
         .catch((error) => {
           console.log(error);
@@ -192,7 +194,13 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
             </thead>
             <tbody>
               {emailDatas.map((item, index) => {
-                return (
+                if (item.body.includes("<Company Name>") || item.subject.includes("<Company Name>")) {
+                  item.body.replace("<Company Name>", loggedInCompany)
+                }
+                if (item.body.includes("<Comapny>") || item.subject.includes("<Comapny>")) {
+                  item.body.replace("<Company>", loggedInCompany)
+                }
+                 return (
                   <tr key={index+1}>
                     <th>{index+1}</th>
                     <td><textarea
