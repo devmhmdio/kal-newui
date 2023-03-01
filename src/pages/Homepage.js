@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 const Homepage = ({ headColor, striped, border, hover, responsive }) => {
+  const [prompt, setPrompt] = useState(null);
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState();
@@ -51,6 +52,27 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
         .catch((error) => {
           console.log(error);
         });
+
+        const dataPrompt = JSON.stringify({
+          query: `query {
+            getPrompt
+            }`
+        });
+    
+        const configPrompt = {
+          method: 'post',
+          url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: dataPrompt,
+        };
+    
+        axios(configPrompt)
+        .then((res) => {
+          console.log(res.data.data.getPrompt);
+          setPrompt(res.data.data.getPrompt);
+        })
   }, []);
 
   const handleChange = (event) => {
@@ -77,13 +99,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     setDisableStatus(true);
     console.log('this is business keywords', businessKeywords[0].toString());
     console.log('this is client keywords', clientKeywords);
+    prompt = prompt.replace("the sender", loggedInName)
+    prompt = prompt.replace("sender's business/services", loggedInCompany)
     const data = JSON.stringify({
-      query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $company: String, $name: String) {
+      query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $prompt: String) {
               createConnection(input: {
                   businessKeyword: $businessKeyword
                   clientKeyword: $clientKeyword
-                  company: $company
-                  name: $name
+                  prompt: $prompt
               }) {
                   subject
                   body
@@ -92,8 +115,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       variables: {
         businessKeyword: businessKeywords[0],
         clientKeyword: clientKeywords,
-        company: loggedInCompany,
-        name: loggedInName
+        prompt: prompt
       },
     });
 
