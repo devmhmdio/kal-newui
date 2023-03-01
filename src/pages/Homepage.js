@@ -9,6 +9,7 @@ import {
   Button,
 } from "../components/Component";
 import axios from "axios";
+import { axiosConfig } from "../utils/Utils";
 
 const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   let [prompt, setPrompt] = useState(null);
@@ -36,16 +37,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
         },
       });
   
-      const configToken = {
-        method: 'post',
-        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: dataToken,
-      };
-  
-      axios(configToken)
+      axios(axiosConfig(dataToken))
         .then((response) => {
           setLoggedInCompany(response.data.data.returnToken.company);
         })
@@ -59,16 +51,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
             }`
         });
     
-        const configPrompt = {
-          method: 'post',
-          url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: dataPrompt,
-        };
-    
-        axios(configPrompt)
+        axios(axiosConfig(dataPrompt))
         .then((res) => {
           console.log(res.data.data.getPrompt);
           setPrompt(res.data.data.getPrompt);
@@ -119,16 +102,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       },
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
         const allData = response.data.data.createConnection

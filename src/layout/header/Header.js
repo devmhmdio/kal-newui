@@ -6,6 +6,7 @@ import News from "../news/News";
 import User from "./dropdown/user/User";
 import Notification from "./dropdown/notification/Notification";
 import axios from "axios";
+import { axiosConfig } from "../../utils/Utils";
 
 const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
   const headerClass = classNames({
@@ -30,16 +31,7 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
           }`,
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
       .then((response) => {
         console.log('line 63', response.data.data.deleteAllResponsesFromDB);
         alert('All previous responses are deleted successfully')

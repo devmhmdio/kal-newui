@@ -12,6 +12,7 @@ import {
   PreviewCard,
 } from "../components/Component";
 import { Col, Row, Input } from "reactstrap";
+import { axiosConfig } from "../utils/Utils";
 
 const UploadCSV = () => {
   const history = useHistory();
@@ -71,16 +72,7 @@ const UploadCSV = () => {
         },
       });
 
-      const config = {
-        method: 'post',
-        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      };
-
-      axios(config)
+      axios(axiosConfig(data))
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
         setResponseData(response.data.data.createConnection);

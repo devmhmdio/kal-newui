@@ -4,6 +4,7 @@ import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
 import { LinkList, LinkItem } from "../../../../components/links/Links";
 import axios from "axios";
+import { axiosConfig } from "../../../../utils/Utils";
 
 const User = () => {
   const [open, setOpen] = useState(false);
@@ -26,16 +27,7 @@ const User = () => {
       },
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
       .then((response) => {
         setName(response.data.data.returnToken.name);
         setEmail(response.data.data.returnToken.email);

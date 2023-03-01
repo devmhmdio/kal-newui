@@ -18,6 +18,7 @@ import { Form, Spinner, Alert } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { axiosConfig } from "../../utils/Utils";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -55,16 +56,7 @@ const Login = () => {
       },
     });
   
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-  
-    axios(config)
+    axios(axiosConfig(data))
     .then((response) => {
       console.log('line 82', response.data.data)
       formData.email = response.data.data.getUsers.result.email;

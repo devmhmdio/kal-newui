@@ -18,6 +18,7 @@ import {
   BlockTitle,
   PreviewCard,
 } from "../components/Component";
+import { axiosConfig } from "../utils/Utils";
 
 const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [emailDatas, setEmailDatas] = useState([]);
@@ -41,16 +42,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
               }`,
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
       .then((response) => {
         setEmailDatas(response.data.data.getEmails);
       })
@@ -68,16 +60,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
         },
       });
   
-      const configToken = {
-        method: 'post',
-        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: dataToken,
-      };
-  
-      axios(configToken)
+      axios(axiosConfig(dataToken))
         .then((response) => {
           setLoggedInName(response.data.data.returnToken.name);
           setLoggedInEmail(response.data.data.returnToken.email);
@@ -141,16 +124,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                       },
           });
       
-          const config = {
-            method: 'post',
-            url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            data: data,
-          };
-      
-          axios(config)
+          axios(axiosConfig(data))
             .then((response) => {
               console.log('line 33', response.data.data.sendEmail);
             alert('Emails sent successfully');

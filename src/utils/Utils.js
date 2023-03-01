@@ -155,3 +155,15 @@ export const monthNames = [
   "November",
   "December",
 ];
+
+export const axiosConfig = (data) => {
+  const config = {
+    method: 'POST',
+    url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data
+  }
+  return config;
+}

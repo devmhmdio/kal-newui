@@ -18,6 +18,7 @@ import {
 import { Spinner } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { axiosConfig } from "../../utils/Utils";
 
 const Register = ({ history }) => {
   const [passState, setPassState] = useState(false);
@@ -77,16 +78,7 @@ const Register = ({ history }) => {
       },
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
     .then(() => {
       setLoading(false);
     })

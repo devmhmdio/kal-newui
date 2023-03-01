@@ -13,6 +13,7 @@ import {
   PreviewCard,
   Button
 } from "../components/Component";
+import { axiosConfig } from "../utils/Utils";
 
 const UpdatePrompt = ({ alter, id }) => {
   const [prompt, setPrompt] = useState(null);
@@ -31,16 +32,7 @@ const UpdatePrompt = ({ alter, id }) => {
           }`
     });
 
-    const config = {
-      method: 'post',
-      url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios(axiosConfig(data))
       .then((res) => {
         console.log(res.data.data.getPrompt);
         setPrompt(res.data.data.getPrompt);
@@ -72,16 +64,7 @@ const UpdatePrompt = ({ alter, id }) => {
             }
       });
   
-      const config = {
-        method: 'post',
-        url: "https://starfish-app-fzf2t.ondigitalocean.app/graphql",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      };
-  
-      axios(config)
+      axios(axiosConfig(data))
         .then(() => {
             alert('Prompt updated successfully');
         })
