@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 
 const Homepage = ({ headColor, striped, border, hover, responsive }) => {
-  const [prompt, setPrompt] = useState(null);
+  let [prompt, setPrompt] = useState(null);
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState();
