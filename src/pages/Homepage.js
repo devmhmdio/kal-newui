@@ -40,6 +40,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       axios(axiosConfig(dataToken))
         .then((response) => {
           setLoggedInCompany(response.data.data.returnToken.company);
+          setLoggedInName(response.data.data.returnToken.name);
         })
         .catch((error) => {
           console.log(error);
