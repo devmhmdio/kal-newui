@@ -17,24 +17,44 @@ import {
 } from "../../../components/Component";
 import { countryOptions, userData } from "./UserData";
 import { getDateStructured } from "../../../utils/Utils";
+import axios from "axios";
+import { axiosConfig } from "../../../utils/Utils";
 
 const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
   const [modalTab, setModalTab] = useState("1");
   const [userInfo, setUserInfo] = useState(userData[0]);
+  const [name, setName] = useState("AA");
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
   const [formData, setFormData] = useState({
-    name: "Abu Bin Ishtiak",
-    displayName: "Ishtiak",
-    phone: "818474958",
-    dob: "1980-08-10",
-    address: "2337 Kildeer Drive",
-    address2: "",
-    state: "Kentucky",
-    country: "Canada",
+    name,
+    email,
+    phone,
   });
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    setProfileName(formData.name);
+    const token = localStorage.getItem("accessToken");
+    const data = JSON.stringify({
+      query: `mutation($token: String) {
+                returnToken(token: $token)
+          }`,
+      variables: {
+        token
+      },
+    });
+
+    axios(axiosConfig(data))
+      .then((response) => {
+        console.log('line 49', response.data.data.returnToken);
+        setName(response.data.data.returnToken.name);
+        setEmail(response.data.data.returnToken.email);
+        setPhone(response.data.data.returnToken.phone);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setProfileName(name);
   }, [formData, setProfileName]);
 
   const onInputChange = (e) => {
@@ -79,7 +99,7 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
           <div className="data-item" onClick={() => setModal(true)}>
             <div className="data-col">
               <span className="data-label">Full Name</span>
-              <span className="data-value">{userInfo.name}</span>
+              <span className="data-value">{name}</span>
             </div>
             <div className="data-col data-col-end">
               <span className="data-more">
@@ -87,21 +107,11 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
               </span>
             </div>
           </div>
-          <div className="data-item" onClick={() => setModal(true)}>
-            <div className="data-col">
-              <span className="data-label">Display Name</span>
-              <span className="data-value">{userInfo.displayName}</span>
-            </div>
-            <div className="data-col data-col-end">
-              <span className="data-more">
-                <Icon name="forward-ios"></Icon>
-              </span>
-            </div>
-          </div>
+          
           <div className="data-item">
             <div className="data-col">
               <span className="data-label">Email</span>
-              <span className="data-value">info@softnio.com</span>
+              <span className="data-value">{email}</span>
             </div>
             <div className="data-col data-col-end">
               <span className="data-more disable">
@@ -112,94 +122,12 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
           <div className="data-item" onClick={() => setModal(true)}>
             <div className="data-col">
               <span className="data-label">Phone Number</span>
-              <span className="data-value text-soft">{userInfo.phone}</span>
+              <span className="data-value text-soft">{phone}</span>
             </div>
             <div className="data-col data-col-end">
               <span className="data-more">
                 <Icon name="forward-ios"></Icon>
               </span>
-            </div>
-          </div>
-          <div className="data-item" onClick={() => setModal(true)}>
-            <div className="data-col">
-              <span className="data-label">Date of Birth</span>
-              <span className="data-value">{userInfo.dob}</span>
-            </div>
-            <div className="data-col data-col-end">
-              <span className="data-more">
-                <Icon name="forward-ios"></Icon>
-              </span>
-            </div>
-          </div>
-          <div className="data-item" onClick={() => setModal(true)}>
-            <div className="data-col">
-              <span className="data-label">Address</span>
-              <span className="data-value">
-                {userInfo.address},
-                <br />
-                {userInfo.state}, {userInfo.country}
-              </span>
-            </div>
-            <div className="data-col data-col-end">
-              <span className="data-more">
-                <Icon name="forward-ios"></Icon>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="nk-data data-list">
-          <div className="data-head">
-            <h6 className="overline-title">Preferences</h6>
-          </div>
-          <div className="data-item">
-            <div className="data-col">
-              <span className="data-label">Language</span>
-              <span className="data-value">English (United State)</span>
-            </div>
-            <div className="data-col data-col-end">
-              <a
-                href="#language"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                }}
-                className="link link-primary"
-              >
-                Change Language
-              </a>
-            </div>
-          </div>
-          <div className="data-item">
-            <div className="data-col">
-              <span className="data-label">Date Format</span>
-              <span className="data-value">MM/DD/YYYY</span>
-            </div>
-            <div className="data-col data-col-end">
-              <a
-                href="#link"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                }}
-                className="link link-primary"
-              >
-                Change
-              </a>
-            </div>
-          </div>
-          <div className="data-item">
-            <div className="data-col">
-              <span className="data-label">Timezone</span>
-              <span className="data-value">Bangladesh (GMT +6)</span>
-            </div>
-            <div className="data-col data-col-end">
-              <a
-                href="#link"
-                onClick={(ev) => {
-                  ev.preventDefault();
-                }}
-                className="link link-primary"
-              >
-                Change
-              </a>
             </div>
           </div>
         </div>

@@ -8,11 +8,17 @@ import { Route, Switch, Link } from "react-router-dom";
 import { Icon, UserAvatar } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
 import { Card, DropdownItem, UncontrolledDropdown, DropdownMenu, DropdownToggle } from "reactstrap";
+import axios from "axios";
+import { axiosConfig } from "../../../utils/Utils";
 
 const UserProfileLayout = () => {
   const [sm, updateSm] = useState(false);
   const [mobileView , setMobileView] = useState(false);
-  const [profileName, setProfileName] = useState("Abu Bin Ishtiak");
+  const [profileName, setProfileName] = useState("Deemo");
+  const [name, setName] = useState("AA");
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   
   // function to change the design view under 990 px
@@ -26,6 +32,28 @@ const UserProfileLayout = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    const token = localStorage.getItem("accessToken");
+    console.log('this is token', token);
+    const data = JSON.stringify({
+      query: `mutation($token: String) {
+                returnToken(token: $token)
+          }`,
+      variables: {
+        token
+      },
+    });
+
+    axios(axiosConfig(data))
+      .then((response) => {
+        setName(response.data.data.returnToken.name);
+        setEmail(response.data.data.returnToken.email);
+        setPhone(response.data.data.returnToken.phone);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     viewChange();
     window.addEventListener("load", viewChange);
     window.addEventListener("resize", viewChange);
@@ -51,10 +79,10 @@ const UserProfileLayout = () => {
               <div className="card-inner-group">
                 <div className="card-inner">
                   <div className="user-card">
-                    <UserAvatar text={findUpper(profileName)} theme="primary" />
+                  <UserAvatar text={findUpper(name)} theme="primary" />
                     <div className="user-info">
-                      <span className="lead-text">{profileName}</span>
-                      <span className="sub-text">info@softnio.com</span>
+                      <span className="lead-text">{name}</span>
+                      <span className="sub-text">{email}</span>
                     </div>
                     <div className="user-action">
                       <UncontrolledDropdown>
@@ -93,20 +121,6 @@ const UserProfileLayout = () => {
                     </div>
                   </div>
                 </div>
-                <div className="card-inner">
-                  <div className="user-account-info py-0">
-                    <h6 className="overline-title-alt">Nio Wallet Account</h6>
-                    <div className="user-balance">
-                      12.395769 <small className="currency currency-btc">BTC</small>
-                    </div>
-                    <div className="user-balance-sub">
-                      Locked{" "}
-                      <span>
-                        0.344939 <span className="currency currency-btc">BTC</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
                 <div className="card-inner p-0">
                   <ul className="link-list-menu">
                     <li onClick={() => updateSm(false)}>
@@ -120,19 +134,7 @@ const UserProfileLayout = () => {
                         <span>Personal Information</span>
                       </Link>
                     </li>
-                    <li onClick={() => updateSm(false)}>
-                      <Link
-                        to={`${process.env.PUBLIC_URL}/user-profile-notification`}
-                        className={
-                          window.location.pathname === `${process.env.PUBLIC_URL}/user-profile-notification`
-                            ? "active"
-                            : ""
-                        }
-                      >
-                        <Icon name="bell-fill"></Icon>
-                        <span>Notification</span>
-                      </Link>
-                    </li>
+                    
                     <li onClick={() => updateSm(false)}>
                       <Link
                         to={`${process.env.PUBLIC_URL}/user-profile-activity`}
@@ -142,17 +144,6 @@ const UserProfileLayout = () => {
                       >
                         <Icon name="activity-round-fill"></Icon>
                         <span>Account Activity</span>
-                      </Link>
-                    </li>
-                    <li onClick={() => updateSm(false)}>
-                      <Link
-                        to={`${process.env.PUBLIC_URL}/user-profile-setting`}
-                        className={
-                          window.location.pathname === `${process.env.PUBLIC_URL}/user-profile-setting` ? "active" : ""
-                        }
-                      >
-                        <Icon name="lock-alt-fill"></Icon>
-                        <span>Security Setting</span>
                       </Link>
                     </li>
                   </ul>
