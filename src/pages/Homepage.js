@@ -3,13 +3,11 @@ import Head from "../layout/head/Head";
 import Content from "../layout/content/Content";
 import { Row, Col } from "reactstrap";
 import classNames from "classnames";
-import {
-  Block,
-  PreviewCard,
-  Button,
-} from "../components/Component";
+import { Block, PreviewCard, Button } from "../components/Component";
 import axios from "axios";
 import { axiosConfig } from "../utils/Utils";
+import { useHistory } from "react-router";
+import jwt_decode from "jwt-decode";
 
 const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   let [prompt, setPrompt] = useState(null);
@@ -20,43 +18,57 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   const [loading, setLoading] = useState(false);
   const [disableStatus, setDisableStatus] = useState(false);
   const [formData, setFormData] = useState({
-    businessKeyword: '',
+    businessKeyword: "",
     clientKeyword: [],
   });
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
+  const history = useHistory();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-      const dataToken = JSON.stringify({
-        query: `mutation($token: String) {
+    const interval = setInterval(() => {
+      const decodedToken = jwt_decode(token);
+
+      if (decodedToken.exp * 1000 < Date.now()) {
+        clearInterval(interval);
+        setToken(null);
+        localStorage.removeItem("accessToken");
+        history.push("/auth-login");
+      }
+    }, 1000);
+
+    
+    const dataToken = JSON.stringify({
+      query: `mutation($token: String) {
                   returnToken(token: $token)
             }`,
-        variables: {
-          token
-        },
-      });
-  
-      axios(axiosConfig(dataToken))
-        .then((response) => {
-          setLoggedInCompany(response.data.data.returnToken.company);
-          setLoggedInName(response.data.data.returnToken.name);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      variables: {
+        token,
+      },
+    });
 
-        const dataPrompt = JSON.stringify({
-          query: `query {
+    axios(axiosConfig(dataToken))
+      .then((response) => {
+        setLoggedInCompany(response.data.data.returnToken.company);
+        setLoggedInName(response.data.data.returnToken.name);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const dataPrompt = JSON.stringify({
+      query: `query {
             getPrompt
-            }`
-        });
-    
-        axios(axiosConfig(dataPrompt))
-        .then((res) => {
-          setPrompt(res.data.data.getPrompt);
-        })
-  }, []);
+            }`,
+    });
+
+    axios(axiosConfig(dataPrompt)).then((res) => {
+      setPrompt(res.data.data.getPrompt);
+    });
+
+    return () => clearInterval(interval);
+  }, [token]);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -67,7 +79,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     setBusinessKeywords((prevState) => {
       return [...prevState, formData.businessKeyword];
     });
-    setFormData({ businessKeyword: '' });
+    setFormData({ businessKeyword: "" });
   };
 
   const handleChangeClient = (event) => {
@@ -80,8 +92,8 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     event.preventDefault();
     setLoading(true);
     setDisableStatus(true);
-    prompt = prompt.replace("the sender", loggedInName)
-    prompt = prompt.replace("sender's business/services", loggedInCompany)
+    prompt = prompt.replace("the sender", loggedInName);
+    prompt = prompt.replace("sender's business/services", loggedInCompany);
     const data = JSON.stringify({
       query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $prompt: String) {
               createConnection(input: {
@@ -96,16 +108,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       variables: {
         businessKeyword: businessKeywords[0],
         clientKeyword: clientKeywords,
-        prompt: prompt
+        prompt: prompt,
       },
     });
 
     axios(axiosConfig(data))
       .then((response) => {
-        const allData = response.data.data.createConnection
-        for (let i=0;i<=allData.length-1;i++) {
-          
-        }
+        const allData = response.data.data.createConnection;
+        for (let i = 0; i <= allData.length - 1; i++) {}
         setResponseData(allData);
         setLoading(false);
         setDisableStatus(false);
@@ -113,7 +123,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       .catch((error) => {
         console.log(error);
       });
-    setFormData({ businessKeyword: '', clientKeyword: [] });
+    setFormData({ businessKeyword: "", clientKeyword: [] });
   };
 
   const tableClass = classNames({
@@ -142,11 +152,20 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     </label>
                     <br />
                     {businessKeywords.map((keyword) => (
-                      <span style={{paddingRight: 10 + 'px'}}>{keyword}</span>
+                      <span style={{ paddingRight: 10 + "px" }}>{keyword}</span>
                     ))}
-                    <input type="text" id="businessKeyword" name="businessKeyword" value={formData.businessKeyword} className="form-control" onChange={handleChange} />
+                    <input
+                      type="text"
+                      id="businessKeyword"
+                      name="businessKeyword"
+                      value={formData.businessKeyword}
+                      className="form-control"
+                      onChange={handleChange}
+                    />
                     <br />
-                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeBusiness}>Add Business Keyword</button>
+                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeBusiness}>
+                      Add Business Keyword
+                    </button>
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="cf-email-address">
@@ -154,11 +173,20 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     </label>
                     <br />
                     {clientKeywords.map((keyword) => (
-                      <span style={{paddingRight: 10 + 'px'}}>{keyword}</span>
+                      <span style={{ paddingRight: 10 + "px" }}>{keyword}</span>
                     ))}
-                    <input type="text" id="clientKeyword" name="clientKeyword" value={formData.clientKeyword} className="form-control" onChange={handleChange} />
+                    <input
+                      type="text"
+                      id="clientKeyword"
+                      name="clientKeyword"
+                      value={formData.clientKeyword}
+                      className="form-control"
+                      onChange={handleChange}
+                    />
                     <br />
-                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>Add Client Keyword</button>
+                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>
+                      Add Client Keyword
+                    </button>
                   </div>
                   <div className="form-group">
                     <Button color="primary" type="submit" size="lg" disabled={disableStatus}>
@@ -178,39 +206,41 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      ) : (responseData !== undefined && 
-        <Content>
-        <Block>
-          <Row>
-            <Block size="lg">
-              <PreviewCard>
-                  <div className={responsive ? "table-responsive" : ""}>
-                    <table className={tableClass}>
-                    <thead className={`${headColor ? `table-${headColor}` : ""}`}>
-                      <tr>
-                        <td>#</td>
-                        <td>Subject</td>
-                        <td>Body</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {responseData.map((item, index) => {
-                        return (
-                          <tr key={index+1}>
-                            <th>{index+1}</th>
-                            <td>{item.subject}</td>
-                            <td>{item.body}</td>
+      ) : (
+        responseData !== undefined && (
+          <Content>
+            <Block>
+              <Row>
+                <Block size="lg">
+                  <PreviewCard>
+                    <div className={responsive ? "table-responsive" : ""}>
+                      <table className={tableClass}>
+                        <thead className={`${headColor ? `table-${headColor}` : ""}`}>
+                          <tr>
+                            <td>#</td>
+                            <td>Subject</td>
+                            <td>Body</td>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </PreviewCard>
+                        </thead>
+                        <tbody>
+                          {responseData.map((item, index) => {
+                            return (
+                              <tr key={index + 1}>
+                                <th>{index + 1}</th>
+                                <td>{item.subject}</td>
+                                <td>{item.body}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </PreviewCard>
+                </Block>
+              </Row>
             </Block>
-          </Row>
-        </Block>
-      </Content>
+          </Content>
+        )
       )}
     </React.Fragment>
   );

@@ -103,7 +103,7 @@ const Login = () => {
               <BlockContent>
                 <BlockTitle tag="h4">Sign-In</BlockTitle>
                 <BlockDes>
-                  <p>Access BYI using your email and password.</p>
+                  <p>Access Traifecta using your email and password.</p>
                 </BlockDes>
               </BlockContent>
             </BlockHead>

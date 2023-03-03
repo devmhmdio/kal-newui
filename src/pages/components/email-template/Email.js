@@ -88,7 +88,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -185,7 +185,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -307,7 +307,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -403,7 +403,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -508,7 +508,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -603,7 +603,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -695,7 +695,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -791,7 +791,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -884,7 +884,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">
@@ -1033,7 +1033,7 @@ const EmailTemplate = () => {
               </EmailBody>
               <EmailFooter>
                 <p className="email-copyright-text">
-                  Copyright © 2023 BYI. All rights reserved. <br /> Template Made By{" "}
+                  Copyright © 2023 Traifecta. All rights reserved. <br /> Template Made By{" "}
                   <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.
                 </p>
                 <ul className="email-social">

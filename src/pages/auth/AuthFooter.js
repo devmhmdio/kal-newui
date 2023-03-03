@@ -8,7 +8,8 @@ const AuthFooter = () => {
         <Row className="g-3">
           <Col lg="12">
             <div className="nk-block-content text-center text-lg-start">
-              <p className="text-soft">&copy; 2023 BYI. All Rights Reserved.</p>
+              <p className="text-soft">&copy; 2023 Traifecta. All Rights Reserved.</p>
+              <p className="text-soft">Designed and Developed by <a href="https://buildyourinnovation.com">Build Your Innovation</a></p>
             </div>
           </Col>
         </Row>

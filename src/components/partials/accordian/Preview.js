@@ -16,7 +16,7 @@ const Accordion = ({ className, variation, ...props }) => {
     <div className={[`accordion${variation ? " accordion-s" + variation : ""}${className ? " " + className : ""}`]}>
       <div className="accordion-item">
         <div className={[`accordion-head${isOpen !== "1" ? " collapsed" : ""}`]} onClick={() => toggleCollapse("1")}>
-          <h6 className="title">What is BYI?</h6>
+          <h6 className="title">What is Traifecta?</h6>
           <span className="accordion-icon"></span>
         </div>
         <Collapse className="accordion-body" isOpen={isOpen === "1" ? true : false}>
@@ -60,7 +60,7 @@ const Accordion = ({ className, variation, ...props }) => {
       </div>
       <div className="accordion-item">
         <div className={[`accordion-head${isOpen !== "3" ? " collapsed" : ""}`]} onClick={() => toggleCollapse("3")}>
-          <h6 className="title">What is the relationship between BYI and payment?</h6>
+          <h6 className="title">What is the relationship between Traifecta and payment?</h6>
           <span className="accordion-icon"></span>
         </div>
         <Collapse className="accordion-body" isOpen={isOpen === "3" ? true : false}>
@@ -82,7 +82,7 @@ const Accordion = ({ className, variation, ...props }) => {
       </div>
       <div className="accordion-item">
         <div className={[`accordion-head${isOpen !== "4" ? " collapsed" : ""}`]} onClick={() => toggleCollapse("4")}>
-          <h6 className="title">What are the benefits of using BYI?</h6>
+          <h6 className="title">What are the benefits of using Traifecta?</h6>
           <span className="accordion-icon"></span>
         </div>
         <Collapse className="accordion-body" isOpen={isOpen === "4" ? true : false}>

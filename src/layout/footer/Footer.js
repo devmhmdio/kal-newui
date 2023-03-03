@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="nk-footer-wrap">
           <div className="nk-footer-copyright">
             {" "}
-            &copy; 2023 BYI. Designed and Developed by <a href="https://buildyourinnovation.com">Build Your Innovation</a>
+            &copy; 2023 Traifecta. Designed and Developed by <a href="https://buildyourinnovation.com">Build Your Innovation</a>
           </div>
         </div>
       </div>
