@@ -54,7 +54,6 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     
         axios(axiosConfig(dataPrompt))
         .then((res) => {
-          console.log(res.data.data.getPrompt);
           setPrompt(res.data.data.getPrompt);
         })
   }, []);
@@ -81,8 +80,6 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     event.preventDefault();
     setLoading(true);
     setDisableStatus(true);
-    console.log('this is business keywords', businessKeywords[0].toString());
-    console.log('this is client keywords', clientKeywords);
     prompt = prompt.replace("the sender", loggedInName)
     prompt = prompt.replace("sender's business/services", loggedInCompany)
     const data = JSON.stringify({
@@ -105,7 +102,6 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
 
     axios(axiosConfig(data))
       .then((response) => {
-        console.log('line 63', response.data.data.createConnection);
         const allData = response.data.data.createConnection
         for (let i=0;i<=allData.length-1;i++) {
           

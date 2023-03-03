@@ -58,7 +58,6 @@ const Login = () => {
   
     axios(axiosConfig(data))
     .then((response) => {
-      console.log('line 82', response.data.data)
       formData.email = response.data.data.getUsers.result.email;
       formData.password = response.data.data.getUsers.result.password;
       if (formData.email === loginName && formData.password === pass) {

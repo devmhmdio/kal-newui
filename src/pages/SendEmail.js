@@ -126,7 +126,6 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
       
           axios(axiosConfig(data))
             .then((response) => {
-              console.log('line 33', response.data.data.sendEmail);
             alert('Emails sent successfully');
             })
             .catch((error) => {

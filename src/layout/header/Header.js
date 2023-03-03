@@ -33,7 +33,6 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
 
     axios(axiosConfig(data))
       .then((response) => {
-        console.log('line 63', response.data.data.deleteAllResponsesFromDB);
         alert('All previous responses are deleted successfully')
       })
       .catch((error) => {

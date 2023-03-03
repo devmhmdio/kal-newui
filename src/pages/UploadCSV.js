@@ -88,7 +88,6 @@ const UploadCSV = () => {
       console.error('Error reading CSV file');
     };
 
-    console.log('this is csv Data', csvData)
     // if (csvData) {}
   };
   

@@ -34,7 +34,6 @@ const UserProfileLayout = () => {
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("accessToken");
-    console.log('this is token', token);
     const data = JSON.stringify({
       query: `mutation($token: String) {
                 returnToken(token: $token)

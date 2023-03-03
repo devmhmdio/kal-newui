@@ -46,7 +46,6 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
 
     axios(axiosConfig(data))
       .then((response) => {
-        console.log('line 49', response.data.data.returnToken);
         setName(response.data.data.returnToken.name);
         setEmail(response.data.data.returnToken.email);
         setPhone(response.data.data.returnToken.phone);

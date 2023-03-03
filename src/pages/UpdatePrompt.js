@@ -34,7 +34,6 @@ const UpdatePrompt = ({ alter, id }) => {
 
     axios(axiosConfig(data))
       .then((res) => {
-        console.log(res.data.data.getPrompt);
         setPrompt(res.data.data.getPrompt);
       })
       .catch((error) => {
