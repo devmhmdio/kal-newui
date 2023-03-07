@@ -57,7 +57,7 @@ const UploadCSV = () => {
           createConnection(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
-              name: $name,
+              csvName: $name,
               emailId: $emailId
           }) {
               subject
