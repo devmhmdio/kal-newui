@@ -23,6 +23,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   });
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
+  const [loggedInPosition, setLoggedInPosition] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const history = useHistory();
 
@@ -52,6 +53,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
       .then((response) => {
         setLoggedInCompany(response.data.data.returnToken.company);
         setLoggedInName(response.data.data.returnToken.name);
+        setLoggedInPosition(response.data.data.returnToken.position);
       })
       .catch((error) => {
         console.log(error);
@@ -93,6 +95,8 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     setLoading(true);
     setDisableStatus(true);
     prompt = prompt.replace("the sender", loggedInName);
+    prompt = prompt.replace("<Sender's Name>", loggedInName);
+    prompt = prompt.replace("<Sender Position>", loggedInPosition);
     prompt = prompt.replace("sender's business/services", loggedInCompany);
     const data = JSON.stringify({
       query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $prompt: String) {
