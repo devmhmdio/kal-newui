@@ -25,6 +25,54 @@ const UploadCSV = () => {
   const [responseData, setResponseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [disableStatus, setDisableStatus] = useState(true);
+  let [prompt, setPrompt] = useState(null);
+  const [loggedInName, setLoggedInName] = useState(null);
+  const [loggedInCompany, setLoggedInCompany] = useState(null);
+  const [loggedInPosition, setLoggedInPosition] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const decodedToken = jwt_decode(token);
+
+      if (decodedToken.exp * 1000 < Date.now()) {
+        clearInterval(interval);
+        setToken(null);
+        localStorage.removeItem("accessToken");
+        history.push("/auth-login");
+      }
+    }, 1000);
+
+    const dataToken = JSON.stringify({
+      query: `mutation($token: String) {
+                  returnToken(token: $token)
+            }`,
+      variables: {
+        token,
+      },
+    });
+
+    axios(axiosConfig(dataToken))
+      .then((response) => {
+        setLoggedInCompany(response.data.data.returnToken.company);
+        setLoggedInName(response.data.data.returnToken.name);
+        setLoggedInPosition(response.data.data.returnToken.position);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      
+    const dataPrompt = JSON.stringify({
+      query: `query {
+            getPrompt
+            }`,
+    });
+
+    axios(axiosConfig(dataPrompt)).then((res) => {
+      setPrompt(res.data.data.getPrompt);
+    });
+  }, [])
 
   const routeChange = () =>{ 
     let path = `/send-email`; 
@@ -51,6 +99,11 @@ const UploadCSV = () => {
           emailIds.push(d['Emails'])
         }
       })
+
+      prompt = prompt.replace("the sender", loggedInName);
+      prompt = prompt.replace("<Sender's Name>", loggedInName);
+      prompt = prompt.replace("<Sender Position>", loggedInPosition);
+      prompt = prompt.replace("sender's business/services", loggedInCompany);
 
       const data = JSON.stringify({
         query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String]) {
