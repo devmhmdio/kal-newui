@@ -185,7 +185,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                     type="text"
                     id={`name-${index+1}`}
                     name="name"
-                    defaultValue={item.name}
+                    defaultValue={item.csvName}
                   ></input></td>
                     <td><input
                     type="text"
