@@ -36,7 +36,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                 getEmails {
                     subject
                     body
-                    name
+                    csvName
                     emailId
                 }
               }`,

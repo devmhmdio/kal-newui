@@ -159,6 +159,7 @@ export const monthNames = [
 export const axiosConfig = (data) => {
   const config = {
     method: 'POST',
+    // url: 'http://localhost:4000/graphql',
     url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
     headers: {
       'Content-Type': 'application/json',
