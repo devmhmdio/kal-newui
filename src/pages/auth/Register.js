@@ -31,6 +31,7 @@ const Register = ({ history }) => {
   const [appPassword, setAppPassword] = useState(null);
   const [phone, setPhone] = useState(null);
   const [company, setCompany] = useState(null);
+  const [position, setPosition] = useState(null);
 
   const handleChange = (event) => {
     const et = event.target;
@@ -40,12 +41,13 @@ const Register = ({ history }) => {
     if (et.name === 'password') setPassword(et.value);
     if (et.name === 'app_password') setAppPassword(et.value);
     if (et.name === 'company') setCompany(et.value);
+    if (et.name === 'position') setPosition(et.value);
   };
 
   const handleFormSubmit = (e) => {
     setLoading(true);
     const data = JSON.stringify({
-      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String) {
+      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String, $position: String) {
         addUser(input: {
             email: $email
             name: $name
@@ -53,6 +55,7 @@ const Register = ({ history }) => {
             phone: $phone
             app_password: $app_password
             company: $company
+            position: $position
         }) {
             status {
               code
@@ -65,6 +68,7 @@ const Register = ({ history }) => {
               name
               phone
               company
+              position
             }
         }
       }`,
@@ -74,7 +78,8 @@ const Register = ({ history }) => {
         name,
         phone,
         app_password: appPassword,
-        company
+        company,
+        position
       },
     });
 
@@ -238,6 +243,23 @@ const Register = ({ history }) => {
                     id="company"
                     name="company"
                     placeholder="Enter your company name"
+                    ref={register({ required: true })}
+                    className="form-control-lg form-control"
+                    onChange={handleChange}
+                  />
+                  {errors.name && <p className="invalid">This field is required</p>}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="name">
+                  Position in Company
+                </label>
+                <div className="form-control-wrap">
+                  <input
+                    type="text"
+                    id="position"
+                    name="position"
+                    placeholder="CEO"
                     ref={register({ required: true })}
                     className="form-control-lg form-control"
                     onChange={handleChange}
