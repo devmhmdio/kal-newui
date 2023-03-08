@@ -23,6 +23,11 @@ const menu = [
     icon: "setting",
     text: "Integrations",
     link: "/integrations",
+  },
+  {
+    icon: "table-view",
+    text: "One To Many",
+    link: "/one-to-many",
   }
 ];
 export default menu;

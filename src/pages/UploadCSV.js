@@ -13,6 +13,7 @@ import {
 } from "../components/Component";
 import { Col, Row, Input } from "reactstrap";
 import { axiosConfig } from "../utils/Utils";
+import jwt_decode from "jwt-decode";
 
 const UploadCSV = () => {
   const history = useHistory();
