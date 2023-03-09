@@ -107,12 +107,13 @@ const UploadCSV = () => {
       prompt = prompt.replace("sender's business/services", loggedInCompany);
 
       const data = JSON.stringify({
-        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String]) {
+        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String) {
           createConnection(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
               csvName: $name,
               emailId: $emailId
+              prompt: $prompt
           }) {
               subject
               body
@@ -122,7 +123,8 @@ const UploadCSV = () => {
           businessKeyword: parsedCSV.data[0]['Business Keyword'],
           clientKeyword: clientKeywords,
           name: names,
-          emailId: emailIds
+          emailId: emailIds,
+          prompt
         },
       });
 

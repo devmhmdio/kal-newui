@@ -95,19 +95,18 @@ const OneToMany = () => {
       prompt = prompt.replace("<Sender's Name>", loggedInName);
       prompt = prompt.replace("<Sender Position>", loggedInPosition);
       prompt = prompt.replace("sender's business/services", loggedInCompany);
-      // prompt += ` Also write atleast ${parsedCSV.data.length} suggestions for the given prompt.`
-      // console.log('this is prompt', prompt)
       const businessKeyword = parsedCSV.data[0]["Business Keyword"];
       const clientKeyword = parsedCSV.data[0]["Client Keywords"];
       let data;
 
       for (let i = 0; i < parsedCSV.data.length - 1; i++) {
         data = JSON.stringify({
-          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $emailId: [String]) {
+          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $emailId: [String], $prompt: String) {
               createConnection(input: {
                   businessKeyword: $businessKeyword
                   clientKeyword: $clientKeyword
                   emailId: $emailId
+                  prompt: $prompt
               }) {
                   subject
                   body
@@ -116,7 +115,8 @@ const OneToMany = () => {
           variables: {
             businessKeyword,
             clientKeyword,
-            emailId: [emailIds[i]]
+            emailId: [emailIds[i]],
+            prompt
           },
         });
         await axios(axiosConfig(data))
@@ -128,17 +128,7 @@ const OneToMany = () => {
             console.log(error);
           });
       }
-      
-      // for (let i = 0; i <= datas.length - 1; i++) {
-      //   await axios(axiosConfig(datas[i]))
-      //     .then((response) => {
-      //       console.log("line 124", response.data.data.createConnection[0]);
-      //       responseDatas.push(response.data.data.createConnection[0]);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
-      // }
+
       setLoading(false);
       setDisableStatus(false);
       setResponseData(responseDatas);
