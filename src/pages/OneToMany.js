@@ -86,7 +86,6 @@ const OneToMany = () => {
       setCSVData(csv);
       const parsedCSV = Papa.parse(csv, { header: true, dynamicTyping: true });
       setColumnData(parsedCSV.data);
-      console.log("line 95", parsedCSV.data);
       parsedCSV.data.forEach((d) => {
         emailIds.push(d["Emails"]);
       });
@@ -141,7 +140,7 @@ const OneToMany = () => {
 
   return (
     <React.Fragment>
-      <Head title="Upload CSV"></Head>
+      <Head title="One To Many Email Generations"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>

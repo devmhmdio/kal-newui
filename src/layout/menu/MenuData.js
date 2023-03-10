@@ -26,7 +26,7 @@ const menu = [
   },
   {
     icon: "table-view",
-    text: "One To Many",
+    text: "One To Many Email Generations",
     link: "/one-to-many",
   }
 ];
