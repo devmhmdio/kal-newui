@@ -27,18 +27,18 @@ const Login = () => {
   let loginName;
   let pass;
   let formData = {
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   };
 
   const handleChange = (event) => {
     const et = event.target;
-    if (et.name === 'email') {
+    if (et.name === "email") {
       loginName = et.value;
-    };
-    if (et.name === 'password') {
+    }
+    if (et.name === "password") {
       pass = et.value;
-    };
+    }
   };
 
   const onFormSubmit = () => {
@@ -52,36 +52,38 @@ const Login = () => {
       }`,
       variables: {
         email: loginName,
-        password: pass
+        password: pass,
       },
     });
-  
+
     axios(axiosConfig(data))
-    .then((response) => {
-      formData.email = response.data.data.getUsers.result.email;
-      formData.password = response.data.data.getUsers.result.password;
-      if (formData.email === loginName && formData.password === pass) {
-        localStorage.setItem("accessToken", response.data.data.getUsers.token);
-        setTimeout(() => {
-          window.history.pushState(
-            `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
-            "auth-login",
-            `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
-          );
-          window.location.reload();
-        }, 2000);
-      } else {
-        setTimeout(() => {
+      .then((response) => {
+        if (response.data.data.getUsers.result) {
+          formData.email = response.data.data.getUsers.result.email;
+          formData.password = response.data.data.getUsers.result.password;
+          if (formData.email === loginName && formData.password === pass) {
+            localStorage.setItem("accessToken", response.data.data.getUsers.token);
+            setTimeout(() => {
+              window.history.pushState(
+                `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
+                "auth-login",
+                `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
+              );
+              window.location.reload();
+            }, 2000);
+          }
+        } else {
           setError("Cannot login with credentials");
           setLoading(false);
-        }, 2000);
-      }
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const { errors, register, handleSubmit } = useForm();
