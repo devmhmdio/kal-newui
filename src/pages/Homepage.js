@@ -152,7 +152,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label className="form-label" htmlFor="cf-full-name">
-                      Business Keyword
+                      Sender Value Proposition
                     </label>
                     <br />
                     {businessKeywords.map((keyword) => (
@@ -168,12 +168,12 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     />
                     <br />
                     <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeBusiness}>
-                      Add Business Keyword
+                      Add Sender Value Proposition
                     </button>
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="cf-email-address">
-                      Client Keywords
+                      Recipient Personal Statement
                     </label>
                     <br />
                     {clientKeywords.map((keyword) => (
@@ -189,7 +189,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     />
                     <br />
                     <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>
-                      Add Client Keyword
+                      Add Recipient Personal Statement
                     </button>
                   </div>
                   <div className="form-group">
