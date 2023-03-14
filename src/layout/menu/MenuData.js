@@ -20,14 +20,14 @@ const menu = [
     link: "/update-prompt",
   },
   {
-    icon: "setting",
-    text: "Integrations",
-    link: "/integrations",
-  },
-  {
     icon: "table-view",
     text: "One To Many Email Generations",
     link: "/one-to-many",
+  },
+  {
+    icon: "setting",
+    text: "Integrations",
+    link: "/integrations",
   }
 ];
 export default menu;

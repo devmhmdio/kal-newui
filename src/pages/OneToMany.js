@@ -15,6 +15,7 @@ const OneToMany = () => {
   const [csvData, setCSVData] = useState(null);
   const [columnData, setColumnData] = useState(null);
   let emailIds = [];
+  let names = [];
   const [responseData, setResponseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [disableStatus, setDisableStatus] = useState(true);
@@ -87,6 +88,7 @@ const OneToMany = () => {
       const parsedCSV = Papa.parse(csv, { header: true, dynamicTyping: true });
       setColumnData(parsedCSV.data);
       parsedCSV.data.forEach((d) => {
+        names.push(d["Names"]);
         emailIds.push(d["Emails"]);
       });
 
@@ -100,10 +102,11 @@ const OneToMany = () => {
 
       for (let i = 0; i < parsedCSV.data.length - 1; i++) {
         data = JSON.stringify({
-          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $emailId: [String], $prompt: String) {
+          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String) {
               createConnection(input: {
                   businessKeyword: $businessKeyword
                   clientKeyword: $clientKeyword
+                  csvName: $name
                   emailId: $emailId
                   prompt: $prompt
               }) {
@@ -114,6 +117,7 @@ const OneToMany = () => {
           variables: {
             businessKeyword,
             clientKeyword,
+            name: [names[i]],
             emailId: [emailIds[i]],
             prompt
           },
