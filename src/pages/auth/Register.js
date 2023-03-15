@@ -32,6 +32,11 @@ const Register = ({ history }) => {
   const [phone, setPhone] = useState(null);
   const [company, setCompany] = useState(null);
   const [position, setPosition] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = () => {
+    setPage(page + 1);
+  };
 
   const handleChange = (event) => {
     const et = event.target;
@@ -113,7 +118,8 @@ const Register = ({ history }) => {
                 </BlockDes>
               </BlockContent>
             </BlockHead>
-            <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
+            {page === 1 && (
+              <form className="is-alter" onSubmit={handlePageChange}>
               <div className="form-group">
                 <label className="form-label" htmlFor="name">
                   Name
@@ -198,10 +204,20 @@ const Register = ({ history }) => {
                     placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
                     onChange={handleChange}
+                    
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
                 </div>
               </div>
+              <div className="form-group">
+                <Button type="submit" color="primary" size="lg" className="btn-block">
+                  Next
+                </Button>
+              </div>
+            </form>
+            )}
+            {page === 2 && (
+              <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
@@ -231,6 +247,9 @@ const Register = ({ history }) => {
                     onChange={handleChange}
                   />
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                  <div style={{paddingLeft: "10px", paddingRight: "10px", marginTop: "5px", color: "#3c4d62"}}>
+                    <span>App Password can be generated from Google. It is required to generate as this will be used to send emails. You can follow steps <a href="https://support.google.com/mail/answer/185833?hl=en">here</a></span>
+                  </div>
                 </div>
               </div>
               <div className="form-group">
@@ -273,6 +292,7 @@ const Register = ({ history }) => {
                 </Button>
               </div>
             </form>
+            )}
             <div className="form-note-s2 text-center pt-4">
               {" "}
               Already have an account?{" "}
