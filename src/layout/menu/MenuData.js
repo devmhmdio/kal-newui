@@ -11,8 +11,8 @@ const menu = [
   },
   {
     icon: "upload-cloud",
-    text: "Upload CSV",
-    link: "/upload-csv",
+    text: "One To One Campaign",
+    link: "/one-to-one",
   },
   {
     icon: "update",
@@ -21,7 +21,7 @@ const menu = [
   },
   {
     icon: "table-view",
-    text: "One To Many Email Generations",
+    text: "One To Many Campaign",
     link: "/one-to-many",
   },
   {

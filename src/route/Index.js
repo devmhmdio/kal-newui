@@ -119,7 +119,7 @@ const Pages = () => {
         {/*Dashboards*/}
         <Route exact path={`${process.env.PUBLIC_URL}/crypto`} component={Crypto}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/send-email`} component={SendEmail}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/upload-csv`} component={UploadCSV}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/one-to-one`} component={UploadCSV}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-many`} component={OneToMany}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-prompt`} component={UpdatePrompt}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/integrations`} component={Integrations}></Route>

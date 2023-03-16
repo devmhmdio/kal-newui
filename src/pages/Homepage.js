@@ -173,7 +173,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                   </div>
                   <div className="form-group">
                     <label className="form-label" htmlFor="cf-email-address">
-                      Recipient Personal Statement
+                      Recipient Persona Statement
                     </label>
                     <br />
                     {clientKeywords.map((keyword) => (
@@ -189,7 +189,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                     />
                     <br />
                     <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>
-                      Add Recipient Personal Statement
+                      Add Recipient Persona Statement
                     </button>
                   </div>
                   <div className="form-group">
