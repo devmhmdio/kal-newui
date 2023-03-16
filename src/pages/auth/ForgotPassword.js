@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../images/logo.png";
 import LogoDark from "../../images/logo-dark.png";
 import PageContainer from "../../layout/page-container/PageContainer";
@@ -6,8 +6,37 @@ import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
 import { Block, BlockContent, BlockDes, BlockHead, BlockTitle, Button, PreviewCard } from "../../components/Component";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { axiosConfig } from "../../utils/Utils";
+import { useHistory } from "react-router";
 
 const ForgotPassword = () => {
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const data = JSON.stringify({
+      query: `mutation($email: String!) {
+        sendResetPasswordEmail(email: $email)
+    }`,
+      variables: {
+        email,
+      },
+    });
+
+    axios(axiosConfig(data))
+      .then(() => setLoading(false))
+      .catch((error) => console.log(error));
+    setTimeout(() => history.push(`${process.env.PUBLIC_URL}/link-sent`), 2000);
+  };
+
   return (
     <React.Fragment>
       <Head title="Forgot-Password" />
@@ -28,7 +57,7 @@ const ForgotPassword = () => {
                 </BlockDes>
               </BlockContent>
             </BlockHead>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="default-01">
@@ -36,14 +65,16 @@ const ForgotPassword = () => {
                   </label>
                 </div>
                 <input
-                  type="text"
+                  type="email"
                   className="form-control form-control-lg"
                   id="default-01"
+                  onChange={handleChange}
                   placeholder="Enter your email address"
+                  value={email}
                 />
               </div>
               <div className="form-group">
-                <Button color="primary" size="lg" className="btn-block" onClick={(ev) => ev.preventDefault()}>
+                <Button color="primary" size="lg" className="btn-block" type="submit">
                   Send Reset Link
                 </Button>
               </div>

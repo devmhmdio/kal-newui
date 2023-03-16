@@ -18,6 +18,8 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Success from "./pages/auth/Success";
 import InvoicePrint from "./pages/pre-built/invoice/InvoicePrint";
+import LinkSent from "./pages/auth/LinkSent";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
       <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} component={ForgotPassword}></Route>
       <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} component={Register}></Route>
       <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} component={Login}></Route>
+      <Route exact path={`${process.env.PUBLIC_URL}/link-sent`} component={LinkSent}></Route>
+      <Route exact path={`${process.env.PUBLIC_URL}/reset-password`} component={ResetPassword}></Route>
 
       {/* Print Pages */}
       <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} component={InvoicePrint}></Route>
