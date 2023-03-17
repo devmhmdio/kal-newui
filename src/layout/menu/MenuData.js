@@ -1,7 +1,7 @@
 const menu = [
   {
     icon: "dashlite",
-    text: "Dashboard",
+    text: "Start Here",
     link: "/",
   },
   {
