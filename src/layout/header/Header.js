@@ -62,9 +62,7 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
               <li className="user-dropdown"  onClick={() => setVisibility(false)}>
                 <User />
               </li>
-              <li className="notification-dropdown me-n1"  onClick={() => setVisibility(false)}>
-                <Notification />
-              </li>
+              
               <li>
                 <button className="btn-round btn btn-primary btn-sm" onClick={deletePreviousResponses}>Clear All Responses</button>
               </li>

@@ -94,9 +94,7 @@ const UserProfileLayout = () => {
                               <DropdownItem
                                 tag="a"
                                 href="#dropdownitem"
-                                onClick={(ev) => {
-                                  ev.preventDefault();
-                                }}
+                                onClick={() => alert("This functionality is coming soon!")}
                               >
                                 <Icon name="camera-fill"></Icon>
                                 <span>Change Photo</span>
@@ -106,9 +104,7 @@ const UserProfileLayout = () => {
                               <DropdownItem
                                 tag="a"
                                 href="#dropdownitem"
-                                onClick={(ev) => {
-                                  ev.preventDefault();
-                                }}
+                                onClick={() => alert("This functionality is coming soon!")}
                               >
                                 <Icon name="edit-fill"></Icon>
                                 <span>Update Profile</span>
