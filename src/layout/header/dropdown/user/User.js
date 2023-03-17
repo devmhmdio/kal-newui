@@ -4,13 +4,14 @@ import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
 import { LinkList, LinkItem } from "../../../../components/links/Links";
 import axios from "axios";
-import { axiosConfig } from "../../../../utils/Utils";
+import { axiosConfig, findUpper } from "../../../../utils/Utils";
 
 const User = () => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prevState) => !prevState);
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState(null);
+  const [initial, setInitial] = useState("AA");
 
   const handleSignout = () => {
     localStorage.removeItem("accessToken");
@@ -58,7 +59,7 @@ const User = () => {
         <div className="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
           <div className="user-card sm">
             <div className="user-avatar">
-              <span>AB</span>
+              <span>{findUpper(name)}</span>
             </div>
             <div className="user-info">
               <span className="lead-text">{name}</span>
