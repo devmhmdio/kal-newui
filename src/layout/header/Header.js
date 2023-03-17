@@ -34,6 +34,9 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
     axios(axiosConfig(data))
       .then((response) => {
         alert('All previous responses are deleted successfully')
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000)
       })
       .catch((error) => {
         console.log(error);
