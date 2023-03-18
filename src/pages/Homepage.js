@@ -78,9 +78,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
 
   const handleChangeBusiness = (event) => {
     event.preventDefault();
-    setBusinessKeywords((prevState) => {
-      return [...prevState, formData.businessKeyword];
-    });
+    if (businessKeywords.length === 0) {
+      setBusinessKeywords((prevState) => {
+        return [...prevState, formData.businessKeyword];
+      });
+    } else {
+      alert("You cannot add more than 1 business keyword")
+      setFormData({ businessKeyword: "" });
+    }
     setFormData({ businessKeyword: "" });
   };
 
@@ -130,6 +135,18 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     setFormData({ businessKeyword: "", clientKeyword: [] });
   };
 
+  const removeWord = (index) => {
+    const newWords = [...clientKeywords]
+    newWords.splice(index, 1);
+    setClientKeywords(newWords);
+  };
+
+  const removeWordBusiness = (index) => {
+    const newWords = [...businessKeywords]
+    newWords.splice(index, 1);
+    setBusinessKeywords(newWords);
+  };
+
   const tableClass = classNames({
     table: true,
     "table-bordered": border,
@@ -137,6 +154,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
     "table-striped": striped,
     "table-hover": hover,
   });
+
   return (
     <React.Fragment>
       <Head title="Start Here" />
@@ -155,9 +173,12 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                       Sender Value Proposition
                     </label>
                     <br />
-                    {businessKeywords.map((keyword) => (
-                      <span style={{ paddingRight: 10 + "px" }}>{keyword}</span>
+                    {businessKeywords.map((keyword, index) => (
+                      <span style={{ paddingRight: 10 + "px", paddingLeft: 10 + "px", paddingTop: 5 + "px", paddingBottom: 5 + "px", background: "#798bff", color: "#fff", borderRadius: 25 + "px" }}>{keyword}
+                        <span onClick={() => removeWordBusiness(index)} style={{marginLeft: 7 + "px", cursor: "pointer"}}>x</span>
+                      </span>
                     ))}
+                    <p style={{marginBottom: 10 + "px"}}></p>
                     <input
                       type="text"
                       id="businessKeyword"
@@ -176,9 +197,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                       Recipient Persona Statement
                     </label>
                     <br />
-                    {clientKeywords.map((keyword) => (
-                      <span style={{ paddingRight: 10 + "px" }}>{keyword}</span>
+                    {clientKeywords.map((keyword, index) => (
+                      <span style={{marginRight: 5 + "px"}}>
+                        <span style={{ paddingRight: 10 + "px", paddingLeft: 10 + "px", paddingTop: 5 + "px", paddingBottom: 5 + "px", background: "#798bff", color: "#fff", borderRadius: 25 + "px" }}>{keyword}
+                          <span onClick={() => removeWord(index)} style={{marginLeft: 7 + "px", cursor: "pointer"}}>x</span>
+                        </span>
+                      </span>
                     ))}
+                    <p style={{marginBottom: 10 + "px"}}></p>
                     <input
                       type="text"
                       id="clientKeyword"
