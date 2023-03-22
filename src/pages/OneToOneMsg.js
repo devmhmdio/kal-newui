@@ -76,7 +76,7 @@ const OneToOneMessage = () => {
   }, [])
 
   const routeChange = () =>{ 
-    let path = `/send-email`; 
+    let path = `/send-message`; 
     history.push(path);
   }
 
@@ -215,7 +215,7 @@ const OneToOneMessage = () => {
               ))}
               <br />
               <div className="d-flex justify-content-center align-items-center">
-              <button className="btn-round btn btn-primary" onClick={routeChange} disabled={disableStatus}>Send Emails</button>
+              <button className="btn-round btn btn-primary" onClick={routeChange} disabled={disableStatus}>Send Messages</button>
               </div>
               </Col>
             </Row>
