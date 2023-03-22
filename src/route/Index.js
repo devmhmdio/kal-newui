@@ -107,6 +107,8 @@ import UploadCSV from "../pages/UploadCSV";
 import UpdatePrompt from "../pages/UpdatePrompt";
 import Integrations from "../pages/Integrations";
 import OneToMany from "../pages/OneToMany";
+import OneToOneMessage from "../pages/OneToOneMsg";
+import SendMessage from "../pages/SendMessage";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -119,7 +121,9 @@ const Pages = () => {
         {/*Dashboards*/}
         <Route exact path={`${process.env.PUBLIC_URL}/crypto`} component={Crypto}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/send-email`} component={SendEmail}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/send-message`} component={SendMessage}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-one`} component={UploadCSV}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/one-to-one-message`} component={OneToOneMessage}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-many`} component={OneToMany}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-prompt`} component={UpdatePrompt}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/integrations`} component={Integrations}></Route>

@@ -15,14 +15,14 @@ import { Col, Row, Input } from "reactstrap";
 import { axiosConfig } from "../utils/Utils";
 import jwt_decode from "jwt-decode";
 
-const UploadCSV = () => {
+const OneToOneMessage = () => {
   const history = useHistory();
   let file;
   const [csvData, setCSVData] = useState(null);
   const [columnData, setColumnData] = useState(null);
   let clientKeywords = [];
   let names = [];
-  let emailIds = [];
+  let numbers = [];
   const [responseData, setResponseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [disableStatus, setDisableStatus] = useState(true);
@@ -97,7 +97,7 @@ const UploadCSV = () => {
         if (typeof d['Client Keywords'] == 'string') {
           clientKeywords.push(d['Client Keywords'])
           names.push(d['Names'])
-          emailIds.push(d['Emails'])
+          numbers.push('+' + d['Numbers'])
         }
       })
 
@@ -107,12 +107,12 @@ const UploadCSV = () => {
       prompt = prompt.replace("sender's business/services", loggedInCompany);
 
       const data = JSON.stringify({
-        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String) {
-          createConnection(input: {
+        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $number: [String], $prompt: String) {
+          createConnectionForMessage(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
               csvName: $name,
-              emailId: $emailId
+              number: $number
               prompt: $prompt
           }) {
               subject
@@ -123,15 +123,15 @@ const UploadCSV = () => {
           businessKeyword: parsedCSV.data[0]['Business Keyword'],
           clientKeyword: clientKeywords,
           name: names,
-          emailId: emailIds,
+          number: numbers,
           prompt
         },
       });
 
       axios(axiosConfig(data))
       .then((response) => {
-        console.log('line 63', response.data.data.createConnection);
-        setResponseData(response.data.data.createConnection);
+        console.log('line 63', response.data.data.createConnectionForMessage);
+        setResponseData(response.data.data.createConnectionForMessage);
         setLoading(false);
         setDisableStatus(false);
       })
@@ -143,19 +143,17 @@ const UploadCSV = () => {
     reader.onerror = () => {
       console.error('Error reading CSV file');
     };
-
-    // if (csvData) {}
   };
   
   return (
     <React.Fragment>
-      <Head title="One to One Email Campaign"></Head>
+      <Head title="One to One Message Campaign"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>
             
             <BlockTitle tag="h2" className="fw-normal">
-              One to One Email Campaign
+              One to One Message Campaign
             </BlockTitle>
           </BlockHeadContent>
         </BlockHead>
@@ -228,4 +226,4 @@ const UploadCSV = () => {
   );
 };
 
-export default UploadCSV;
+export default OneToOneMessage;
