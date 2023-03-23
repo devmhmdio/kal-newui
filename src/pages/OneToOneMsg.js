@@ -66,12 +66,12 @@ const OneToOneMessage = () => {
       
     const dataPrompt = JSON.stringify({
       query: `query {
-            getPrompt
+        getMessagePrompt
             }`,
     });
 
     axios(axiosConfig(dataPrompt)).then((res) => {
-      setPrompt(res.data.data.getPrompt);
+      setPrompt(res.data.data.getMessagePrompt);
     });
   }, [])
 
