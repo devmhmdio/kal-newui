@@ -20,6 +20,11 @@ const menu = [
     link: "/send-email",
   },
   {
+    icon: "update",
+    text: "Update Prompt",
+    link: "/update-prompt",
+  },
+  {
     icon: "upload-cloud",
     text: "One To One Message Campaign",
     link: "/one-to-one-message",
@@ -36,8 +41,8 @@ const menu = [
   },
   {
     icon: "update",
-    text: "Update Prompt",
-    link: "/update-prompt",
+    text: "Update Message Prompt",
+    link: "/update-message-prompt",
   }
 ];
 export default menu;

@@ -109,6 +109,7 @@ import Integrations from "../pages/Integrations";
 import OneToMany from "../pages/OneToMany";
 import OneToOneMessage from "../pages/OneToOneMsg";
 import SendMessage from "../pages/SendMessage";
+import UpdateMessagePrompt from "../pages/UpdateMessagePrompt";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -126,6 +127,7 @@ const Pages = () => {
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-one-message`} component={OneToOneMessage}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-many`} component={OneToMany}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-prompt`} component={UpdatePrompt}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/update-message-prompt`} component={UpdateMessagePrompt}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/integrations`} component={Integrations}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/analytics`} component={Analytics}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/invest`} component={Invest}></Route>
