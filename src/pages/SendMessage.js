@@ -49,27 +49,29 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           setLoggedInEmail(response.data.data.returnToken.email);
           setLoggedInAppPassword(response.data.data.returnToken.app_password);
           setLoggedInCompany(response.data.data.returnToken.company);
-          const data = JSON.stringify({
-            query: `query($loggedInEmail: String!) {
-                      getEmails {
-                          subject
-                          body
-                          csvName
-                          number
+          setTimeout(() => {
+            const data = JSON.stringify({
+              query: `query($loggedInEmail: String!) {
+                        getEmails(loggedInEmail: $loggedInEmail) {
+                            subject
+                            body
+                            csvName
+                            number
+                        }
+                      }`,
+                      variables: {
+                        loggedInEmail
                       }
-                    }`,
-                    variables: {
-                      loggedInEmail
-                    }
-          });
-      
-          axios(axiosConfig(data))
-            .then((response) => {
-              setEmailDatas(response.data.data.getEmails);
-            })
-            .catch((error) => {
-              console.log(error);
             });
+        
+            axios(axiosConfig(data))
+              .then((response) => {
+                setEmailDatas(response.data.data.getEmails);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }, 2000)
         })
         .catch((error) => {
           console.log(error);
