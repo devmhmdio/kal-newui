@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import Toggle from "../sidebar/Toggle";
 import Logo from "../logo/Logo";
@@ -17,10 +17,32 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
     [`${className}`]: className,
   });
 
+  const [loggedInEmail, setLoggedInEmail] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const dataToken = JSON.stringify({
+      query: `mutation($token: String) {
+                  returnToken(token: $token)
+            }`,
+      variables: {
+        token,
+      },
+    });
+
+    axios(axiosConfig(dataToken))
+      .then((response) => {
+        setLoggedInEmail(response.data.data.returnToken.email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [])
+
   const deletePreviousResponses = async () => {
     const data = JSON.stringify({
-      query: `mutation {
-        deleteAllResponsesFromDB {
+      query: `mutation($loggedInUser: String!) {
+        deleteAllResponsesFromDB(loggedInUser: $loggedInUser) {
                   status {
                     code
                     header
@@ -29,6 +51,9 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
                   }
               }
           }`,
+          variables: {
+            loggedInUser: loggedInEmail
+          }
     });
 
     axios(axiosConfig(data))

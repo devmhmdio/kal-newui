@@ -24,31 +24,14 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
   const [emailDatas, setEmailDatas] = useState([]);
   const d = [{ name: '', email: '' }];
   const [loggedInName, setLoggedInName] = useState(null);
-  const [loggedInEmail, setLoggedInEmail] = useState(null);
+  const [loggedInEmail, setLoggedInEmail] = useState('');
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
   const regex = /(?:<|\[)(\w*?(?:company|business|firm)\w*?)(?:>|])/gi;
   const placeholderRegex1 = /\[(.*?)\]/g;
 
   useEffect(() => {
-    const data = JSON.stringify({
-      query: `query {
-                getEmails {
-                    subject
-                    body
-                    csvName
-                    number
-                }
-              }`,
-    });
-
-    axios(axiosConfig(data))
-      .then((response) => {
-        setEmailDatas(response.data.data.getEmails);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    
 
     const token = localStorage.getItem("accessToken");
       const dataToken = JSON.stringify({
@@ -66,6 +49,27 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           setLoggedInEmail(response.data.data.returnToken.email);
           setLoggedInAppPassword(response.data.data.returnToken.app_password);
           setLoggedInCompany(response.data.data.returnToken.company);
+          const data = JSON.stringify({
+            query: `query($loggedInEmail: String!) {
+                      getEmails {
+                          subject
+                          body
+                          csvName
+                          number
+                      }
+                    }`,
+                    variables: {
+                      loggedInEmail
+                    }
+          });
+      
+          axios(axiosConfig(data))
+            .then((response) => {
+              setEmailDatas(response.data.data.getEmails);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);

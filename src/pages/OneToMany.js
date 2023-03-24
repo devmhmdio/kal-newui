@@ -23,6 +23,7 @@ const OneToMany = () => {
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
   const [loggedInPosition, setLoggedInPosition] = useState(null);
+  const [loggedInEmail, setLoggedInEmail] = useState('');
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   let responseDatas = [];
   let datas = [];
@@ -53,6 +54,7 @@ const OneToMany = () => {
         setLoggedInCompany(response.data.data.returnToken.company);
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
+        setLoggedInEmail(response.data.data.returnToken.email);
       })
       .catch((error) => {
         console.log(error);
@@ -102,13 +104,14 @@ const OneToMany = () => {
 
       for (let i = 0; i < parsedCSV.data.length - 1; i++) {
         data = JSON.stringify({
-          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String) {
+          query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String, $emailLoggedInUser: String!) {
               createConnection(input: {
                   businessKeyword: $businessKeyword
                   clientKeyword: $clientKeyword
                   csvName: $name
                   emailId: $emailId
                   prompt: $prompt
+                  emailLoggedInUser: $emailLoggedInUser
               }) {
                   subject
                   body
@@ -119,7 +122,8 @@ const OneToMany = () => {
             clientKeyword,
             name: [names[i]],
             emailId: [emailIds[i]],
-            prompt
+            prompt,
+            emailLoggedInUser: loggedInEmail
           },
         });
         await axios(axiosConfig(data))

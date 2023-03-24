@@ -30,6 +30,7 @@ const OneToOneMessage = () => {
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
   const [loggedInPosition, setLoggedInPosition] = useState(null);
+  const [loggedInEmail, setLoggedInEmail] = useState('');
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const OneToOneMessage = () => {
         setLoggedInCompany(response.data.data.returnToken.company);
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
+        setLoggedInEmail(response.data.data.returnToken.email);
       })
       .catch((error) => {
         console.log(error);
@@ -107,13 +109,14 @@ const OneToOneMessage = () => {
       prompt = prompt.replace("sender's business/services", loggedInCompany);
 
       const data = JSON.stringify({
-        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $number: [String], $prompt: String) {
+        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $number: [String], $prompt: String, $emailLoggedInUser: String!) {
           createConnectionForMessage(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
               csvName: $name,
               number: $number
               prompt: $prompt
+              emailLoggedInUser: $emailLoggedInUser
           }) {
               subject
               body
@@ -124,7 +127,8 @@ const OneToOneMessage = () => {
           clientKeyword: clientKeywords,
           name: names,
           number: numbers,
-          prompt
+          prompt,
+          emailLoggedInUser: loggedInEmail
         },
       });
 

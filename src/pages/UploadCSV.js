@@ -30,6 +30,7 @@ const UploadCSV = () => {
   const [loggedInName, setLoggedInName] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
   const [loggedInPosition, setLoggedInPosition] = useState(null);
+  const [loggedInEmail, setLoggedInEmail] = useState('');
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const UploadCSV = () => {
         setLoggedInCompany(response.data.data.returnToken.company);
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
+        setLoggedInEmail(response.data.data.returnToken.email);
       })
       .catch((error) => {
         console.log(error);
@@ -107,13 +109,14 @@ const UploadCSV = () => {
       prompt = prompt.replace("sender's business/services", loggedInCompany);
 
       const data = JSON.stringify({
-        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String) {
+        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String], $prompt: String, $emailLoggedInUser: String!) {
           createConnection(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
               csvName: $name,
               emailId: $emailId
               prompt: $prompt
+              emailLoggedInUser: $emailLoggedInUser
           }) {
               subject
               body
@@ -124,7 +127,8 @@ const UploadCSV = () => {
           clientKeyword: clientKeywords,
           name: names,
           emailId: emailIds,
-          prompt
+          prompt,
+          emailLoggedInUser: loggedInEmail
         },
       });
 
