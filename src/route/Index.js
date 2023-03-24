@@ -110,6 +110,7 @@ import OneToMany from "../pages/OneToMany";
 import OneToOneMessage from "../pages/OneToOneMsg";
 import SendMessage from "../pages/SendMessage";
 import UpdateMessagePrompt from "../pages/UpdateMessagePrompt";
+import OneToManyMsg from "../pages/OneToManyMsg";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -125,6 +126,7 @@ const Pages = () => {
         <Route exact path={`${process.env.PUBLIC_URL}/send-message`} component={SendMessage}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-one`} component={UploadCSV}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-one-message`} component={OneToOneMessage}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/one-to-many-message`} component={OneToManyMsg}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/one-to-many`} component={OneToMany}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-prompt`} component={UpdatePrompt}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/update-message-prompt`} component={UpdateMessagePrompt}></Route>

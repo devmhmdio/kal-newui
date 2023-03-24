@@ -32,7 +32,7 @@ const menu = [
   {
     icon: "table-view",
     text: "One To Many Message Campaign",
-    link: "/integrations",
+    link: "/one-to-many-message",
   },
   {
     icon: "msg",
