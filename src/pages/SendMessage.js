@@ -31,8 +31,6 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
   const placeholderRegex1 = /\[(.*?)\]/g;
 
   useEffect(() => {
-    
-
     const token = localStorage.getItem("accessToken");
       const dataToken = JSON.stringify({
         query: `mutation($token: String) {
@@ -49,34 +47,35 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           setLoggedInEmail(response.data.data.returnToken.email);
           setLoggedInAppPassword(response.data.data.returnToken.app_password);
           setLoggedInCompany(response.data.data.returnToken.company);
-          setTimeout(() => {
-            const data = JSON.stringify({
-              query: `query($loggedInEmail: String!) {
-                        getEmails(loggedInEmail: $loggedInEmail) {
-                            subject
-                            body
-                            csvName
-                            number
-                        }
-                      }`,
-                      variables: {
-                        loggedInEmail
-                      }
-            });
-        
-            axios(axiosConfig(data))
-              .then((response) => {
-                setEmailDatas(response.data.data.getEmails);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }, 2000)
         })
         .catch((error) => {
           console.log(error);
         });
   }, []);
+
+  useEffect(() => {
+    const data = JSON.stringify({
+      query: `query($loggedInEmail: String!) {
+                getEmails(loggedInEmail: $loggedInEmail) {
+                    subject
+                    body
+                    csvName
+                    number
+                }
+              }`,
+              variables: {
+                loggedInEmail
+              }
+    });
+
+    axios(axiosConfig(data))
+      .then((response) => {
+        setEmailDatas(response.data.data.getEmails);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [loggedInEmail])
 
   const formFieldsArray = Array.from({ length: emailDatas.length }, () => [
     ...d,
