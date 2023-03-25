@@ -56,23 +56,23 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
         setLoggedInEmail(response.data.data.returnToken.email);
+        const email = response.data.data.returnToken.email;
+        const dataPrompt = JSON.stringify({
+          query: `query($email: String!) {
+                getPrompt(email: $email)
+                }`,
+                variables: {
+                  email
+                }
+        });
+    
+        axios(axiosConfig(dataPrompt)).then((res) => {
+          setPrompt(res.data.data.getPrompt);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-
-    const dataPrompt = JSON.stringify({
-      query: `query($email: String!) {
-            getPrompt(email: $email)
-            }`,
-            variables: {
-              email: loggedInEmail
-            }
-    });
-
-    axios(axiosConfig(dataPrompt)).then((res) => {
-      setPrompt(res.data.data.getPrompt);
-    });
 
     return () => clearInterval(interval);
   }, [token]);
