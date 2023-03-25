@@ -32,6 +32,7 @@ const OneToOneMessage = () => {
   const [loggedInPosition, setLoggedInPosition] = useState(null);
   const [loggedInEmail, setLoggedInEmail] = useState('');
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
+  let email;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,21 +61,25 @@ const OneToOneMessage = () => {
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
         setLoggedInEmail(response.data.data.returnToken.email);
+        email = response.data.data.returnToken.email;
+        const dataPrompt = JSON.stringify({
+          query: `query($email: String!) {
+            getMessagePrompt(email: $email)
+                }`,
+                variables: {
+                  email
+                }
+        });
+        axios(axiosConfig(dataPrompt)).then((res) => {
+          setPrompt(res.data.data.getMessagePrompt);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
 
       
-    const dataPrompt = JSON.stringify({
-      query: `query {
-        getMessagePrompt
-            }`,
-    });
-
-    axios(axiosConfig(dataPrompt)).then((res) => {
-      setPrompt(res.data.data.getMessagePrompt);
-    });
+    
   }, [])
 
   const routeChange = () =>{ 

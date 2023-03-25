@@ -67,9 +67,12 @@ const UploadCSV = () => {
 
       
     const dataPrompt = JSON.stringify({
-      query: `query {
-            getPrompt
+      query: `query($email: String!) {
+            getPrompt(email: $email)
             }`,
+            variables: {
+              email: loggedInEmail
+            }
     });
 
     axios(axiosConfig(dataPrompt)).then((res) => {

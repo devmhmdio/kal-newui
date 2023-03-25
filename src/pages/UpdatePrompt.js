@@ -19,27 +19,51 @@ const UpdatePrompt = ({ alter, id }) => {
   const [prompt, setPrompt] = useState(null);
   const [content, setContent] = useState('');
   const { errors, register } = useForm();
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
+  const [loggedInEmail, setLoggedInEmail] = useState('');
   const formClass = classNames({
     "form-validate": true,
     "is-alter": alter,
   });
   const [disableStatus, setDisableStatus] = useState(true);
 
-  useEffect(() => {
-    const data = JSON.stringify({
-      query: `query {
-          getPrompt
-          }`
+  useEffect(() => {  
+    const dataToken = JSON.stringify({
+        query: `mutation($token: String) {
+            returnToken(token: $token)
+        }`,
+        variables: {
+            token,
+        },
     });
 
-    axios(axiosConfig(data))
-      .then((res) => {
-        setPrompt(res.data.data.getPrompt);
-      })
-      .catch((error) => {
-          alert(`Error updating prompt: ${error.message}`);
-      });
-  }, [])
+    axios(axiosConfig(dataToken))
+        .then((response) => {
+            const email = response.data.data.returnToken.email;
+            setLoggedInEmail(email);
+            const dataPrompt = JSON.stringify({
+                query: `query($email: String!) {
+                    getPrompt(email: $email)
+                }`,
+                variables: {
+                    email
+                }
+            });
+
+            axios(axiosConfig(dataPrompt))
+                .then((res) => {
+                    setPrompt(res.data.data.getPrompt);
+                })
+                .catch((error) => {
+                    alert(`Error updating prompt: ${error.message}`);
+                });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    return () => clearInterval(interval);
+}, [token]);
 
   const handleContentChange = (event) => {
     if (event.target.value !== '') {
@@ -55,17 +79,21 @@ const UpdatePrompt = ({ alter, id }) => {
       return;
     }
     const data = JSON.stringify({
-        query: `mutation($question: String!) {
-            updatePrompt(question: $question)
+        query: `mutation($question: String!, $email: String!) {
+            updatePrompt(question: $question, email: $email)
             }`,
             variables: {
-                question: content
+                question: content,
+                email: loggedInEmail
             }
       });
   
       axios(axiosConfig(data))
         .then(() => {
             alert('Prompt updated successfully');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000)
         })
         .catch((error) => {
             alert(`Error updating prompt: ${error.message}`);
