@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Logo from "../../images/logo.png";
 import LogoDark from "../../images/logo-dark.png";
 import PageContainer from "../../layout/page-container/PageContainer";
@@ -24,21 +24,16 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [passState, setPassState] = useState(false);
   const [errorVal, setError] = useState("");
-  let loginName;
-  let pass;
-  let formData = {
-    email: "",
-    password: "",
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const passwordInputRef = useRef(null);
 
-  const handleChange = (event) => {
-    const et = event.target;
-    if (et.name === "email") {
-      loginName = et.value;
-    }
-    if (et.name === "password") {
-      pass = et.value;
-    }
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
   const onFormSubmit = () => {
@@ -51,17 +46,15 @@ const Login = () => {
         })
       }`,
       variables: {
-        email: loginName,
-        password: pass,
+        email,
+        password,
       },
     });
 
     axios(axiosConfig(data))
-      .then((response) => {
+      .then(async (response) => {
         if (response.data.data.getUsers.result) {
-          formData.email = response.data.data.getUsers.result.email;
-          formData.password = response.data.data.getUsers.result.password;
-          if (formData.email === loginName && formData.password === pass) {
+          if (email === response.data.data.getUsers.result.email && password === response.data.data.getUsers.result.password) {
             localStorage.setItem("accessToken", response.data.data.getUsers.token);
             setTimeout(() => {
               window.history.pushState(
@@ -71,18 +64,19 @@ const Login = () => {
               );
               window.location.reload();
             }, 2000);
+          } else {
+            setError("Cannot login with credentials");
+            setLoading(false);
           }
         } else {
           setError("Cannot login with credentials");
           setLoading(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
         }
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setError("Error occurred while processing the request");
+        setLoading(false);
       });
   };
 
@@ -112,8 +106,7 @@ const Login = () => {
             {errorVal && (
               <div className="mb-3">
                 <Alert color="danger" className="alert-icon">
-                  {" "}
-                  <Icon name="alert-circle" /> Unable to login with credentials{" "}
+                  <Icon name="alert-circle" /> {errorVal}{" "}
                 </Alert>
               </div>
             )}
@@ -132,9 +125,9 @@ const Login = () => {
                     ref={register({ required: "This field is required" })}
                     placeholder="Enter your email address"
                     className="form-control-lg form-control"
-                    onChange={handleChange}
+                    onChange={handleEmailChange}
                   />
-                  {errors.name && <span className="invalid">{errors.name.message}</span>}
+                  {errors.email && <span className="invalid">{errors.email.message}</span>}
                 </div>
               </div>
               <div className="form-group">
@@ -153,22 +146,24 @@ const Login = () => {
                       ev.preventDefault();
                       setPassState(!passState);
                     }}
-                    className={`form-icon lg form-icon-right passcode-switch ${passState ? "is-hidden" : "is-shown"}`}
+                    className={`form-icon form-icon-right passcode-switch ${passState ? "is-hidden" : "is-shown"}`}
                   >
                     <Icon name="eye" className="passcode-icon icon-show"></Icon>
-
                     <Icon name="eye-off" className="passcode-icon icon-hide"></Icon>
                   </a>
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
                     name="password"
-                    ref={register({ required: "This field is required" })}
+                    ref={(el) => {
+                      register(el, { required: "This field is required" });
+                      passwordInputRef.current = el;
+                    }}
                     placeholder="Enter your password"
-                    className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
-                    onChange={handleChange}
+                    className={`form-control-lg form-control`}
+                    onChange={handlePasswordChange}
                   />
-                  {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
+                  {errors.password && <span className="invalid">{errors.password.message}</span>}
                 </div>
               </div>
               <div className="form-group">
