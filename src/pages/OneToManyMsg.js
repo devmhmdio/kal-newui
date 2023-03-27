@@ -56,23 +56,23 @@ const OneToManyMsg = () => {
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
         setLoggedInEmail(response.data.data.returnToken.email);
+        const email = response.data.data.returnToken.email;
+        const dataPrompt = JSON.stringify({
+          query: `query($email: String!) {
+                getPrompt(email: $email)
+                }`,
+                variables: {
+                  email
+                }
+        });
+    
+        axios(axiosConfig(dataPrompt)).then((res) => {
+          setPrompt(res.data.data.getPrompt);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-
-    const dataPrompt = JSON.stringify({
-      query: `query($email: String!) {
-            getPrompt(email: $email)
-            }`,
-            variables: {
-              email: loggedInEmail
-            }
-    });
-
-    axios(axiosConfig(dataPrompt)).then((res) => {
-      setPrompt(res.data.data.getPrompt);
-    });
   }, []);
 
   const routeChange = () => {
@@ -152,12 +152,12 @@ const OneToManyMsg = () => {
 
   return (
     <React.Fragment>
-      <Head title="One To Many Message Generations"></Head>
+      <Head title="One To Many SMS Generations"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>
             <BlockTitle tag="h2" className="fw-normal">
-              One To Many Message Generations
+              One To Many SMS Generations
             </BlockTitle>
           </BlockHeadContent>
         </BlockHead>
@@ -217,7 +217,7 @@ const OneToManyMsg = () => {
                 <br />
                 <div className="d-flex justify-content-center align-items-center">
                   <button className="btn-round btn btn-primary" onClick={routeChange} disabled={disableStatus}>
-                    Send Message
+                    Send SMS
                   </button>
                 </div>
               </Col>

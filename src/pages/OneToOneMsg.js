@@ -156,13 +156,13 @@ const OneToOneMessage = () => {
   
   return (
     <React.Fragment>
-      <Head title="One to One Message Campaign"></Head>
+      <Head title="One to One SMS Campaign"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>
             
             <BlockTitle tag="h2" className="fw-normal">
-              One to One Message Campaign
+              One to One SMS Campaign
             </BlockTitle>
           </BlockHeadContent>
         </BlockHead>
@@ -224,7 +224,7 @@ const OneToOneMessage = () => {
               ))}
               <br />
               <div className="d-flex justify-content-center align-items-center">
-              <button className="btn-round btn btn-primary" onClick={routeChange} disabled={disableStatus}>Send Messages</button>
+              <button className="btn-round btn btn-primary" onClick={routeChange} disabled={disableStatus}>Send SMS</button>
               </div>
               </Col>
             </Row>

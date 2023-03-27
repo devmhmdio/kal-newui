@@ -26,22 +26,22 @@ const menu = [
   },
   {
     icon: "upload-cloud",
-    text: "One To One Message Campaign",
+    text: "One To One SMS Campaign",
     link: "/one-to-one-message",
   },
   {
     icon: "table-view",
-    text: "One To Many Message Campaign",
+    text: "One To Many SMS Campaign",
     link: "/one-to-many-message",
   },
   {
     icon: "msg",
-    text: "Send Messages",
+    text: "Send SMS",
     link: "/send-message",
   },
   {
     icon: "update",
-    text: "Update Message Prompt",
+    text: "Update SMS Prompt",
     link: "/update-message-prompt",
   }
 ];

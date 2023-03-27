@@ -91,12 +91,12 @@ const UpdateMessagePrompt = ({ alter, id }) => {
 
   return (
     <React.Fragment>
-      <Head title="Update Message Prompt"></Head>
+      <Head title="Update SMS Prompt"></Head>
       <Content page="component">
         <BlockHead size="lg" wide="sm">
           <BlockHeadContent>
             <BlockTitle tag="h2" className="fw-normal">
-              Update Message Prompt
+              Update SMS Prompt
             </BlockTitle>
           </BlockHeadContent>
         </BlockHead>

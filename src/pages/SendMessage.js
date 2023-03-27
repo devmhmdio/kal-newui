@@ -134,7 +134,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
             
           }
-          alert('All messages sent successfully');
+          alert('All SMS sent successfully');
     
     // setTimeout(() => {
     //   window.location.reload();
@@ -143,12 +143,12 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
   return (
     <React.Fragment>
-      <Head title="Send Messages" />
+      <Head title="Send SMS" />
       <Content>
         <BlockHead size="sm">
           <BlockBetween>
             <BlockHeadContent>
-              <BlockTitle page>Send Messages</BlockTitle>
+              <BlockTitle page>Send SMS</BlockTitle>
             </BlockHeadContent>
           </BlockBetween>
         </BlockHead>
@@ -202,7 +202,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           </table>
           <br />
           <div className="d-flex justify-content-center align-items-center">
-          <button type="submit" className="btn-round btn btn-primary">Send Messages</button>
+          <button type="submit" className="btn-round btn btn-primary">Send SMS</button>
           </div>
           </form>
         </div>
