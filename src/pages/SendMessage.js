@@ -56,8 +56,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
   useEffect(() => {
     const data = JSON.stringify({
       query: `query($loggedInEmail: String!) {
-                getEmails(loggedInEmail: $loggedInEmail) {
-                    subject
+                getMsgs(loggedInEmail: $loggedInEmail) {
                     body
                     csvName
                     number
