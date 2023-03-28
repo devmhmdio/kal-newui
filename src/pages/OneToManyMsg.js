@@ -59,7 +59,7 @@ const OneToManyMsg = () => {
         const email = response.data.data.returnToken.email;
         const dataPrompt = JSON.stringify({
           query: `query($email: String!) {
-                getPrompt(email: $email)
+            getMessagePrompt(email: $email)
                 }`,
                 variables: {
                   email
@@ -67,7 +67,7 @@ const OneToManyMsg = () => {
         });
     
         axios(axiosConfig(dataPrompt)).then((res) => {
-          setPrompt(res.data.data.getPrompt);
+          setPrompt(res.data.data.getMessagePrompt);
         });
       })
       .catch((error) => {
