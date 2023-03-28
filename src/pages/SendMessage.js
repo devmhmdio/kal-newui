@@ -107,16 +107,14 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
     for(let i=0;i<=o.length-1;i++) {
         const data = JSON.stringify({
-            query: `mutation($subject: String!, $body: String!, $name: String!, $number: String!) {
+            query: `mutation($body: String!, $name: String!, $number: String!) {
               sendMessage(input: [{
-                        subject: $subject
                         body: $body
                         name: $name
                         number: $number
                     }])
                     }`,
                     variables: {
-                        subject: o[i].subject,
                         body: o[i].body,
                         name: o[i].name,
                         number: o[i].number,
@@ -159,7 +157,6 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
             <thead className={`${headColor ? `table-${headColor}` : ""}`}>
             <tr>
             <td>#</td>
-            <td>Subject</td>
             <td>Body</td>
             <td>Name</td>
             <td>Number</td>
@@ -170,11 +167,6 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
                  return (
                   <tr key={index+1}>
                     <th>{index+1}</th>
-                    <td><textarea
-                    id={`subject-${index+1}`}
-                    name="subject"
-                    defaultValue={item.subject}
-                  ></textarea></td>
                     <td><textarea
                     id={`body-${index+1}`}
                     name="body"
