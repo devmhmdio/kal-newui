@@ -56,7 +56,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
   useEffect(() => {
     const data = JSON.stringify({
       query: `query($loggedInEmail: String!) {
-                getMsgs(loggedInEmail: $loggedInEmail) {
+        getMsgs(loggedInEmail: $loggedInEmail) {
                     body
                     csvName
                     number
@@ -69,7 +69,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
     axios(axiosConfig(data))
       .then((response) => {
-        setEmailDatas(response.data.data.getEmails);
+        setEmailDatas(response.data.data.getMsgs);
       })
       .catch((error) => {
         console.log(error);
