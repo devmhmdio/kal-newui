@@ -98,10 +98,7 @@ const OneToManyMsg = () => {
         numbers.push('+' + d["Numbers"]);
       });
 
-      prompt = prompt.replace("the sender", loggedInName);
-      prompt = prompt.replace("<Sender's Name>", loggedInName);
-      prompt = prompt.replace("<Sender Position>", loggedInPosition);
-      prompt = prompt.replace("sender's business/services", loggedInCompany);
+      prompt = prompt.replace("[Name]", loggedInName);
       const businessKeyword = parsedCSV.data[0]["Business Keyword"];
       const clientKeyword = parsedCSV.data[0]["Client Keywords"];
       let data;
@@ -117,7 +114,6 @@ const OneToManyMsg = () => {
                   prompt: $prompt
                   emailLoggedInUser: $emailLoggedInUser
               }) {
-                  subject
                   body
               }
             }`,
@@ -198,7 +194,6 @@ const OneToManyMsg = () => {
                       <thead>
                         <tr>
                           <th>S. No.</th>
-                          <th>Subject</th>
                           <th>Body</th>
                         </tr>
                       </thead>
@@ -206,7 +201,6 @@ const OneToManyMsg = () => {
                         {responseData.map((rowData, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{rowData.subject}</td>
                             <td>{rowData.body}</td>
                           </tr>
                         ))}
