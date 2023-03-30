@@ -84,6 +84,10 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
   const handleChangeBusiness = (event) => {
     event.preventDefault();
     if (businessKeywords.length === 0) {
+      if (formData.businessKeyword.trim() === "") {
+        alert("You cannot add an empty business keyword");
+        return;
+      }
       setBusinessKeywords((prevState) => {
         return [...prevState, formData.businessKeyword];
       });
@@ -96,9 +100,14 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
 
   const handleChangeClient = (event) => {
     event.preventDefault();
+    console.log(formData)
+    if (formData.clientKeyword.length === 0 || formData.clientKeyword.trim() === "") {
+      alert("You cannot add an empty client keyword");
+      return;
+    }
     setClientKeywords((prevState) => [...prevState, formData.clientKeyword]);
-    setFormData({ clientKeyword: [] });
-  };
+    setFormData({ ...formData, clientKeyword: "" });
+  };  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -219,14 +228,15 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
                       value={formData.clientKeyword}
                       className="form-control"
                       onChange={handleChange}
+                      disabled={businessKeywords.length === 0}
                     />
                     <br />
-                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient}>
+                    <button class="btn-round btn btn-primary btn-sm" onClick={handleChangeClient} disabled={businessKeywords.length === 0}>
                       Add Recipient Persona Statement
                     </button>
                   </div>
                   <div className="form-group">
-                    <Button color="primary" type="submit" size="lg" disabled={disableStatus}>
+                    <Button color="primary" type="submit" size="lg" disabled={disableStatus || businessKeywords.length === 0 || clientKeywords.length === 0}>
                       Generate
                     </Button>
                   </div>
