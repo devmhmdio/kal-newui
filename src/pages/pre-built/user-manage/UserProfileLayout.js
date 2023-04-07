@@ -4,7 +4,7 @@ import UserProfileRegularPage from "./UserProfileRegular";
 import UserProfileSettingPage from "./UserProfileSetting";
 import UserProfileNotificationPage from "./UserProfileNotification";
 import UserProfileActivityPage from "./UserProfileActivity";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { Icon, UserAvatar } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
 import { Card, DropdownItem, UncontrolledDropdown, DropdownMenu, DropdownToggle } from "reactstrap";
@@ -12,6 +12,7 @@ import axios from "axios";
 import { axiosConfig } from "../../../utils/Utils";
 
 const UserProfileLayout = () => {
+  const history = useHistory();
   const [sm, updateSm] = useState(false);
   const [mobileView , setMobileView] = useState(false);
   const [profileName, setProfileName] = useState("Deemo");
@@ -64,6 +65,11 @@ const UserProfileLayout = () => {
       window.removeEventListener("load", viewChange);
     };
   }, []);
+
+  const routeChange = () =>{ 
+    let path = `/update-profile`; 
+    history.push(path);
+  }
   
   return (
     <React.Fragment>
@@ -104,7 +110,7 @@ const UserProfileLayout = () => {
                               <DropdownItem
                                 tag="a"
                                 href="#dropdownitem"
-                                onClick={() => alert("This functionality is coming soon!")}
+                                onClick={routeChange}
                               >
                                 <Icon name="edit-fill"></Icon>
                                 <span>Update Profile</span>
