@@ -87,7 +87,12 @@ const ProfileUpdate = ({ formData, setFormData, setModal }) => {
       position: formVal.position
     },
     });
-    axios(axiosConfig(updateData)).then(() => console.log('success')).catch((e) => console.log(e))
+    axios(axiosConfig(updateData)).then(() => {
+      alert('Details updated successfully')
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000)
+    }).catch((e) => console.log(e))
   };
 
   const { errors, register, handleSubmit } = useForm();
