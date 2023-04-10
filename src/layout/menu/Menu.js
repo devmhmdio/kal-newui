@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import menu from "./MenuData";
 import Icon from "../../components/icon/Icon";
 import classNames from "classnames";
 import { NavLink, Link } from "react-router-dom";
+import axios from "axios";
+import { axiosConfig } from "../../utils/Utils";
 
 const MenuHeading = ({ heading }) => {
   return (
@@ -200,6 +202,39 @@ const MenuSub = ({ icon, link, text, sub, sidebarToggle, mobileView, ...props })
 };
 
 const Menu = ({ sidebarToggle, mobileView }) => {
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
+  const [userRole, setUserRole] = useState(null);
+  useEffect(() => {
+    const dataToken = JSON.stringify({
+      query: `mutation($token: String) {
+                      returnToken(token: $token)
+                }`,
+      variables: {
+        token,
+      },
+    });
+
+    axios(axiosConfig(dataToken))
+      .then((response) => {
+        const loggedInUserId = (response.data.data.returnToken.userId);
+        const getUserRole = JSON.stringify({
+            query: `query($id: String!) {
+                findByUserId(id: $id) {
+                    data {
+                        role
+                    }
+                }
+            }`,
+            variables: {
+                id: loggedInUserId,
+            }
+        });
+        axios(axiosConfig(getUserRole)).then((res) => setUserRole(res.data.data.findByUserId.data.role)).catch(() => "Unauthorised access")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <ul className="nk-menu">
       {menu.map((item) =>
@@ -217,6 +252,14 @@ const Menu = ({ sidebarToggle, mobileView }) => {
             mobileView={mobileView}
           />
         )
+      )}
+      {userRole === 'super admin' && (
+        <MenuItem 
+          key="all users"
+          link="all-users"
+          icon="user-list"
+          text="All Users"
+        />
       )}
     </ul>
   );

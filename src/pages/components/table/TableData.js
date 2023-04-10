@@ -5,6 +5,7 @@ import User4 from "../../../images/avatar/d-sm.jpg";
 import React from "react";
 import { UserAvatar, Icon } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
+import moment from "moment";
 
 export const basicData = {
   header: ["#", "First", "Last"],
@@ -34,14 +35,14 @@ export const dataTableColumns = [
     sortable: true,
   },
   {
-    name: "Age",
-    selector: (row) => row.age,
+    name: "Email",
+    selector: (row) => row.email,
     sortable: true,
     hide: 370,
   },
   {
-    name: "Gender",
-    selector: (row) => row.gender,
+    name: "Phone",
+    selector: (row) => row.phone,
     sortable: true,
     hide: "sm",
   },
@@ -52,17 +53,18 @@ export const dataTableColumns = [
     hide: "sm",
   },
   {
-    name: "Start Date",
-    selector: (row) => row.startDate,
+    name: "Position",
+    selector: (row) => row.position,
     sortable: true,
-    hide: "md",
+    hide: "sm",
   },
   {
-    name: "Salary",
-    selector: (row) => row.salary,
+    name: "Start Date",
+    // selector: ({ createdAt }) => moment(createdAt).format("YYYY-MM-DD"),
+    selector: ({ createdAt }) => createdAt,
     sortable: true,
     hide: "md",
-  },
+  }
 ];
 
 export const dataTableColumns2 = [
