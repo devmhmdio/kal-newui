@@ -216,20 +216,22 @@ const Menu = ({ sidebarToggle, mobileView }) => {
 
     axios(axiosConfig(dataToken))
       .then((response) => {
-        const loggedInUserId = (response.data.data.returnToken.userId);
+        const loggedInUserId = response.data.data.returnToken.userId;
         const getUserRole = JSON.stringify({
-            query: `query($id: String!) {
+          query: `query($id: String!) {
                 findByUserId(id: $id) {
                     data {
                         role
                     }
                 }
             }`,
-            variables: {
-                id: loggedInUserId,
-            }
+          variables: {
+            id: loggedInUserId,
+          },
         });
-        axios(axiosConfig(getUserRole)).then((res) => setUserRole(res.data.data.findByUserId.data.role)).catch(() => "Unauthorised access")
+        axios(axiosConfig(getUserRole))
+          .then((res) => setUserRole(res.data.data.findByUserId.data.role))
+          .catch(() => "Unauthorised access");
       })
       .catch((error) => {
         console.log(error);
@@ -253,13 +255,11 @@ const Menu = ({ sidebarToggle, mobileView }) => {
           />
         )
       )}
-      {userRole === 'super admin' && (
-        <MenuItem 
-          key="all users"
-          link="all-users"
-          icon="user-list"
-          text="All Users"
-        />
+      {userRole === "super admin" && (
+        <>
+          <MenuItem key="all users" link="all-users" icon="user-list" text="All Users" />
+          <MenuItem key="all sent emails" link="all-sent-emails" icon="emails-fill" text="All Sent Emails" />
+        </>
       )}
     </ul>
   );
