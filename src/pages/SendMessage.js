@@ -10,21 +10,15 @@ const tableClass = classNames({
   "table-striped": true,
   "table-hover": true,
 });
-import {
-  Block,
-  BlockHead,
-  BlockHeadContent,
-  BlockBetween,
-  BlockTitle,
-  PreviewCard,
-} from "../components/Component";
+import { Block, BlockHead, BlockHeadContent, BlockBetween, BlockTitle, PreviewCard } from "../components/Component";
 import { axiosConfig } from "../utils/Utils";
 
 const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
   const [emailDatas, setEmailDatas] = useState([]);
-  const d = [{ name: '', email: '' }];
+  const [customRows, setCustomRows] = useState([]);
+  const d = [{ name: "", email: "" }];
   const [loggedInName, setLoggedInName] = useState(null);
-  const [loggedInEmail, setLoggedInEmail] = useState('');
+  const [loggedInEmail, setLoggedInEmail] = useState("");
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
   const regex = /(?:<|\[)(\w*?(?:company|business|firm)\w*?)(?:>|])/gi;
@@ -32,25 +26,25 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-      const dataToken = JSON.stringify({
-        query: `mutation($token: String) {
+    const dataToken = JSON.stringify({
+      query: `mutation($token: String) {
                   returnToken(token: $token)
             }`,
-        variables: {
-          token
-        },
+      variables: {
+        token,
+      },
+    });
+
+    axios(axiosConfig(dataToken))
+      .then((response) => {
+        setLoggedInName(response.data.data.returnToken.name);
+        setLoggedInEmail(response.data.data.returnToken.email);
+        setLoggedInAppPassword(response.data.data.returnToken.app_password);
+        setLoggedInCompany(response.data.data.returnToken.company);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  
-      axios(axiosConfig(dataToken))
-        .then((response) => {
-          setLoggedInName(response.data.data.returnToken.name);
-          setLoggedInEmail(response.data.data.returnToken.email);
-          setLoggedInAppPassword(response.data.data.returnToken.app_password);
-          setLoggedInCompany(response.data.data.returnToken.company);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
   }, []);
 
   useEffect(() => {
@@ -62,9 +56,9 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
                     number
                 }
               }`,
-              variables: {
-                loggedInEmail
-              }
+      variables: {
+        loggedInEmail,
+      },
     });
 
     axios(axiosConfig(data))
@@ -74,11 +68,9 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [loggedInEmail])
+  }, [loggedInEmail]);
 
-  const formFieldsArray = Array.from({ length: emailDatas.length }, () => [
-    ...d,
-  ]);
+  const formFieldsArray = Array.from({ length: emailDatas.length }, () => [...d]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -88,54 +80,56 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
     let emailBody = [];
     let o = [];
     for (let i = 0; i <= event.target.length - 1; i++) {
-        if (event.target[i].name === 'name') {
-          name.push(event.target[i].value)
+      if (event.target[i].name === 'name') {
+        name.push(event.target[i].value)
       }
       if (event.target[i].name === 'number') {
         number.push(event.target[i].value)
       }
       if (event.target[i].name === 'subject') {
-          emailSubject.push(event.target[i].value)
+        emailSubject.push(event.target[i].value)
       }
       if (event.target[i].name === 'body') {
-          emailBody.push(event.target[i].value)
+        emailBody.push(event.target[i].value)
       }
     }
-    for (let j = 0;j<=name.length-1 && j<=number.length;j++) {
-        o.push(formFieldsArray[j][0] = {subject: emailSubject[j], body: emailBody[j], name: name[j], number: number[j]})
+
+    for (let j = 0; j <= name.length - 1 && j <= number.length; j++) {
+      o.push({subject: emailSubject[j], body: emailBody[j], name: name[j], number: number[j]});
     }
 
-    for(let i=0;i<=o.length-1;i++) {
-        const data = JSON.stringify({
-            query: `mutation($body: String!, $name: String!, $number: String!) {
+    for (let i = 0; i <= o.length - 1; i++) {
+      const data = JSON.stringify({
+        query: `mutation($body: String!, $name: String!, $number: String!) {
               sendMessage(input: [{
                         body: $body
                         name: $name
                         number: $number
                     }])
                     }`,
-                    variables: {
-                        body: o[i].body,
-                        name: o[i].name,
-                        number: o[i].number,
-                      },
-          });
-      
-          axios(axiosConfig(data))
-            .then((response) => {
-            
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+        variables: {
+          body: o[i].body,
+          name: o[i].name,
+          number: o[i].number,
+        },
+      });
 
-            
-          }
-          alert('All SMS sent successfully');
-    
+      axios(axiosConfig(data))
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    alert("All SMS sent successfully");
+    window.location.reload();
+
     // setTimeout(() => {
     //   window.location.reload();
     // }, 1000);
+  };
+
+  const addCustomRow = () => {
+    setCustomRows((prevRows) => [...prevRows, { name: "", number: "" }]);
   };
 
   return (
@@ -151,52 +145,74 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
         </BlockHead>
         <Block size="lg">
           <PreviewCard>
-          <div>
-          <form onSubmit={handleSubmit}>
-          <table className={tableClass}>
-            <thead className={`${headColor ? `table-${headColor}` : ""}`}>
-            <tr>
-            <td>#</td>
-            <td>Body</td>
-            <td>Name</td>
-            <td>Number</td>
-          </tr>
-            </thead>
-            <tbody>
-              {emailDatas.map((item, index) => {
-                 return (
-                  <tr key={index+1}>
-                    <th>{index+1}</th>
-                    <td><textarea
-                    id={`body-${index+1}`}
-                    name="body"
-                    defaultValue={item.body}
-                    cols={50}
-                    rows={5}
-                  ></textarea></td>
-                    <td><input
-                    type="text"
-                    id={`name-${index+1}`}
-                    name="name"
-                    defaultValue={item.csvName}
-                  ></input></td>
-                    <td><input
-                    type="text"
-                    id={`number-${index+1}`}
-                    name="number"
-                    defaultValue={item.number}
-                  ></input></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <br />
-          <div className="d-flex justify-content-center align-items-center">
-          <button type="submit" className="btn-round btn btn-primary">Send SMS</button>
-          </div>
-          </form>
-        </div>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <table className={tableClass}>
+                  <thead className={`${headColor ? `table-${headColor}` : ""}`}>
+                    <tr>
+                      <td>#</td>
+                      <td>Body</td>
+                      <td>Name</td>
+                      <td>Number</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {emailDatas.map((item, index) => {
+                      return (
+                        <tr key={index + 1}>
+                          <th>{index + 1}</th>
+                          <td>
+                            <textarea
+                              id={`body-${index + 1}`}
+                              name="body"
+                              defaultValue={item.body}
+                              cols={50}
+                              rows={5}
+                            ></textarea>
+                          </td>
+                          <td>
+                            <input type="text" id={`name-${index + 1}`} name="name" defaultValue={item.csvName}></input>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`number-${index + 1}`}
+                              name="number"
+                              defaultValue={item.number}
+                            ></input>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {customRows.map((_, index) => (
+                      <tr key={`custom-${index}`}>
+                        <th>{emailDatas.length + index + 1}</th>
+                        <td>
+                          <textarea id={`body-custom-${index}`} name="body" cols={50} rows={5}></textarea>
+                        </td>
+                        <td>
+                          <input type="text" id={`name-custom-${index}`} name="name"></input>
+                        </td>
+                        <td>
+                          <input type="text" id={`number-custom-${index}`} name="number"></input>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <br />
+                <div className="d-flex justify-content-center align-items-center">
+                  <button type="submit" className="btn-round btn btn-primary">
+                    Send SMS
+                  </button>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <button type="button" className="btn-round btn btn-primary" style={{marginTop: 10 + "px"}} onClick={addCustomRow}>
+                    Add Row
+                  </button>
+                </div>
+              </form>
+            </div>
           </PreviewCard>
         </Block>
       </Content>
