@@ -100,17 +100,19 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
     for (let i = 0; i <= o.length - 1; i++) {
       const data = JSON.stringify({
-        query: `mutation($body: String!, $name: String!, $number: String!) {
+        query: `mutation($body: String!, $name: String!, $number: String!, $fromEmail: String!) {
               sendMessage(input: [{
                         body: $body
                         name: $name
                         number: $number
+                        fromEmail: $fromEmail
                     }])
                     }`,
         variables: {
           body: o[i].body,
           name: o[i].name,
           number: o[i].number,
+          fromEmail: loggedInEmail
         },
       });
 
@@ -121,11 +123,10 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
         });
     }
     alert("All SMS sent successfully");
-    window.location.reload();
 
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 1000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const addCustomRow = () => {

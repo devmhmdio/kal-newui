@@ -87,6 +87,26 @@ export const dataTableColumnsSentEmails = [
   }
 ];
 
+export const dataTableColumnsSentMessages = [
+  {
+    name: "To Number",
+    selector: (row) => row.toNumber,
+    sortable: true,
+  },
+  {
+    name: "To Name",
+    selector: (row) => row.toName,
+    sortable: true,
+    hide: 370,
+  },
+  {
+    name: "From Email",
+    selector: (row) => row.fromEmail,
+    sortable: true,
+    hide: "sm",
+  }
+];
+
 export const dataTableColumns2 = [
   {
     name: "User",

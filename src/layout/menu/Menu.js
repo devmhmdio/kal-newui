@@ -259,6 +259,7 @@ const Menu = ({ sidebarToggle, mobileView }) => {
         <>
           <MenuItem key="all users" link="all-users" icon="user-list" text="All Users" />
           <MenuItem key="all sent emails" link="all-sent-emails" icon="emails-fill" text="All Sent Emails" />
+          <MenuItem key="all sent messages" link="all-sent-messages" icon="chat-circle" text="All Sent Messages" />
         </>
       )}
     </ul>

@@ -114,6 +114,7 @@ import OneToManyMsg from "../pages/OneToManyMsg";
 import ProfileUpdate from "../pages/app/file-manager/modals/ProfileUpdate";
 import AllUsers from "../pages/AllUsers";
 import AllSentEmails from "../pages/AllSentEmails";
+import AllSentMessages from "../pages/AllSentMessages";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -135,6 +136,7 @@ const Pages = () => {
         <Route exact path={`${process.env.PUBLIC_URL}/update-message-prompt`} component={UpdateMessagePrompt}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/all-users`} component={AllUsers}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/all-sent-emails`} component={AllSentEmails}></Route>
+        <Route exact path={`${process.env.PUBLIC_URL}/all-sent-messages`} component={AllSentMessages}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/integrations`} component={Integrations}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/analytics`} component={Analytics}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/invest`} component={Invest}></Route>
