@@ -26,6 +26,7 @@ const AllUsers = () => {
       .then((response) => {
         setUserId(response.data.data.returnToken.userId);
         const loggedInUserId = (response.data.data.returnToken.userId);
+        const loggedInUserEmail = (response.data.data.returnToken.email);
         const getUserRole = JSON.stringify({
             query: `query($id: String!) {
                 findByUserId(id: $id) {
@@ -41,8 +42,8 @@ const AllUsers = () => {
         axios(axiosConfig(getUserRole)).then((res) => setUserRole(res.data.data.findByUserId.data.role)).catch(() => "Unauthorised access")
         
         const data = JSON.stringify({
-            query: `mutation($id: String!) {
-                    getAllUsers(id: $id) {
+            query: `mutation($id: String!, $regex: String) {
+                    getAllUsers(id: $id, regex: $regex) {
                         name
                         email
                         phone
@@ -54,6 +55,7 @@ const AllUsers = () => {
                 }`,
             variables: {
               id: loggedInUserId,
+              regex: loggedInUserEmail.split('@').pop().toLowerCase(),
             },
           });
           axios(axiosConfig(data))
