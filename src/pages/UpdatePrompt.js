@@ -52,7 +52,7 @@ const UpdatePrompt = ({ alter, id }) => {
 
             axios(axiosConfig(dataPrompt))
                 .then((res) => {
-                    setPrompt(res.data.data.getPrompt);
+                    setPrompt(res.data.data.getPrompt.question);
                 })
                 .catch((error) => {
                     alert(`Error updating prompt: ${error.message}`);

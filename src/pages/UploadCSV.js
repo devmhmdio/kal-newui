@@ -71,7 +71,7 @@ const UploadCSV = () => {
         });
     
         axios(axiosConfig(dataPrompt)).then((res) => {
-          setPrompt(res.data.data.getPrompt);
+          setPrompt(res.data.data.getPrompt.question);
         });
       })
       .catch((error) => {

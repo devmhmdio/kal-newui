@@ -45,7 +45,7 @@ const UpdateMessagePrompt = ({ alter, id }) => {
 
         axios(axiosConfig(dataPrompt))
           .then((res) => {
-            setPrompt(res.data.data.getMessagePrompt);
+            setPrompt(res.data.data.getMessagePrompt.question);
           })
           .catch((error) => {
             alert(`Error updating prompt: ${error.message}`);

@@ -67,7 +67,7 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
         });
     
         axios(axiosConfig(dataPrompt)).then((res) => {
-          setPrompt(res.data.data.getPrompt);
+          setPrompt(res.data.data.getPrompt.question);
         });
       })
       .catch((error) => {

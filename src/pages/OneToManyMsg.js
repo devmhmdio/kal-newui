@@ -67,7 +67,7 @@ const OneToManyMsg = () => {
         });
     
         axios(axiosConfig(dataPrompt)).then((res) => {
-          setPrompt(res.data.data.getMessagePrompt);
+          setPrompt(res.data.data.getMessagePrompt.question);
         });
       })
       .catch((error) => {
