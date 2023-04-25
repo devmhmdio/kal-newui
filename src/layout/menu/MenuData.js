@@ -29,11 +29,11 @@ const menu = [
   //   text: "One To Many Email Campaign",
   //   link: "/one-to-many",
   // },
-  // {
-  //   icon: "update",
-  //   text: "Update Prompt",
-  //   link: "/update-prompt",
-  // },
+  {
+    icon: "update",
+    text: "Update Prompt",
+    link: "/update-prompt",
+  },
   // {
   //   icon: "table-view",
   //   text: "One To Many SMS Campaign",
