@@ -26,6 +26,7 @@ const AllSentMessages = () => {
       .then((response) => {
         setUserId(response.data.data.returnToken.userId);
         const loggedInUserId = (response.data.data.returnToken.userId);
+        const loggedInUserEmail = (response.data.data.returnToken.email);
         const getUserRole = JSON.stringify({
             query: `query($id: String!) {
                 findByUserId(id: $id) {
@@ -41,8 +42,8 @@ const AllSentMessages = () => {
         axios(axiosConfig(getUserRole)).then((res) => setUserRole(res.data.data.findByUserId.data.role)).catch(() => "Unauthorised access")
         
         const data = JSON.stringify({
-            query: `mutation($id: String!) {
-              viewAllMessagesSent(id: $id) {
+            query: `mutation($id: String!, $regex: String) {
+              viewAllMessagesSent(id: $id, regex: $regex) {
                         toNumber
                         toName
                         fromEmail
@@ -50,6 +51,7 @@ const AllSentMessages = () => {
                 }`,
             variables: {
               id: loggedInUserId,
+              regex: loggedInUserEmail.split('@').pop().toLowerCase(),
             },
           });
           axios(axiosConfig(data))
