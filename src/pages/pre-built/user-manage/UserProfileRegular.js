@@ -76,7 +76,7 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
           <BlockHeadContent>
             <BlockTitle tag="h4">Personal Information</BlockTitle>
             <BlockDes>
-              <p>Basic info, like your name and address, that you use on Nio Platform.</p>
+              <p>Basic info, like your name and email and phone number.</p>
             </BlockDes>
           </BlockHeadContent>
           <BlockHeadContent className="align-self-start d-lg-none">
@@ -95,14 +95,14 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
           <div className="data-head">
             <h6 className="overline-title">Basics</h6>
           </div>
-          <div className="data-item" onClick={() => setModal(true)}>
+          <div className="data-item">
             <div className="data-col">
               <span className="data-label">Full Name</span>
               <span className="data-value">{name}</span>
             </div>
             <div className="data-col data-col-end">
               <span className="data-more">
-                <Icon name="forward-ios"></Icon>
+                <Icon name="lock-alt"></Icon>
               </span>
             </div>
           </div>
@@ -118,14 +118,14 @@ const UserProfileRegularPage = ({ sm, updateSm, setProfileName }) => {
               </span>
             </div>
           </div>
-          <div className="data-item" onClick={() => setModal(true)}>
+          <div className="data-item">
             <div className="data-col">
               <span className="data-label">Phone Number</span>
               <span className="data-value text-soft">{phone}</span>
             </div>
             <div className="data-col data-col-end">
               <span className="data-more">
-                <Icon name="forward-ios"></Icon>
+                <Icon name="lock-alt"></Icon>
               </span>
             </div>
           </div>

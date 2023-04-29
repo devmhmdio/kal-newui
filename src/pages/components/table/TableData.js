@@ -84,7 +84,13 @@ export const dataTableColumnsSentEmails = [
     selector: (row) => row.fromEmail,
     sortable: true,
     hide: "sm",
-  }
+  },
+  {
+    name: "Email Body",
+    selector: (row) => row.body,
+    sortable: true,
+    hide: "sm",
+  },
 ];
 
 export const dataTableColumnsSentMessages = [
@@ -104,7 +110,13 @@ export const dataTableColumnsSentMessages = [
     selector: (row) => row.fromEmail,
     sortable: true,
     hide: "sm",
-  }
+  },
+  {
+    name: "Message Body",
+    selector: (row) => row.body,
+    sortable: true,
+    hide: "sm",
+  },
 ];
 
 export const dataTableColumns2 = [
