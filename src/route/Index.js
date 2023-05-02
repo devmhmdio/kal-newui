@@ -146,7 +146,8 @@ const Pages = () => {
         <Route exact path={`${process.env.PUBLIC_URL}/update-profile`} component={ProfileUpdate}></Route>
 
         {/*Pre-built Pages*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/project-card`} component={ProjectCardPage}></Route>
+        {/*<Route exact path={`${process.env.PUBLIC_URL}/project-card`} component={ProjectCardPage}></Route>*/}
+        <Route exact path={`${process.env.PUBLIC_URL}/payments`} component={ProjectCardPage}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/project-list`} component={ProjectListPage}></Route>
         <Route //Context Api added
           exact
