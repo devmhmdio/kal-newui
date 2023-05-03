@@ -19,7 +19,7 @@ import { axiosConfig } from "../../../utils/Utils";
 
 const stripePromise = loadStripe("pk_test_vtUu95bAR4Ki4kzmIYBdaC3A00yharGIkO");
 
-const CheckoutForm = ({ email, onPayment }) => {
+const CheckoutForm = ({ email, onPayment, customAmount }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -33,17 +33,17 @@ const CheckoutForm = ({ email, onPayment }) => {
     const result = await stripe.createToken(card);
 
     if (result.error) {
-      console.log('line 37',result.error.message);
+      console.log("line 37", result.error.message);
     } else {
-      console.log('line 39',result.token);
-      onPayment(5); // Pass the amount you want to charge here
+      console.log("line 39", result.token);
+      onPayment(customAmount); // Pass the custom amount
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />
-      <div style={{marginTop: 15 + "px" }}></div>
+      <div style={{ marginTop: 15 + "px" }}></div>
       <Button color="primary" type="submit" size="md" disabled={!stripe}>
         Make Payment
       </Button>
@@ -75,7 +75,12 @@ const ProjectCardPage = () => {
 
   // OnChange function to get the input data
   const onInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = parseInt(e.target.value);
+    if (!isNaN(value)) {
+      setFormData({ ...formData, [e.target.name]: value });
+    } else {
+      setFormData({ ...formData, [e.target.name]: '' });
+    }
   };
 
   const onPayment = (amount) => {
@@ -90,7 +95,7 @@ const ProjectCardPage = () => {
     });
 
     axios(axiosConfig(data))
-      .then((res) => console.log("this is res", res))
+      .then((res) => alert(res.data.data.capturePayment))
       .catch((err) => console.log(err));
   };
 
@@ -112,23 +117,35 @@ const ProjectCardPage = () => {
               <ProjectCard>
                 <div className="project-head">
                   <div className="project-info">
-                    <h6 className="title">Recharge for USD 5</h6>
-                    <span className="sub-text" style={{marginBottom: 25 + "px" }}>
-                      Recharge your balance to USD 5 for generating emails and messages
-                   
-                      </span>
-                      <Elements stripe={stripePromise}>
-                        <CheckoutForm email={loggedInEmail} onPayment={onPayment} />
-                      </Elements>
-                    </div>
+                    <h6 className="title">Recharge Custom Amount</h6>
+                    <span className="sub-text" style={{ marginBottom: 25 + "px" }}>
+                      Enter the custom amount you want to recharge (Minimum USD 5)
+                    </span>
+                    <input
+                      type="number"
+                      id="customAmount"
+                      name="customAmount"
+                      className="form-control"
+                      placeholder="20"
+                      onChange={onInputChange}
+                      min="5"
+                    />
+                    <div style={{ marginTop: 15 + "px" }}></div>
+                    <Elements stripe={stripePromise}>
+                      <CheckoutForm
+                        email={loggedInEmail}
+                        onPayment={onPayment}
+                        customAmount={formData.customAmount}
+                      />
+                    </Elements>
                   </div>
-                </ProjectCard>
-              </Col>
-            </Row>
-          </Block>
-        </Content>
-      </React.Fragment>
-    );
-  };
-  export default ProjectCardPage;
-  
+                </div>
+              </ProjectCard>
+            </Col>
+          </Row>
+        </Block>
+      </Content>
+    </React.Fragment>
+  );
+};
+export default ProjectCardPage;
