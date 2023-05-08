@@ -47,6 +47,7 @@ const AllSentEmails = () => {
                         toEmail
                         toName
                         fromEmail
+                        body
                     }
                 }`,
             variables: {
