@@ -5,8 +5,6 @@ import User4 from "../../../images/avatar/d-sm.jpg";
 import React from "react";
 import { UserAvatar, Icon } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
-import moment from "moment";
-import { format } from "date-fns";
 
 export const basicData = {
   header: ["#", "First", "Last"],
@@ -61,7 +59,6 @@ export const dataTableColumns = [
   },
   {
     name: "Start Date",
-    // selector: ({ createdAt }) => moment(createdAt).format("YYYY-MM-DD"),
     selector: ({ createdAt }) => createdAt.split('T').slice(0, 1),
     sortable: true,
     hide: "md",
@@ -88,7 +85,9 @@ export const dataTableColumnsSentEmails = [
   },
   {
     name: "Email Body",
-    selector: (row) => row.body,
+    selector: ({ body }) => {
+      return <textarea value={body} style={{ height: 80 + "px"}} disabled></textarea>
+    },
     sortable: true,
     hide: "sm",
   },
@@ -114,7 +113,9 @@ export const dataTableColumnsSentMessages = [
   },
   {
     name: "Message Body",
-    selector: (row) => row.body,
+    selector: ({ body }) => {
+      return <textarea value={body} style={{ height: 80 + "px"}} disabled></textarea>
+    },
     sortable: true,
     hide: "sm",
   },
