@@ -34,6 +34,11 @@ const menu = [
     text: "Update Prompt",
     link: "/update-prompt",
   },
+  {
+    icon: "money",
+    text: "Add Payment",
+    link: "/payments",
+  },
   // {
   //   icon: "table-view",
   //   text: "One To Many SMS Campaign",

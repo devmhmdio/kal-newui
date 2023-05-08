@@ -6,6 +6,7 @@ import React from "react";
 import { UserAvatar, Icon } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
 import moment from "moment";
+import { format } from "date-fns";
 
 export const basicData = {
   header: ["#", "First", "Last"],
@@ -61,10 +62,10 @@ export const dataTableColumns = [
   {
     name: "Start Date",
     // selector: ({ createdAt }) => moment(createdAt).format("YYYY-MM-DD"),
-    selector: ({ createdAt }) => createdAt,
+    selector: ({ createdAt }) => createdAt.split('T').slice(0, 1),
     sortable: true,
     hide: "md",
-  }
+  },
 ];
 
 export const dataTableColumnsSentEmails = [

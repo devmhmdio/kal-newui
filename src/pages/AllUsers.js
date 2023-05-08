@@ -60,7 +60,6 @@ const AllUsers = () => {
           });
           axios(axiosConfig(data))
             .then((res) => {
-              console.log("line 42", res.data.data.getAllUsers);
               return setAllusers(res.data.data.getAllUsers);
             })
             .catch((e) => console.log(e));
