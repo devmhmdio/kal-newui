@@ -99,7 +99,7 @@ const CreateUser = ({ history }) => {
         name,
         phone,
         app_password: appPassword,
-        company,
+        company: loggedInUserCompany,
         position
       },
     });
