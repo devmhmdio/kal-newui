@@ -21,6 +21,7 @@ import { Spinner } from "reactstrap";
 const CreateUser = ({ history }) => {
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const [userId, setUserId] = useState(null);
+  const [loggedInUserCompany, setLoggedInUserCompany] = useState(null);
   const { errors, register, handleSubmit } = useForm();
   const [passState, setPassState] = useState(false);
   const [appPassState, setAppPassState] = useState(false);
@@ -46,6 +47,7 @@ const CreateUser = ({ history }) => {
     axios(axiosConfig(dataToken))
       .then((response) => {
         setUserId(response.data.data.returnToken.userId);
+        setLoggedInUserCompany(response.data.data.returnToken.company);
       })
       .catch((error) => {
         console.log(error);
@@ -59,7 +61,7 @@ const CreateUser = ({ history }) => {
     if (et.name === 'phone') setPhone(et.value);
     if (et.name === 'password') setPassword(et.value);
     if (et.name === 'app_password') setAppPassword(et.value);
-    if (et.name === 'company') setCompany(et.value);
+    if (et.name === 'company') loggedInUserCompany;
     if (et.name === 'position') setPosition(et.value);
   };
 
@@ -286,6 +288,8 @@ const CreateUser = ({ history }) => {
                           ref={register({ required: true })}
                           className="form-control-lg form-control"
                           onChange={handleChange}
+                          value={loggedInUserCompany}
+                          disabled
                         />
                         {errors.name && <p className="invalid">This field is required</p>}
                       </div>

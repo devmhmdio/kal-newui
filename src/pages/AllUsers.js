@@ -27,6 +27,7 @@ const AllUsers = () => {
         setUserId(response.data.data.returnToken.userId);
         const loggedInUserId = (response.data.data.returnToken.userId);
         const loggedInUserEmail = (response.data.data.returnToken.email);
+        const loggedInUserCompany = (response.data.data.returnToken.company);
         const getUserRole = JSON.stringify({
             query: `query($id: String!) {
                 findByUserId(id: $id) {
@@ -55,12 +56,13 @@ const AllUsers = () => {
                 }`,
             variables: {
               id: loggedInUserId,
-              regex: loggedInUserEmail.split('@').pop().toLowerCase(),
+              regex: loggedInUserCompany,
             },
           });
           axios(axiosConfig(data))
             .then((res) => {
-              return setAllusers(res.data.data.getAllUsers);
+              console.log(res.data.data.getAllUsers)
+              setAllusers(res.data.data.getAllUsers);
             })
             .catch((e) => console.log(e));
       })
@@ -71,7 +73,7 @@ const AllUsers = () => {
   return (
     <React.Fragment>
       <Head title="All Users" />
-      {userRole === "super admin" && (
+      {(userRole === "super admin" || userRole === "company admin") && (
         <Content page="component">
           <Block size="lg">
             <PreviewCard>
