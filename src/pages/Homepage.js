@@ -56,8 +56,22 @@ const Homepage = ({ headColor, striped, border, hover, responsive }) => {
         setLoggedInName(response.data.data.returnToken.name);
         setLoggedInPosition(response.data.data.returnToken.position);
         setLoggedInEmail(response.data.data.returnToken.email);
-        setLoggedInBalance(response.data.data.returnToken.balance);
-        console.log("this is balance", response.data.data.returnToken.balance);
+        if (response.data.data.returnToken.role === 'company admin') {
+          setLoggedInBalance(response.data.data.returnToken.balance);
+        } else if (response.data.data.returnToken.role === 'super admin') {
+          setLoggedInBalance(response.data.data.returnToken.balance);
+        } else {
+          const getCompanyAdmin = JSON.stringify({
+            query: `query($company: String!, $role: String!) {
+              getUserCompanyAdmin(company: $company, role: $role)
+            }`,
+            variables: {
+              company: response.data.data.returnToken.company,
+              role: 'company admin',
+            },
+          });
+          axios(axiosConfig(getCompanyAdmin)).then(caResponse => setLoggedInBalance(caResponse.data.data.getUserCompanyAdmin[0].balance)).catch(err => console.log(err));
+        }
         const email = response.data.data.returnToken.email;
         const dataPrompt = JSON.stringify({
           query: `query($email: String!) {
