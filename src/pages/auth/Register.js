@@ -52,7 +52,7 @@ const Register = ({ history }) => {
   const handleFormSubmit = (e) => {
     setLoading(true);
     const data = JSON.stringify({
-      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String, $position: String) {
+      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String, $position: String, $role: String) {
         addUser(input: {
             email: $email
             name: $name
@@ -61,6 +61,7 @@ const Register = ({ history }) => {
             app_password: $app_password
             company: $company
             position: $position
+            role: $role
         }) {
             status {
               code
@@ -84,7 +85,8 @@ const Register = ({ history }) => {
         phone,
         app_password: appPassword,
         company,
-        position
+        position,
+        role: 'company admin'
       },
     });
 

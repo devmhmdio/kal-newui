@@ -68,7 +68,7 @@ const CreateUser = ({ history }) => {
   const handleFormSubmit = (e) => {
     setLoading(true);
     const data = JSON.stringify({
-      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String, $position: String) {
+      query: `mutation($email: String, $password: String, $name: String, $phone: String, $app_password: String, $company: String, $position: String, $role: String) {
         addUser(input: {
             email: $email
             name: $name
@@ -77,6 +77,7 @@ const CreateUser = ({ history }) => {
             app_password: $app_password
             company: $company
             position: $position
+            role: $role
         }) {
             status {
               code
@@ -100,7 +101,8 @@ const CreateUser = ({ history }) => {
         phone,
         app_password: appPassword,
         company: loggedInUserCompany,
-        position
+        position,
+        role: 'member'
       },
     });
 
