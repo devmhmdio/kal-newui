@@ -10,7 +10,16 @@ const tableClass = classNames({
   "table-striped": true,
   "table-hover": true,
 });
-import { Block, BlockHead, BlockHeadContent, BlockBetween, BlockTitle, PreviewCard, Row, Col } from "../components/Component";
+import {
+  Block,
+  BlockHead,
+  BlockHeadContent,
+  BlockBetween,
+  BlockTitle,
+  PreviewCard,
+  Row,
+  Col,
+} from "../components/Component";
 import { axiosConfig } from "../utils/Utils";
 import { useHistory } from "react-router";
 
@@ -101,22 +110,22 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
     let emailBody = [];
     let o = [];
     for (let i = 0; i <= event.target.length - 1; i++) {
-      if (event.target[i].name === 'name') {
-        name.push(event.target[i].value)
+      if (event.target[i].name === "name") {
+        name.push(event.target[i].value);
       }
-      if (event.target[i].name === 'number') {
-        number.push(event.target[i].value)
+      if (event.target[i].name === "number") {
+        number.push(event.target[i].value);
       }
-      if (event.target[i].name === 'subject') {
-        emailSubject.push(event.target[i].value)
+      if (event.target[i].name === "subject") {
+        emailSubject.push(event.target[i].value);
       }
-      if (event.target[i].name === 'body') {
-        emailBody.push(event.target[i].value)
+      if (event.target[i].name === "body") {
+        emailBody.push(event.target[i].value);
       }
     }
 
     for (let j = 0; j <= name.length - 1 && j <= number.length; j++) {
-      o.push({subject: emailSubject[j], body: emailBody[j], name: name[j], number: number[j]});
+      o.push({ subject: emailSubject[j], body: emailBody[j], name: name[j], number: number[j] });
     }
 
     for (let i = 0; i <= o.length - 1; i++) {
@@ -133,7 +142,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           body: o[i].body,
           name: o[i].name,
           number: o[i].number,
-          fromEmail: loggedInEmail
+          fromEmail: loggedInEmail,
         },
       });
 
@@ -163,87 +172,97 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
       <Head title="Send SMS" />
       {Number(loggedInBalance) > 1 ? (
         <>
-        <Content>
-        <BlockHead size="sm">
-          <BlockBetween>
-            <BlockHeadContent>
-              <BlockTitle page>Send SMS</BlockTitle>
-            </BlockHeadContent>
-          </BlockBetween>
-        </BlockHead>
-        <Block size="lg">
-          <PreviewCard>
-            <div>
-              <form onSubmit={handleSubmit}>
-                <table className={tableClass}>
-                  <thead className={`${headColor ? `table-${headColor}` : ""}`}>
-                    <tr>
-                      <td>#</td>
-                      <td>Body</td>
-                      <td>Name</td>
-                      <td>Number</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {emailDatas.map((item, index) => {
-                      return (
-                        <tr key={index + 1}>
-                          <th>{index + 1}</th>
-                          <td>
-                            <textarea
-                              id={`body-${index + 1}`}
-                              name="body"
-                              defaultValue={item.body}
-                              cols={50}
-                              rows={5}
-                            ></textarea>
-                          </td>
-                          <td>
-                            <input type="text" id={`name-${index + 1}`} name="name" defaultValue={item.csvName}></input>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              id={`number-${index + 1}`}
-                              name="number"
-                              defaultValue={item.number}
-                            ></input>
-                          </td>
+          <Content>
+            <BlockHead size="sm">
+              <BlockBetween>
+                <BlockHeadContent>
+                  <BlockTitle page>Send SMS</BlockTitle>
+                </BlockHeadContent>
+              </BlockBetween>
+            </BlockHead>
+            <Block size="lg">
+              <PreviewCard>
+                <div>
+                  <form onSubmit={handleSubmit}>
+                    <table className={tableClass}>
+                      <thead className={`${headColor ? `table-${headColor}` : ""}`}>
+                        <tr>
+                          <td>#</td>
+                          <td>Body</td>
+                          <td>Name</td>
+                          <td>Number</td>
                         </tr>
-                      );
-                    })}
-                    {customRows.map((_, index) => (
-                      <tr key={`custom-${index}`}>
-                        <th>{emailDatas.length + index + 1}</th>
-                        <td>
-                          <textarea id={`body-custom-${index}`} name="body" cols={50} rows={5}></textarea>
-                        </td>
-                        <td>
-                          <input type="text" id={`name-custom-${index}`} name="name"></input>
-                        </td>
-                        <td>
-                          <input type="text" id={`number-custom-${index}`} name="number"></input>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <br />
-                <div className="d-flex justify-content-center align-items-center">
-                  <button type="submit" className="btn-round btn btn-primary">
-                    Send SMS
-                  </button>
+                      </thead>
+                      <tbody>
+                        {emailDatas.map((item, index) => {
+                          return (
+                            <tr key={index + 1}>
+                              <th>{index + 1}</th>
+                              <td>
+                                <textarea
+                                  id={`body-${index + 1}`}
+                                  name="body"
+                                  defaultValue={item.body}
+                                  cols={50}
+                                  rows={5}
+                                ></textarea>
+                              </td>
+                              <td>
+                                <input
+                                  type="text"
+                                  id={`name-${index + 1}`}
+                                  name="name"
+                                  defaultValue={item.csvName}
+                                ></input>
+                              </td>
+                              <td>
+                                <input
+                                  type="text"
+                                  id={`number-${index + 1}`}
+                                  name="number"
+                                  defaultValue={item.number}
+                                ></input>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {customRows.map((_, index) => (
+                          <tr key={`custom-${index}`}>
+                            <th>{emailDatas.length + index + 1}</th>
+                            <td>
+                              <textarea id={`body-custom-${index}`} name="body" cols={50} rows={5}></textarea>
+                            </td>
+                            <td>
+                              <input type="text" id={`name-custom-${index}`} name="name"></input>
+                            </td>
+                            <td>
+                              <input type="text" id={`number-custom-${index}`} name="number"></input>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <br />
+                    <div className="d-flex justify-content-center align-items-center">
+                      <button type="submit" className="btn-round btn btn-primary">
+                        Send SMS
+                      </button>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <button
+                        type="button"
+                        className="btn-round btn btn-primary"
+                        style={{ marginTop: 10 + "px" }}
+                        onClick={addCustomRow}
+                      >
+                        Add Row
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <div className="d-flex justify-content-center align-items-center">
-                  <button type="button" className="btn-round btn btn-primary" style={{marginTop: 10 + "px"}} onClick={addCustomRow}>
-                    Add Row
-                  </button>
-                </div>
-              </form>
-            </div>
-          </PreviewCard>
-        </Block>
-      </Content>
+              </PreviewCard>
+            </Block>
+          </Content>
         </>
       ) : (
         <>
@@ -272,7 +291,6 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           </Content>
         </>
       )}
-      
     </React.Fragment>
   );
 };
