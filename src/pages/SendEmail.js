@@ -10,10 +10,12 @@ const tableClass = classNames({
   "table-striped": true,
   "table-hover": true,
 });
-import { Block, BlockHead, BlockHeadContent, BlockBetween, BlockTitle, PreviewCard } from "../components/Component";
+import { Block, BlockHead, BlockHeadContent, BlockBetween, BlockTitle, PreviewCard, Row, Col } from "../components/Component";
 import { axiosConfig } from "../utils/Utils";
+import { useHistory } from "react-router";
 
 const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
+  const history = useHistory();
   const [emailDatas, setEmailDatas] = useState([
     {
       subject: "",
@@ -27,6 +29,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
   const [loggedInEmail, setLoggedInEmail] = useState("");
   const [loggedInAppPassword, setLoggedInAppPassword] = useState(null);
   const [loggedInCompany, setLoggedInCompany] = useState(null);
+  const [loggedInBalance, setLoggedInBalance] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -45,6 +48,22 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
         setLoggedInEmail(response.data.data.returnToken.email);
         setLoggedInAppPassword(response.data.data.returnToken.app_password);
         setLoggedInCompany(response.data.data.returnToken.company);
+        if (response.data.data.returnToken.role === 'company admin') {
+          setLoggedInBalance(response.data.data.returnToken.balance);
+        } else if (response.data.data.returnToken.role === 'super admin') {
+          setLoggedInBalance(response.data.data.returnToken.balance);
+        } else {
+          const getCompanyAdmin = JSON.stringify({
+            query: `query($company: String!, $role: String!) {
+              getUserCompanyAdmin(company: $company, role: $role)
+            }`,
+            variables: {
+              company: response.data.data.returnToken.company,
+              role: 'company admin',
+            },
+          });
+          axios(axiosConfig(getCompanyAdmin)).then(caResponse => setLoggedInBalance(caResponse.data.data.getUserCompanyAdmin[0].balance)).catch(err => console.log(err));
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -157,10 +176,16 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
     }, 1000);
   };
 
+  const redirectToPayments = () => {
+    history.push("/payments");
+  };
+
   return (
     <React.Fragment>
       <Head title="Send Emails" />
-      <Content>
+      {Number(loggedInBalance) > 1 ? (
+        <>
+        <Content>
         <BlockHead size="sm">
           <BlockBetween>
             <BlockHeadContent>
@@ -242,6 +267,35 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
           </PreviewCard>
         </Block>
       </Content>
+        </>
+        ) : (
+          <>
+          <Content page="component">
+            <Block size="lg">
+              <Row className="g-gs">
+                <Col lg="3"></Col>
+                <Col lg="6">
+                  <PreviewCard className="h-100">
+                    <div className="card-head">
+                      <h5 className="card-title">Generate Your AI Response</h5>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <p>Please recharge your wallet to continue.</p>
+                      <p>
+                        <button onClick={redirectToPayments} class="btn-round btn btn-primary btn-sm">
+                          Go to Payments
+                        </button>
+                      </p>
+                    </div>
+                  </PreviewCard>
+                </Col>
+                <Col lg="3"></Col>
+              </Row>
+            </Block>
+          </Content>
+        </>
+        )}
+      
     </React.Fragment>
   );
 };
