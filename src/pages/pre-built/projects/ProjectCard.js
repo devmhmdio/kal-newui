@@ -54,6 +54,7 @@ const CheckoutForm = ({ email, onPayment, customAmount }) => {
 const ProjectCardPage = () => {
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const [loggedInEmail, setLoggedInEmail] = useState("");
+  const [loggedInRole, setLoggedInRole] = useState("");
   const [formData, setFormData] = useState({
     customAmount: "",
   });
@@ -69,7 +70,10 @@ const ProjectCardPage = () => {
     });
 
     axios(axiosConfig(dataToken))
-      .then((response) => setLoggedInEmail(response.data.data.returnToken.email))
+      .then((response) => {
+        setLoggedInEmail(response.data.data.returnToken.email);
+        setLoggedInRole(response.data.data.returnToken.role);
+      })
       .catch((error) => console.log("line 52", error));
   }, []);
 
@@ -99,6 +103,17 @@ const ProjectCardPage = () => {
       .catch((err) => console.log(err));
   };
 
+  if (loggedInRole !== "company admin") {
+    return (
+      <React.Fragment>
+        <Head title="Unauthorized"></Head>
+        <Content>
+          <h3>Please ask your company admin to make payment.</h3>
+        </Content>
+      </React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       <Head title="Pricing Plans"></Head>
@@ -119,7 +134,7 @@ const ProjectCardPage = () => {
                   <div className="project-info">
                     <h6 className="title">Recharge Custom Amount</h6>
                     <span className="sub-text" style={{ marginBottom: 25 + "px" }}>
-                      Enter the custom amount you want to recharge (Minimum USD 5)
+                      Enter the custom amount you want to recharge (Minimum USD 10)
                     </span>
                     <input
                       type="number"
@@ -128,7 +143,7 @@ const ProjectCardPage = () => {
                       className="form-control"
                       placeholder="20"
                       onChange={onInputChange}
-                      min="5"
+                      min="10"
                     />
                     <div style={{ marginTop: 15 + "px" }}></div>
                     <Elements stripe={stripePromise}>
