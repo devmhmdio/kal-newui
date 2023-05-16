@@ -73,7 +73,7 @@ const AllUsers = () => {
   return (
     <React.Fragment>
       <Head title="All Users" />
-      {(userRole === "super admin" || userRole === "company admin") && (
+      {(userRole === "company admin") && (
         <Content page="component">
           <Block size="lg">
             <PreviewCard>
