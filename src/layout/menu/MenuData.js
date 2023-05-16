@@ -45,10 +45,10 @@ const menu = [
   //   link: "/one-to-many-message",
   // },
   
-  // {
-  //   icon: "update",
-  //   text: "Update SMS Prompt",
-  //   link: "/update-message-prompt",
-  // }
+  {
+    icon: "update",
+    text: "Update SMS Prompt",
+    link: "/update-message-prompt",
+  }
 ];
 export default menu;
