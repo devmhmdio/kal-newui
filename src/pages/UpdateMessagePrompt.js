@@ -10,10 +10,13 @@ import { axiosConfig } from "../utils/Utils";
 
 const UpdateMessagePrompt = ({ alter, id }) => {
   const [prompt, setPrompt] = useState(null);
+  const [promptStatus, setPromptStatus] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [content, setContent] = useState("");
   const { errors, register } = useForm();
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const [loggedInEmail, setLoggedInEmail] = useState('');
+  const [loggedInUserId, setLoggedInUserId] = useState("");
   const formClass = classNames({
     "form-validate": true,
     "is-alter": alter,
@@ -33,6 +36,7 @@ const UpdateMessagePrompt = ({ alter, id }) => {
     axios(axiosConfig(dataToken))
       .then((response) => {
         const email = response.data.data.returnToken.email;
+        const userId = response.data.data.returnToken.userId;
         setLoggedInEmail(email);
         const dataPrompt = JSON.stringify({
           query: `query($email: String!) {
@@ -46,6 +50,26 @@ const UpdateMessagePrompt = ({ alter, id }) => {
         axios(axiosConfig(dataPrompt))
           .then((res) => {
             setPrompt(res.data.data.getMessagePrompt.question);
+            const getUserRole = JSON.stringify({
+              query: `query($id: String!) {
+                            findByUserId(id: $id) {
+                                data {
+                                    role
+                                }
+                            }
+                        }`,
+              variables: {
+                id: userId,
+              },
+            });
+            axios(axiosConfig(getUserRole))
+              .then((res) => {
+                setUserRole(res.data.data.findByUserId.data.role);
+                const tempUserRole = res.data.data.findByUserId.data.role;
+                if (tempUserRole === "company admin") setPromptStatus(false);
+              })
+              .catch(() => "Unauthorised access");
+              setPromptStatus(res.data.data.getPrompt.status);
           })
           .catch((error) => {
             alert(`Error updating prompt: ${error.message}`);
@@ -72,17 +96,21 @@ const UpdateMessagePrompt = ({ alter, id }) => {
       return;
     }
     const data = JSON.stringify({
-      query: `mutation($question: String!) {
+      query: `mutation($question: String!, $email: String!) {
           updateMessagePrompt(question: $question)
             }`,
       variables: {
         question: content,
+        email: loggedInEmail,
       },
     });
 
     axios(axiosConfig(data))
       .then(() => {
         alert("Prompt updated successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((error) => {
         alert(`Error updating prompt: ${error.message}`);
@@ -112,7 +140,20 @@ const UpdateMessagePrompt = ({ alter, id }) => {
           </PreviewCard>
         </Block>
 
-        <Block size="lg">
+        {(userRole === "member" || userRole === "super admin") && (
+          <Block size="lg">
+            <PreviewCard>
+              <Row>
+                <Col size="lg">
+                  <h6>You cannot edit this prompt</h6>
+                </Col>
+              </Row>
+            </PreviewCard>
+          </Block>
+        )}
+
+        {userRole === "company admin" && (
+          <Block size="lg">
           <PreviewCard>
             <Form className={formClass} onSubmit={handleSubmit}>
               <Row className="g-gs">
@@ -144,6 +185,7 @@ const UpdateMessagePrompt = ({ alter, id }) => {
             </Form>
           </PreviewCard>
         </Block>
+        )}
       </Content>
     </React.Fragment>
   );

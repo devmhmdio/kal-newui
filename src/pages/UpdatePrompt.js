@@ -12,7 +12,6 @@ const UpdatePrompt = ({ alter, id }) => {
   const [prompt, setPrompt] = useState(null);
   const [promptStatus, setPromptStatus] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  // let userRole;
   const [content, setContent] = useState("");
   const { errors, register } = useForm();
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
