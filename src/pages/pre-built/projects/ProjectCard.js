@@ -17,7 +17,7 @@ import {
 import axios from "axios";
 import { axiosConfig } from "../../../utils/Utils";
 
-const stripePromise = loadStripe("pk_test_vtUu95bAR4Ki4kzmIYBdaC3A00yharGIkO");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = ({ email, onPayment, customAmount }) => {
   const stripe = useStripe();
