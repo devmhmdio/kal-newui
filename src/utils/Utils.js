@@ -160,8 +160,8 @@ export const axiosConfig = (data) => {
   const config = {
     method: 'POST',
     // url: 'http://localhost:4000/graphql',
-    // url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
-    url: 'https://54.90.23.151:4000/graphql',
+    url: 'https://octopus-app-nvnjf.ondigitalocean.app/graphql',
+    // url: 'https://54.90.23.151:4000/graphql',
     headers: {
       'Content-Type': 'application/json',
     },
