@@ -161,7 +161,7 @@ export const axiosConfig = (data) => {
     method: 'POST',
     // url: 'http://localhost:4000/graphql',
     // url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
-    url: 'http://54.90.23.151:4000/graphql',
+    url: 'https://54.90.23.151:4000/graphql',
     headers: {
       'Content-Type': 'application/json',
     },
