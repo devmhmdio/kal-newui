@@ -135,18 +135,6 @@ const UserProfileLayout = () => {
                         <span>Personal Information</span>
                       </Link>
                     </li>
-                    
-                    <li onClick={() => updateSm(false)}>
-                      <Link
-                        to={`${process.env.PUBLIC_URL}/user-profile-activity`}
-                        className={
-                          window.location.pathname === `${process.env.PUBLIC_URL}/user-profile-activity` ? "active" : ""
-                        }
-                      >
-                        <Icon name="activity-round-fill"></Icon>
-                        <span>Account Activity</span>
-                      </Link>
-                    </li>
                   </ul>
                 </div>
               </div>

@@ -134,7 +134,7 @@ const ProjectCardPage = () => {
                   <div className="project-info">
                     <h6 className="title">Recharge Custom Amount</h6>
                     <span className="sub-text" style={{ marginBottom: 25 + "px" }}>
-                      Enter the custom amount you want to recharge (Minimum USD 10)
+                      Enter the custom amount you want to recharge (Minimum USD 10)<br/>$0.05 per email and $0.025 per SMS. 
                     </span>
                     <input
                       type="number"
