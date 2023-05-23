@@ -136,6 +136,12 @@ const AllUsers = () => {
       hide: "sm",
     },
     {
+      name: "Role",
+      selector: (row) => row.role,
+      sortable: true,
+      hide: "sm",
+    },
+    {
       name: "Start Date",
       selector: ({ createdAt }) => createdAt.split("T").slice(0, 1),
       sortable: true,
@@ -155,7 +161,7 @@ const AllUsers = () => {
       <Head title="All Users" />
       {(userRole === "company admin" || userRole === "super admin") && (
         <Content page="component">
-          <Block size="lg">
+          <Block>
             <PreviewCard>
               {allUsers.length > 0 && (
                 <ReactDataTable data={allUsers} columns={dataTableColumns} expandableRows pagination actions />
