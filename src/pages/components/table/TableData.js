@@ -5,6 +5,8 @@ import User4 from "../../../images/avatar/d-sm.jpg";
 import React from "react";
 import { UserAvatar, Icon } from "../../../components/Component";
 import { findUpper } from "../../../utils/Utils";
+import axios from "axios";
+import { axiosConfig } from "../../../utils/Utils";
 
 export const basicData = {
   header: ["#", "First", "Last"],
@@ -59,9 +61,16 @@ export const dataTableColumns = [
   },
   {
     name: "Start Date",
-    selector: ({ createdAt }) => createdAt.split('T').slice(0, 1),
+    selector: ({ createdAt }) => createdAt.split("T").slice(0, 1),
     sortable: true,
     hide: "md",
+  },
+  {
+    name: "Actions",
+    selector: (row) => <button onClick={() => handleDelete(row.id)}>Delete</button>,
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];
 
@@ -86,7 +95,7 @@ export const dataTableColumnsSentEmails = [
   {
     name: "Email Body",
     selector: ({ body }) => {
-      return <textarea value={body} style={{ height: 80 + "px"}} disabled></textarea>
+      return <textarea value={body} style={{ height: 80 + "px" }} disabled></textarea>;
     },
     sortable: true,
     hide: "sm",
@@ -114,7 +123,7 @@ export const dataTableColumnsSentMessages = [
   {
     name: "Message Body",
     selector: ({ body }) => {
-      return <textarea value={body} style={{ height: 80 + "px"}} disabled></textarea>
+      return <textarea value={body} style={{ height: 80 + "px" }} disabled></textarea>;
     },
     sortable: true,
     hide: "sm",
