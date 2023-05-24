@@ -88,10 +88,15 @@ const ProfileUpdate = ({ formData, setFormData, setModal }) => {
     },
     });
     axios(axiosConfig(updateData)).then(() => {
-      alert('Details updated successfully')
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000)
+      alert('Details updated successfully');
+      setName(formVal.name);
+      setPhone(formVal.phone);
+      setCompany(formVal.company);
+      setPosition(formVal.position);
+      setPassword(formVal.password);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000)
     }).catch((e) => console.log(e))
   };
 
