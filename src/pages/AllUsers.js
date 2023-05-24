@@ -54,6 +54,7 @@ const AllUsers = () => {
                         position
                         role
                         createdAt
+                        balance
                     }
                 }`,
           variables: {
@@ -138,6 +139,12 @@ const AllUsers = () => {
     {
       name: "Role",
       selector: (row) => row.role,
+      sortable: true,
+      hide: "sm",
+    },
+    {
+      name: "Balance",
+      selector: (row) => row.balance,
       sortable: true,
       hide: "sm",
     },

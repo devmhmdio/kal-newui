@@ -99,7 +99,11 @@ const ProjectCardPage = () => {
     });
 
     axios(axiosConfig(data))
-      .then((res) => alert(res.data.data.capturePayment))
+      .then((res) => {
+        console.log(res.data.data.capturePayment.message);
+        alert(res.data.data.capturePayment.message);
+        window.location.reload();
+      })
       .catch((err) => console.log(err));
   };
 
@@ -121,7 +125,7 @@ const ProjectCardPage = () => {
         <BlockHead size="sm">
           <BlockBetween>
             <BlockHeadContent>
-              <BlockTitle page> Pricing Plans</BlockTitle>
+              <BlockTitle page>Pricing Plans</BlockTitle>
             </BlockHeadContent>
           </BlockBetween>
         </BlockHead>
@@ -143,7 +147,7 @@ const ProjectCardPage = () => {
                       className="form-control"
                       placeholder="20"
                       onChange={onInputChange}
-                      min="1"
+                      min="10"
                     />
                     <div style={{ marginTop: 15 + "px" }}></div>
                     <Elements stripe={stripePromise}>
