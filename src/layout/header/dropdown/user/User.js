@@ -11,6 +11,8 @@ const User = () => {
   const toggle = () => setOpen((prevState) => !prevState);
   const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState(null);
+  const [balance, setBalance] = useState(0);
+  const [role, setRole] = useState('member');
   const [initial, setInitial] = useState("AA");
 
   const handleSignout = () => {
@@ -31,6 +33,20 @@ const User = () => {
       .then((response) => {
         setName(response.data.data.returnToken.name);
         setEmail(response.data.data.returnToken.email);
+        setBalance(response.data.data.returnToken.balance);
+        setRole(response.data.data.returnToken.role);
+        if (response.data.data.returnToken.role === 'member') {
+          const getCompanyAdmin = JSON.stringify({
+            query: `query($company: String!, $role: String!) {
+              getUserCompanyAdmin(company: $company, role: $role)
+            }`,
+            variables: {
+              company: response.data.data.returnToken.company,
+              role: 'company admin',
+            },
+          });
+          axios(axiosConfig(getCompanyAdmin)).then(caResponse => setBalance(caResponse.data.data.getUserCompanyAdmin[0].balance)).catch(err => console.log(err));
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -74,6 +90,12 @@ const User = () => {
             </LinkItem>
             <LinkItem link="/user-profile-setting" icon="setting-alt" onClick={toggle}>
               Account Setting
+            </LinkItem>
+            <LinkItem icon="money">
+              Balance: ${balance}
+            </LinkItem>
+            <LinkItem icon="user">
+              Role: {role}
             </LinkItem>
           </LinkList>
         </div>
