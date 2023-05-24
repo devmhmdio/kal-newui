@@ -143,7 +143,7 @@ const ProjectCardPage = () => {
                       className="form-control"
                       placeholder="20"
                       onChange={onInputChange}
-                      min="10"
+                      min="1"
                     />
                     <div style={{ marginTop: 15 + "px" }}></div>
                     <Elements stripe={stripePromise}>
