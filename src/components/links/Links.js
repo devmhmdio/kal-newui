@@ -19,6 +19,22 @@ export const LinkItem = ({ ...props }) => {
   );
 };
 
+export const MyLinkItem = ({ ...props }) => {
+  return (
+    <li>
+      {props.tag !== "a" ? (
+        <Link {...props} style={{ pointerEvents: "none" }}>
+          {props.icon ? <Icon name={props.icon} /> : null} <span>{props.text || props.children}</span>
+        </Link>
+      ) : (
+        <span>
+          {props.icon ? <Icon name={props.icon} /> : null} <span>{props.text || props.children}</span>
+        </span>
+      )}
+    </li>
+  );
+};
+
 export const LinkList = ({ ...props }) => {
   const listClasses = classNames({
     "link-list": !props.opt,

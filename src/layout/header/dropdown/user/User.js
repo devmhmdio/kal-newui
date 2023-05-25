@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserAvatar from "../../../../components/user/UserAvatar";
 import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
-import { LinkList, LinkItem } from "../../../../components/links/Links";
+import { LinkList, LinkItem, MyLinkItem } from "../../../../components/links/Links";
 import axios from "axios";
 import { axiosConfig, findUpper } from "../../../../utils/Utils";
 
@@ -91,9 +91,9 @@ const User = () => {
             <LinkItem link="/user-profile-setting" icon="setting-alt" onClick={toggle}>
               Account Setting
             </LinkItem>
-            <LinkItem icon="user">
+            <MyLinkItem icon="user">
               Role: {role}
-            </LinkItem>
+            </MyLinkItem>
           </LinkList>
         </div>
         <div className="dropdown-inner">
