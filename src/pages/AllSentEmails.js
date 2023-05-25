@@ -27,6 +27,7 @@ const AllSentEmails = () => {
         setUserId(response.data.data.returnToken.userId);
         const loggedInUserId = (response.data.data.returnToken.userId);
         const loggedInUserEmail = (response.data.data.returnToken.email);
+        let loggedInUserCompany;
         const getUserRole = JSON.stringify({
             query: `query($id: String!) {
                 findByUserId(id: $id) {
@@ -39,26 +40,35 @@ const AllSentEmails = () => {
                 id: loggedInUserId,
             }
         });
-        axios(axiosConfig(getUserRole)).then((res) => setUserRole(res.data.data.findByUserId.data.role)).catch(() => "Unauthorised access")
+        axios(axiosConfig(getUserRole)).then((res) => {
+          setUserRole(res.data.data.findByUserId.data.role);
+          const roleOfUser = res.data.data.findByUserId.data.role;
+          if (roleOfUser === "super admin") {
+           loggedInUserCompany = '';
+          } else {
+            loggedInUserCompany = response.data.data.returnToken.company;
+          }
+        }).catch(() => "Unauthorised access")
         
         const data = JSON.stringify({
-            query: `mutation($id: String!, $regex: String) {
-              viewAllEmailsSent(id: $id, regex: $regex) {
+            query: `mutation($id: String!, $company: String) {
+              viewAllEmailsSent(id: $id, company: $company) {
                         toEmail
                         toName
                         fromEmail
                         body
+                        company
                     }
                 }`,
             variables: {
               id: loggedInUserId,
-              regex: loggedInUserEmail.split('@').pop().toLowerCase(),
+              company: loggedInUserCompany,
             },
           });
           axios(axiosConfig(data))
             .then((res) => {
               console.log("line 42", res.data.data.viewAllEmailsSent);
-              return setAllSentEmails(res.data.data.viewAllEmailsSent);
+              setAllSentEmails(res.data.data.viewAllEmailsSent);
             })
             .catch((e) => console.log(e));
       })
@@ -69,7 +79,7 @@ const AllSentEmails = () => {
   return (
     <React.Fragment>
       <Head title="All Sent Emails" />
-      {userRole === "super admin" && (
+      {(userRole === "super admin" || userRole === "company admin") && (
         <Content page="component">
           <Block size="lg">
             <PreviewCard>
