@@ -36,7 +36,7 @@ const CheckoutForm = ({ email, onPayment, customAmount }) => {
       console.log("line 37", result.error.message);
     } else {
       console.log("line 39", result.token);
-      onPayment(customAmount); // Pass the custom amount
+      onPayment(customAmount, result.token.id);
     }
   };
 
@@ -87,14 +87,15 @@ const ProjectCardPage = () => {
     }
   };
 
-  const onPayment = (amount) => {
+  const onPayment = (amount, tokenId) => {
     const data = JSON.stringify({
-      query: `mutation($amount: Int!, $email: String!) {
-          capturePayment(amount: $amount, email: $email)
+      query: `mutation($amount: Int!, $email: String!, $token: String!) {
+          capturePayment(amount: $amount, email: $email, token: $token)
         }`,
       variables: {
         amount,
         email: loggedInEmail,
+        token: tokenId,
       },
     });
 
