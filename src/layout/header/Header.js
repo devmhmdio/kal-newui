@@ -18,6 +18,8 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
   });
 
   const [loggedInEmail, setLoggedInEmail] = useState('');
+  const [loggedInCompany, setLoggedInCompany] = useState('');
+  const [loggedInRole, setLoggedInRole] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -33,6 +35,8 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
     axios(axiosConfig(dataToken))
       .then((response) => {
         setLoggedInEmail(response.data.data.returnToken.email);
+        setLoggedInCompany(response.data.data.returnToken.company);
+        setLoggedInRole(response.data.data.returnToken.role);
       })
       .catch((error) => {
         console.log(error);
@@ -68,6 +72,27 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
       });
   };
 
+  const getUserBalance = async () => {
+    const data = JSON.stringify({
+      query: `query($email: String!, $company: String!, $role: String!) {
+        getUserBalance(email: $email, company: $company, role: $role)
+          }`,
+          variables: {
+            email: loggedInEmail,
+            company: loggedInCompany,
+            role: loggedInRole,
+          }
+    });
+
+    axios(axiosConfig(data))
+      .then((response) => {
+        alert(`Your current balance is USD${response.data.data.getUserBalance}`)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className={headerClass}>
       <div className="container-fluid">
@@ -87,10 +112,13 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
               <li className="user-dropdown"  onClick={() => setVisibility(false)}>
                 <User />
               </li>
-              
               <li>
-                <button className="btn-round btn btn-primary btn-sm" onClick={deletePreviousResponses}>Clear All Responses</button>
+                <button className="btn-round btn btn-primary btn-sm" onClick={getUserBalance}>Check Balance</button>
               </li>
+              <li>
+                <button className="btn-round btn btn-danger btn-sm" onClick={deletePreviousResponses}>Clear All Responses</button>
+              </li>
+              
             </ul>
           </div>
         </div>

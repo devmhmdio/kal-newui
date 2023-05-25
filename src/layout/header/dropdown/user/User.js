@@ -91,9 +91,6 @@ const User = () => {
             <LinkItem link="/user-profile-setting" icon="setting-alt" onClick={toggle}>
               Account Setting
             </LinkItem>
-            <LinkItem icon="money">
-              Balance: ${balance}
-            </LinkItem>
             <LinkItem icon="user">
               Role: {role}
             </LinkItem>
