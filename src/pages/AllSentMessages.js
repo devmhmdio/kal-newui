@@ -27,7 +27,6 @@ const AllSentMessages = () => {
         setUserId(response.data.data.returnToken.userId);
         const loggedInUserId = (response.data.data.returnToken.userId);
         const loggedInUserEmail = (response.data.data.returnToken.email);
-        let loggedInUserCompany;
         const getUserRole = JSON.stringify({
             query: `query($id: String!) {
                 findByUserId(id: $id) {
@@ -41,13 +40,33 @@ const AllSentMessages = () => {
             }
         });
         axios(axiosConfig(getUserRole)).then((res) => {
+          let loggedInCompany;
           setUserRole(res.data.data.findByUserId.data.role);
           const roleOfUser = res.data.data.findByUserId.data.role;
-          if (roleOfUser === "super admin") {
-           loggedInUserCompany = '';
-          } else {
-            loggedInUserCompany = response.data.data.returnToken.company;
+          if (roleOfUser === "company admin") {
+            loggedInCompany = response.data.data.returnToken.company;
           }
+          const data = JSON.stringify({
+            query: `mutation($id: String!, $company: String) {
+              viewAllEmailsSent(id: $id, company: $company) {
+                        toEmail
+                        toName
+                        fromEmail
+                        body
+                        company
+                    }
+                }`,
+            variables: {
+              id: loggedInUserId,
+              company: loggedInCompany,
+            },
+          });
+          axios(axiosConfig(data))
+            .then((res) => {
+              console.log("line 42", res.data.data.viewAllEmailsSent);
+              setAllSentEmails(res.data.data.viewAllEmailsSent);
+            })
+            .catch((e) => console.log(e));
         }).catch(() => "Unauthorised access")
         
         const data = JSON.stringify({
@@ -62,7 +81,7 @@ const AllSentMessages = () => {
                 }`,
             variables: {
               id: loggedInUserId,
-              company: loggedInUserCompany,
+              company: "",
             },
           });
           axios(axiosConfig(data))
