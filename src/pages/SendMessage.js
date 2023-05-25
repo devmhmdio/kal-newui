@@ -130,12 +130,13 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
 
     for (let i = 0; i <= o.length - 1; i++) {
       const data = JSON.stringify({
-        query: `mutation($body: String!, $name: String!, $number: String!, $fromEmail: String!) {
+        query: `mutation($body: String!, $name: String!, $number: String!, $fromEmail: String!, $company: String) {
               sendMessage(input: [{
                         body: $body
                         name: $name
                         number: $number
                         fromEmail: $fromEmail
+                        company: $company
                     }])
                     }`,
         variables: {
@@ -143,6 +144,7 @@ const SendMessage = ({ headColor, striped, border, hover, responsive }) => {
           name: o[i].name,
           number: o[i].number,
           fromEmail: loggedInEmail,
+          company: loggedInCompany,
         },
       });
 

@@ -142,7 +142,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
 
     for (let i = 0; i <= o.length - 1; i++) {
       const data = JSON.stringify({
-        query: `mutation($subject: String!, $body: String!, $name: String!, $email: String!, $fromEmail: String!, $appPassword: String!) {
+        query: `mutation($subject: String!, $body: String!, $name: String!, $email: String!, $fromEmail: String!, $appPassword: String!, $company: String) {
                       sendEmail(input: [{
                         subject: $subject
                         body: $body
@@ -150,6 +150,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
                         toEmail: $email
                         fromEmail: $fromEmail
                         app_password: $appPassword
+                        company: $company
                     }])
                     }`,
         variables: {
@@ -159,6 +160,7 @@ const SendEmail = ({ headColor, striped, border, hover, responsive }) => {
           email: o[i].email,
           fromEmail: loggedInEmail,
           appPassword: loggedInAppPassword,
+          company: loggedInCompany,
         },
       });
 
